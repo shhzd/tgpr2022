@@ -30,3 +30,4 @@ public class StartMenuController extends Controller {
         view.close();
     }
 }
+
