@@ -9,17 +9,19 @@ public class StartMenuController extends Controller {
         try {
             View.Action res;
             do {
-//                view.displayHeaderWithLogo();
-
                 view.displayHeaderWithLogo();
                 view.displayMenu();
                 res = view.askForAction();
                 switch (res.getAction()) {
                     case 'C':
-                        new LoginController().run();
+                        /** to uncomment when UC are ready  **/
+                        System.out.println("start new LoginController().run()");
+//                        new LoginController().run();
                         break;
                     case 'E':
-                        new SignUpController().run();
+                        /** to uncomment when UC are ready  **/
+                        System.out.println("start new SignUpController().run();");
+//                        new SignUpController().run();
                         break;
                 }
             } while (res.getAction() != 'Q');
