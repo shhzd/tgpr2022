@@ -2,7 +2,7 @@
 *.iws
 .idea
 target
-*.iml
+
 # Node artifact files
 node_modules/
 dist/
