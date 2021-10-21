@@ -1,6 +1,7 @@
 package tgpr.moudeule;
 
 import tgpr.moudeule.controller.StartMenuController;
+import tgpr.moudeule.controller.TeacherMainMenuController;
 import tgpr.moudeule.model.User;
 import tgpr.moudeule.model.Model;
 import tgpr.moudeule.view.ErrorView;
@@ -31,8 +32,10 @@ public class MoudeuleApp {
     public static void main(String[] args) {
         if (!Model.checkDb())
             new ErrorView("Database is not available").close();
-        else
+        else {
             new StartMenuController().run();
+//            new TeacherMainMenuController().run();
+        }
     }
 
 //    private void testModel() {...}

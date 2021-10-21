@@ -6,6 +6,7 @@ import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.TeacherMainMenuView;
 import tgpr.moudeule.view.View;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class TeacherMainMenuController extends Controller {
@@ -15,46 +16,44 @@ public class TeacherMainMenuController extends Controller {
     public void run() {
         TeacherMainMenuView view = new TeacherMainMenuView();
         try {
-            View.Action res;
+            String res;
             do {
                 view.displayHeader();
 
-                User user = MoudeuleApp.getLoggedUser();
+//                User user = MoudeuleApp.getLoggedUser();
+                User user = User.getByPseudo("p");
 
+                var courses = Course.getCoursesFromTeacher(user);
+                int lgPage = 12;
+                int nbPages = (int)(courses.size() / (lgPage + 0.0)) + 1;
 
-                if (user.role.getRoleId() == 2) {
-                    view.displayMenuStudent();
-                    res = view.askForActionStudent();
-                    switch (res.getAction()) {
-                        case 'L':
-//                        new MemberListController().run();
-                            break;
-                        case 'D':
-//                        new MemberListController().run();
-                            break;
+                view.displayMenu(courses, page, nbPages, lgPage);
+                res = view.askForString().toUpperCase(); // les entrées en miniscule sont converties en majuscule
+                if (res.length() > 1) {
+                    /** we should check that the teacher is allowed to see the course **/
+                    Course course = Course.getCourseByID(res);
+                    if (course != null) {
+                        /** to uncomment when UC are ready  **/
+                        System.out.println("start new view.TeacherEditCourseController(course).run() >> " + course.prettyPrint());
+//                        new view.TeacherEditCourseController(res).run();
+                    } else {
+                        System.out.println("il ne se passe rien");
                     }
                 }
-                else {
-                    var courses= Course.getCoursesFromTeacher(user);
-
-                    view.displayMenuTeacher(courses, page);
-                    res = view.askForActionTeacher();
-                    if ( Pattern.matches("[0-9]", "" + res.getAction())) {
-                        System.out.println(courses.get(Integer.parseInt("" + res.getAction()) - 1));
-//                        new view.Teacher   Controller().run();
-                    }
-                    switch (res.getAction()) {
-                        case 'S':
-                            this.page++;
-                            this.run();
-                            break;
-                        case 'P':
-                            this.page--;
-                            this.run();
-                            break;
-                    }
+                if (res.equals("S") && (page + 1) != nbPages && nbPages > 1) {
+                    this.page++;
+                    this.run();
                 }
-            } while (res.getAction() != 'O');
+                if (res.equals("P") && page > 0) {
+                    this.page--;
+                    this.run();
+                }
+                if (res.equals("A")) {
+                    /** to uncomment when UC are ready  **/
+                    System.out.println("start new TeacherAddCourse().run();");
+//                    new TeacherAddCourse().run();
+                }
+            } while (!res.equals("O"));
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");
         }

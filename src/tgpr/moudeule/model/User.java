@@ -167,4 +167,26 @@ public class User extends Model {
         }
         return count == 1;
     }
+
+    /** depreiated **/
+//    public List<Course> getCoursesFromTeacher() {
+//        // Only admin and teacher can get courses from teacher
+//        if (this.role.getRoleId() > 1)
+//            return null;
+//
+//        var list = new ArrayList<Course>();
+//        try {
+//            var stmt = Model.db.prepareStatement("SELECT * FROM courses WHERE teacher = ?");
+//            stmt.setString(1, this.getPseudo());
+//            var rs = stmt.executeQuery();
+//            while (rs.next()) {
+//                var course = new Course();
+//                course.mapper(rs, course);
+//                list.add(course);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return list;
+//    }
 }

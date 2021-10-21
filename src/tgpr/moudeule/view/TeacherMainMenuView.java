@@ -9,38 +9,23 @@ public class TeacherMainMenuView extends View {
         displayHeader("Main Menu");
     }
 
-    public void displayMenuStudent() {
-        println("[L] Liste des cours déjà inscrit");
-        println("[D] Liste des cours disponibles a l'inscription");
-        println("\n[O] Logout");
-
-    }
-
-    public void displayMenuTeacher(List<Course> courses, int page) {
+    public void displayMenu(List<Course> courses, int page, int nbPages, int lgPage) {
         println("== Liste des cours ==\n");
 
-        println("n    ID   CODE Cap  Description");
-        int pages = (int)(courses.size() / 9.0);
+        println(" ID   CODE Cap  Description");
 
-        for (int i = 1 ; (i + (page * 9)) < courses.size() && i < 10 ; i++)
-            println(i + "   " + courses.get((i - 1)+ (page * 9)).prettyPrint());
+        for (int i = 1 ; (i + (page * lgPage)) < courses.size() && i < (lgPage + 1) ; i++)
+            println(courses.get((i - 1)+ (page * lgPage)).prettyPrint());
 
-        println("\n[n] détails du cours " +
-                ((pages != page) ? "- [s]: page suivante " :
-                (page > 0) ? "- [p]: page précédente " : "") +
-                "- [O] Logout"); //-
+        println("\n[ID] Selectionner un cours - " +
+                "[A] ajouter un nouveau cours " +
+                (((page + 1) != nbPages) ? "- [S]: page suivante " :
+                (page > 0) ? "- [P]: page précédente " : "") +
+                "\n[O] Logout"); //-
     }
 
-    public Action askForAction() {
-        return doAskForAction(-1, "", "[oO]|[lL]|[dD]");
-    }
-
-    public Action askForActionStudent() {
-        return doAskForAction(-1, "", "[oO]|[lL]|[dD]");
-    }
-
-    public Action askForActionTeacher() {
-        return doAskForAction(-1, "", "[oO]|[0-9]|[sS]|[pP]");
+    public String askForString() {
+        return askString("", "", false);
     }
 
 }
