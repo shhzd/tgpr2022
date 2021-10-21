@@ -70,6 +70,24 @@ INSERT INTO `courses` (`id`, `code`, `description`, `capacity`, `teacher`) VALUE
 (1659, 'TGPR', 'Techniques de gestion de projets', 5, 'ben'),
 (1662, 'PRWB', 'Projet de développement web', 3, 'ben'),
 (1925, 'MAP4', 'Mathématiques appliquées à l\'informatique', 3, 'marc');
+(2000, 'SALS', 'Cours de salsa', 8, 'p');
+(2001, 'ROCK', 'Cours de rock acrobatique', 8, 'p');
+(2002, 'TKNO', 'Cours de tektonique', 8, 'p');
+(2003, 'VALS', 'Cours de valse', 8, 'p');
+(2004, 'BBOP', 'Cours de be bop', 8, 'p');
+(2005, 'JAZZ', 'Cours de jazz moderne', 8, 'p');
+(2006, 'CLAQ', 'Cours de claquette', 8, 'p');
+(2007, 'IRLN', 'Cours de danse folklorique irlandais', 8, 'p');
+(2008, 'FOLK', 'Cours de danse folklorique belge', 8, 'p');
+(2009, 'HHOP', 'Cours de hip hop', 8, 'p');
+(2010, 'CONT', 'Cours de danse contemporaine', 8, 'p');
+(2011, 'KDRO', 'Cours de kuduro', 8, 'p');
+(2012, 'CLSQ', 'Cours de ballet', 8, 'p');
+(2013, 'SWNG', 'Cours de swing', 8, 'p');
+(2014, 'SALN', 'Cours de danse de salon', 8, 'p');
+(2015, 'KPOP', 'Cours de K-POP', 8, 'p');
+(2016, 'POLK', 'Cours de polka', 8, 'p');
+(2017, 'TANG', 'Cours de tango', 8, 'p');
 
 -- --------------------------------------------------------
 
@@ -257,6 +275,8 @@ INSERT INTO `users` (`pseudo`, `password`, `fullname`, `birthdate`, `role`) VALU
 ('guest', 'guest', 'Invité', NULL, 2),
 ('harry', 'harry', 'Harry Cover', NULL, 2),
 ('marc', 'marc', 'Marc Michel', NULL, 1);
+('p', 'p', 'Prof Developpement', NULL, 1);
+('s', 's', 'Etudiant Developpement', NULL, 2);
 
 --
 -- Index pour les tables déchargées
