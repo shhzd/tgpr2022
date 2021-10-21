@@ -1,12 +1,12 @@
 package tgpr.moudeule.model;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class User extends Model {
     private String pseudo;
@@ -166,5 +166,33 @@ public class User extends Model {
             ex.printStackTrace();
         }
         return count == 1;
+    }
+
+    public List<Course> getAvailableCourses() {
+        if(this.role.equals(Role.STUDENT)) {
+            var list = new ArrayList<Course>();
+            try {
+                var stmt = db.prepareStatement(
+                        "SELECT c.id, c.code, c.description, c.capacity, c.teacher \n" +
+                                "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                                "GROUP BY c.id \n" +
+                                "HAVING Count(*) < c.capacity\n" +
+                                "UNION \n" +
+                                "SELECT c.id, c.code, c.description, c.capacity, c.teacher \n" +
+                                "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                                "WHERE student = ? AND r.active = 1;"
+                );
+                stmt.setString(1, this.pseudo);
+                var rs = stmt.executeQuery();
+                while (rs.next()) {
+                    Course course = new Course();
+                    Course.mapper(rs, course);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return list;
+        }
+        throw new RuntimeException("You are not a student");
     }
 }

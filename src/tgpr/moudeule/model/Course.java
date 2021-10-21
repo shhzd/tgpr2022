@@ -2,7 +2,6 @@ package tgpr.moudeule.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -123,4 +122,5 @@ public class Course extends Model {
         }
         return teacher;
     }
+
 }
