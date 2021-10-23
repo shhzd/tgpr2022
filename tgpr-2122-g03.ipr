@@ -158,6 +158,14 @@
       <JAVADOC />
       <SOURCES />
     </library>
+    <library name="lib">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/lib" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
+    </library>
     <library name="mariadb-java-client-2.7.3">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/lib/mariadb-java-client-2.7.3.jar!/" />
