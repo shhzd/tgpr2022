@@ -8,12 +8,16 @@ import java.util.List;
 
 public class TeacherQuizzesListController extends Controller {
 
-    public Course course;
-    int courseId = course.getId();
+    private final Course course;
+    private final TeacherQuizzesListView view;
+
+    public TeacherQuizzesListController(Course course) {
+        this.course = course;
+        this.view = new TeacherQuizzesListView(course);
+    }
 
     @Override
     public void run() {
-        List<Quiz> quizzes  = Quiz.getAllQuizzesBycourseId(courseId);
-        TeacherQuizzesListView view = new TeacherQuizzesListView();
+        List<Quiz> quizzes  = Quiz.getAllQuizzesBycourseId(course.getId());
     }
 }
