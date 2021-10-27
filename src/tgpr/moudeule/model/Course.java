@@ -123,4 +123,21 @@ public class Course extends Model {
         return teacher;
     }
 
+    public int getLeftPlaces() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) \n" +
+                    "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                    "WHERE c.id = ? AND r.active = 1\n" +
+                    "GROUP BY c.id;"
+            );
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            result = rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return this.getCapacity() - result;
+    }
 }
