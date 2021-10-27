@@ -20,8 +20,9 @@ public class TeacherMainMenuController extends Controller {
             do {
                 view.displayHeader();
 
-//                User user = MoudeuleApp.getLoggedUser();
-                User user = User.getByPseudo("p");
+                /** for testing purposes **/
+                User user = MoudeuleApp.getLoggedUser();
+//                User user = User.getByPseudo("p");
 
                 var courses = Course.getCoursesFromTeacher(user);
                 int lgPage = 12;
