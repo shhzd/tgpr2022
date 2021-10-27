@@ -3,6 +3,7 @@ package tgpr.moudeule.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class Test extends Model {
@@ -81,5 +82,20 @@ public class Test extends Model {
         test.student = rs.getString("student");
         test.quizId = rs.getInt("quiz");
         test.start = rs.getObject("start", LocalDate.class);
+    }
+    public LocalDate getQuizEndDate(){
+        LocalDate d ;
+        try {
+            var stmt = Model.db.prepareStatement("Select finish from Quizzes join Tests on quizzes.id = ?");
+            stmt.setInt(1,quizId);
+            var rs = stmt.executeQuery();
+            if(rs.next()){
+                d = rs.getObject("finish",LocalDate.class);
+                //Prend le res de le la requete qui est stocker dans rs et le transforme en objet et , je recupere la colonne finish et je transforme la donée dans la col finish en localdate
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
