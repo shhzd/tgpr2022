@@ -7,12 +7,17 @@ import java.util.List;
 public class StudentAvailableCoursesListView extends View {
 
     public void displayHeader() {
-        super.displayHeader("List des cours disponibles");
+        super.displayHeader("Liste des cours disponibles");
+    }
+
+    public void displayMenu() {
+        println("[I] S'inscrire");
+        println("");
     }
 
     public void displayOneCourse(int i, Course course) {
         int left = course.getLeftPlaces(); // has to change
-        printf("[%2d] %s %s\n", i,  course.getId(), course.getCode(), course.getDescription(), left, course.getTeacher());
+        printf("[%2d] %s %s\n", i, course.getCode(), course.getTeacher());
     }
 
     public void displayCourses(List<Course> courses) {
@@ -22,4 +27,10 @@ public class StudentAvailableCoursesListView extends View {
             ++i;
         }
     }
+
+    public View.Action askForAction(int size) {
+        return doAskForAction(size, "\n[I] S'inscrire, [D] Désinscrition, [V] Détails, [Q] Quitter",
+                "[vV][0-9]+|[fF][0-9]+|[uU][0-9]+|[lL]");
+    }
+
 }
