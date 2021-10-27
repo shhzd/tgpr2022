@@ -17,6 +17,8 @@ public class StartMenuController extends Controller {
                         /** to uncomment when UC are ready  **/
                         System.out.println("start new LoginController().run()");
 //                        new LoginController().run();
+                        /** uncomment to test TeacherMainMenuController()  **/
+//                        new TeacherMainMenuController().run();
                         break;
                     case 'E':
                         new SignupController().run();
