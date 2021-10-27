@@ -3,14 +3,6 @@
   <component name="InspectionProjectProfileManager">
     <profile version="1.0">
       <option name="myName" value="Project Default" />
-<<<<<<< HEAD
-    </profile>
-    <version value="1.0" />
-  </component>
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/tgpr-2122.iml" filepath="$PROJECT_DIR$/tgpr-2122.iml" />
-=======
       <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
         <option name="processCode" value="true" />
         <option name="processLiterals" value="true" />
@@ -143,7 +135,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/tgpr-2122-g03.iml" filepath="$PROJECT_DIR$/tgpr-2122-g03.iml" />
->>>>>>> 04365313665499aa1d8a6f0d672a7603fdd3bdbd
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
@@ -153,15 +144,6 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
   </component>
   <component name="libraryTable">
-<<<<<<< HEAD
-    <library name="lib">
-      <CLASSES>
-        <root url="file://$PROJECT_DIR$/lib" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-      <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
-=======
     <library name="awt-color-factory-1.0.1">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/lib/awt-color-factory-1.0.1.jar!/" />
@@ -175,6 +157,14 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES />
+    </library>
+    <library name="lib">
+      <CLASSES>
+        <root url="file://$PROJECT_DIR$/lib" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
     </library>
     <library name="mariadb-java-client-2.7.3">
       <CLASSES>
@@ -203,7 +193,6 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES />
->>>>>>> 04365313665499aa1d8a6f0d672a7603fdd3bdbd
     </library>
   </component>
 </project>
