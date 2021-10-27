@@ -1,5 +1,6 @@
 package tgpr.moudeule.model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -140,4 +141,22 @@ public class Course extends Model {
 
         return this.getCapacity() - result;
     }
+
+
+    public boolean isInWaitingList(User student) {
+        if(student.role != Role.STUDENT) {
+            int result = 0;
+            try {
+                PreparedStatement stmt = Model.db.prepareStatement("SELECT COUNT(*) FROM registrations WHERE course = ? AND studenAND active = 0");
+                stmt.setString(1, code);
+                var rs = stmt.executeQuery();
+                result = rs.getInt(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result == 1;
+        }
+        return false;
+    }
+
 }
