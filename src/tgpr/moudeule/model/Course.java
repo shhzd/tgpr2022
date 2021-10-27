@@ -2,7 +2,6 @@ package tgpr.moudeule.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -71,6 +70,10 @@ public class Course extends Model {
                 ", teacher : " + teacher;
     }
 
+    public String prettyPrint() {
+        return "" + id + "  " + code + "  " + capacity + "  " + description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,6 +109,78 @@ public class Course extends Model {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public static List<Course> getCoursesFromTeacher(User teacher) {
+        var list = new ArrayList<Course>();
+        try {
+            var stmt = Model.db.prepareStatement("SELECT * FROM courses WHERE teacher = ?");
+            stmt.setString(1, teacher.getPseudo());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var course = new Course();
+                mapper(rs, course);
+                list.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static Course getCourseByID(int id) {
+        try {
+            var stmt = Model.db.prepareStatement("SELECT * FROM `courses` WHERE `id` = ?;");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                Course course = new Course();
+                mapper(rs, course);
+                return course;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Course getCourseByID(String courseID) {
+        int id = 0;
+        if (isInteger(courseID)) {
+            return getCourseByID(Integer.parseInt(courseID));
+        } else
+            return null;
+    }
+
+//    Depreciated
+//    public static boolean isValidCourseID(String courseID, User teacher) {
+//        try {
+//            int id = 0;
+//            if (isInteger(courseID))
+//                id = Integer.parseInt(courseID);
+//            else
+//                return false;
+//            // we check at the same if the ID is valid and if the course belongs to the teacher
+//            var stmt = Model.db.prepareStatement("SELECT * FROM `courses` WHERE `teacher` = ? AND `id` = ?;");
+//            stmt.setString(1, teacher.getPseudo());
+//            stmt.setInt(2, id);
+//            var rs = stmt.executeQuery();
+//            return (rs.next());
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
+
+    private static boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
     }
 
     public User getTeacher() {
