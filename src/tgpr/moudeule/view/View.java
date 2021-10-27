@@ -252,4 +252,20 @@ public abstract class View {
             print(" (" + MoudeuleApp.getLoggedUser().getPseudo() + ")");
         println(" ===\n");
     }
+
+    protected void displayHeaderWithLogo(String header) {
+        clear();
+        print("\n\n                               __                     ___              \n");
+        print(" /'\\_/`\\                      /\\ \\                   /\\_ \\             \n");
+        print("/\\      \\     ___    __  __   \\_\\ \\      __    __  __\\//\\ \\       __   \n");
+        print("\\ \\ \\__\\ \\   / __`\\ /\\ \\/\\ \\  /'_` \\   /'__`\\ /\\ \\/\\ \\ \\ \\ \\    /'__`\\ \n");
+        print(" \\ \\ \\_/\\ \\ /\\ \\L\\ \\\\ \\ \\_\\ \\/\\ \\L\\ \\ /\\  __/ \\ \\ \\_\\ \\ \\_\\ \\_ /\\  __/ \n");
+        print("  \\ \\_\\\\ \\_\\\\ \\____/ \\ \\____/\\ \\___,_\\\\ \\____\\ \\ \\____/ /\\____\\\\ \\____\\\n");
+        print("   \\/_/ \\/_/ \\/___/   \\/___/  \\/__,_ / \\/____/  \\/___/  \\/____/ \\/____/\n");
+        print("\n");
+//        print("\n=== " + header);
+        if (MoudeuleApp.isLogged())
+            print(" (" + MoudeuleApp.getLoggedUser().getPseudo() + ")");
+        println(" ===\n");
+    }
 }
