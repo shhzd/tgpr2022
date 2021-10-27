@@ -10,16 +10,8 @@ public class StudentAvailableCoursesListView extends View {
         super.displayHeader("Liste des cours disponibles");
     }
 
-    public void displayMenu() {
-        println("[I] S'inscrire");
-        println("[D] Désinscrire");
-        println("[V] Voir les détails");
-        println("[Q] Quitter");
-    }
-
     public void displayOneCourse(int i, Course course) {
-        int left = course.getLeftPlaces(); // has to change
-        printf("[%2d] %s %s\n", i, course.getCode(), course.getTeacher());
+        printf("[%2d] %s %s\n", i, course.getCode(), course.getDescription(), course.getTeacher());
     }
 
     public void displayCourses(List<Course> courses) {
