@@ -160,4 +160,15 @@ public class Course extends Model {
         return false;
     }
 
+    public String getStatus(User student) {
+        String result = "";
+        if(student.role != Role.STUDENT) {
+            if(isInWaitingList(student)) {
+                result = "Est dans la liste des cours";
+            } else {
+                result = "S'inscrire";
+            }
+        }
+        return result;
+    }
 }

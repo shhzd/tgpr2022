@@ -1,5 +1,6 @@
 package tgpr.moudeule.view;
 
+import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
 
 import java.util.List;
@@ -11,7 +12,8 @@ public class StudentAvailableCoursesListView extends View {
     }
 
     public void displayOneCourse(int i, Course course) {
-        printf("[%2d] %s %s\n", i, course.getCode(), course.getDescription(), course.getTeacher());
+        String status = course.getStatus(MoudeuleApp.getLoggedUser());
+        printf("[%2d] %s %s\n", i, course.getCode(), course.getDescription(), status);
     }
 
     public void displayCourses(List<Course> courses) {
