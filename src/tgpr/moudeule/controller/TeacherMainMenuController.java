@@ -21,8 +21,8 @@ public class TeacherMainMenuController extends Controller {
                 view.displayHeader();
 
                 /** for testing purposes **/
-                User user = MoudeuleApp.getLoggedUser();
-//                User user = User.getByPseudo("p");
+//                User user = MoudeuleApp.getLoggedUser();
+                User user = User.getByPseudo("p");
 
                 var courses = Course.getCoursesFromTeacher(user);
                 int lgPage = 12;
@@ -50,9 +50,7 @@ public class TeacherMainMenuController extends Controller {
                     this.run();
                 }
                 if (res.equals("A")) {
-                    /** to uncomment when UC are ready  **/
-                    System.out.println("start new TeacherAddCourse().run();");
-//                    new TeacherAddCourse().run();
+                    new TeacherAddCourseController().run();
                 }
             } while (!res.equals("O"));
         } catch (View.ActionInterruptedException e) {

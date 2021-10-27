@@ -1,5 +1,6 @@
 package tgpr.moudeule.model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -111,6 +112,34 @@ public class Course extends Model {
         return list;
     }
 
+    public boolean save() {
+
+        Course c = getCourseByID(this.id);
+        int count = 0;
+        try {
+            PreparedStatement stmt;
+            if (c == null) {
+                stmt = db.prepareStatement("insert into course (`id`, `code`, `description`, `capacity`, `teacher`) values (?, ?,?,?,?)");
+                stmt.setInt(1, id);
+                stmt.setString(2, code);
+                stmt.setString(3, description);
+                stmt.setInt(4, capacity);
+                stmt.setObject(5, teacher);
+            } else {
+                stmt = db.prepareStatement("update course set code=?, description=?, capacity=?, teacher=? where id=?");
+                stmt.setString(1, code);
+                stmt.setString(2, description);
+                stmt.setInt(3, capacity);
+                stmt.setObject(4, teacher);
+                stmt.setInt(5, id);
+            }
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+            return count == 1;
+    }
+
     public static List<Course> getCoursesFromTeacher(User teacher) {
         var list = new ArrayList<Course>();
         try {
@@ -152,7 +181,7 @@ public class Course extends Model {
             return null;
     }
 
-//    Depreciated
+/**    Depreciated   **/
 //    public static boolean isValidCourseID(String courseID, User teacher) {
 //        try {
 //            int id = 0;
@@ -172,6 +201,13 @@ public class Course extends Model {
 //        }
 //        return false;
 //    }
+
+    public List<String> validate() {
+
+        List<String> errors = new ArrayList<>();
+
+        return errors;
+    }
 
     private static boolean isInteger(String input) {
         try {
