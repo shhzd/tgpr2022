@@ -168,25 +168,67 @@ public class User extends Model {
         return count == 1;
     }
 
-    /** depreiated **/
-//    public List<Course> getCoursesFromTeacher() {
-//        // Only admin and teacher can get courses from teacher
-//        if (this.role.getRoleId() > 1)
-//            return null;
-//
-//        var list = new ArrayList<Course>();
-//        try {
-//            var stmt = Model.db.prepareStatement("SELECT * FROM courses WHERE teacher = ?");
-//            stmt.setString(1, this.getPseudo());
-//            var rs = stmt.executeQuery();
-//            while (rs.next()) {
-//                var course = new Course();
-//                course.mapper(rs, course);
-//                list.add(course);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return list;
-//    }
+    public boolean delete() {
+        int count = 0;
+        try {
+            PreparedStatement stmt = db.prepareStatement("delete from users where pseudo=?");
+            stmt.setString(1, pseudo);
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count == 1;
+    }
+
+    public static String isValidBirthdate(LocalDate birthdate) {
+        if (birthdate == null)
+            return null;
+        if (birthdate.compareTo(LocalDate.now()) > 0)
+            return "impossible d'être né dans le future";
+        if (Period.between(birthdate, LocalDate.now()).getYears() < 18)
+            return "avoir minimum 18 ans accomplis";
+        return null;
+    }
+
+    public static String isValidPseudo(String pseudo) {
+        if (pseudo == null || !Pattern.matches("[a-zA-Z0-9]{3,}", pseudo))
+            return "pseudo invalide";
+        return null;
+    }
+
+    public static String isValidAvailablePseudo(String pseudo) {
+        var error = isValidPseudo(pseudo);
+        if (error != null)
+            return error;
+        if (getByPseudo(pseudo) != null)
+            return "pseudo déjà utilisé";
+        return null;
+    }
+
+    public static String isValidPassword(String password) {
+        if (password == null || !Pattern.matches("[a-zA-Z0-9]{3,}", password))
+            return "mot de passe invalide";
+        return null;
+    }
+
+    public static String isValidPasswordConfirm(String passwordConfirm, String password) {
+        if (!passwordConfirm.equals(password))
+            return "entrez le même mot de passe";
+        return null;
+    }
+
+    public List<String> validate(String passwordConfrim) {
+        var errors = new ArrayList<String>();
+
+        var err = isValidPseudo(pseudo);
+        if (err != null) errors.add(err);
+        err = isValidPassword(password);
+        if (err != null) errors.add(err);
+        err = isValidPasswordConfirm(passwordConfrim, password);
+        if (err != null) errors.add(err);
+        err = isValidBirthdate(birthdate);
+        if (err != null) errors.add(err);
+
+        return errors;
+    }
 }
