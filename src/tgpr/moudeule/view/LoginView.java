@@ -1,5 +1,6 @@
 package tgpr.moudeule.view;
 
+
 public class LoginView extends View {
 
     public void displayHeader() {
