@@ -12,7 +12,9 @@ public class StudentAvailableCoursesListView extends View {
 
     public void displayMenu() {
         println("[I] S'inscrire");
-        println("");
+        println("[D] Désinscrire");
+        println("[V] Voir les détails");
+        println("[Q] Quitter");
     }
 
     public void displayOneCourse(int i, Course course) {

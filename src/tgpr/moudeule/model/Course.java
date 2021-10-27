@@ -147,8 +147,9 @@ public class Course extends Model {
         if(student.role != Role.STUDENT) {
             int result = 0;
             try {
-                PreparedStatement stmt = Model.db.prepareStatement("SELECT COUNT(*) FROM registrations WHERE course = ? AND studenAND active = 0");
+                PreparedStatement stmt = Model.db.prepareStatement("SELECT COUNT(*) FROM registrations WHERE course = ? AND student = ? AND active = 0");
                 stmt.setString(1, code);
+                stmt.setString(2, student.getPseudo());
                 var rs = stmt.executeQuery();
                 result = rs.getInt(1);
             } catch (Exception e) {
