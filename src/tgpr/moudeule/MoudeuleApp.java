@@ -39,7 +39,6 @@ public class MoudeuleApp {
         else {
 
             new StartMenuController().run();
-//            new TeacherMainMenuController().run();
         }
 
     }

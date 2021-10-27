@@ -40,11 +40,12 @@ public class LoginController extends Controller {
             MoudeuleApp.setLoggedUser(user);
 
             if(user.role.getRoleId() == 1) {
-//                new TeacherMainMenuController().run();
-                System.out.println("new TeacherMainMenuController().run();\n et Admin");
+                new TeacherMainMenuController().run();
             } else {
-                System.out.println("new StudentMainMenuController().run();\n");
-                //                new StudentMainMenuController().run();
+                /**
+                 * pending completion of the use case
+                 */
+//                new StudentMainMenuController().run();
             }
 
         } catch (View.ActionInterruptedException e) {
