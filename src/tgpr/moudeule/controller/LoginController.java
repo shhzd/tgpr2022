@@ -38,14 +38,15 @@ public class LoginController extends Controller {
             var user = askPseudo();
             askPassword(user);
             MoudeuleApp.setLoggedUser(user);
-            if(user.role.getRoleId() == 1) {
 
+            if(user.role.getRoleId() == 1) {
 //                new TeacherMainMenuController().run();
                 System.out.println("new TeacherMainMenuController().run();\n et Admin");
             } else {
                 System.out.println("new StudentMainMenuController().run();\n");
                 //                new StudentMainMenuController().run();
             }
+
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("aborted login");
         }
