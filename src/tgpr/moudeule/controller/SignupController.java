@@ -58,10 +58,10 @@ public class SignupController extends Controller {
                     /**
                      * pending completion of the use case
                      */
-                    //new StudentMainMenu().run();
+                    //new StudentMainMenuController().run();
                     break;
                 case 'A' :
-                    new StartMenuController();
+                    new StartMenuController().run();
                     break;
             }
         } catch (View.ActionInterruptedException e) {
