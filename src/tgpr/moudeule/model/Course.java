@@ -143,7 +143,7 @@ public class Course extends Model {
     public static List<Course> getCoursesFromTeacher(User teacher) {
         var list = new ArrayList<Course>();
         try {
-            var stmt = Model.db.prepareStatement("SELECT * FROM courses WHERE teacher = ?");
+            var stmt = Model.db.prepareStatement("SELECT * FROM `courses` WHERE `teacher` = ? ORDER BY `id` ASC");
             stmt.setString(1, teacher.getPseudo());
             var rs = stmt.executeQuery();
             while (rs.next()) {
