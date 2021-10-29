@@ -209,7 +209,44 @@ public class Course extends Model {
 
         List<String> errors = new ArrayList<>();
 
+        var err = isValidID(id);
+        if (err != null) errors.add(err);
+        err = isValidCode(code);
+        if (err != null) errors.add(err);
+        err = isValidDescription(description);
+        if (err != null) errors.add(err);
+        err = isValidCapacity(capacity);
+        if (err != null) errors.add(err);
         return errors;
+    }
+
+    public static String isValidID(int id) {
+        if (id > 9999) return "L'ID ne peut pas faire plus de 4 chiffres";
+        if (id < 1) return "L'ID doit être plus grand que zero " + id;
+        if (getCourseByID(id) != null) return "Cet ID existe déja";
+        return null;
+    }
+
+    public static String isValidCode(String code) {
+        if (code.length() != 4) return "Le code doit faire 4 carratères";
+
+        if (!code.matches("[a-zA-Z0-9]{4}"))
+            return "Seul les carractères alphanumériques sont autorisés";
+        return null;
+    }
+
+    public static String isValidDescription(String description) {
+        if (description.length() < 5)
+            return "La description n'est pas assez précise";
+        if (description.length() > 60)
+            return "La description est trop longue (60 carractère max)";
+        return null;
+    }
+
+    public static String isValidCapacity(int capacity) {
+        if (capacity < 4) return "La capacité minimal est de 4";
+        if (capacity > 28) return "La capacité maximal est de 28";
+        return null;
     }
 
     private static boolean isInteger(String input) {

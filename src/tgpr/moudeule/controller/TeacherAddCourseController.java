@@ -23,8 +23,9 @@ public class TeacherAddCourseController extends Controller {
             View.Action res;
             Course course = new Course();
 
-            /** for testing purposes **/
+            /** to uncomment when UC are ready **/
 //        User user = MoudeuleApp.getLoggedUser();
+            /** ONLY for testing purposes **/
             User user = User.getByPseudo("p");
 
             do {
@@ -35,13 +36,15 @@ public class TeacherAddCourseController extends Controller {
                 String description = view.askDescription(course.getDescription());
                 int capacity = view.askCapacity(course.getCapacity());
 
-                course.setId(course.getId());
+                course.setId(id);
                 course.setTeacher(user.getPseudo());
                 course.setCode(code);
                 course.setDescription(description);
                 course.setCapacity(capacity);
                 errors = course.validate();
 
+                if (errors.size() > 0)
+                    view.showErrors(errors);
             } while (errors.size() > 0);
 
             res = view.askForAction();
