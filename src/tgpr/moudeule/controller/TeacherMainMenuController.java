@@ -6,9 +6,6 @@ import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.TeacherMainMenuView;
 import tgpr.moudeule.view.View;
 
-import java.util.Locale;
-import java.util.regex.Pattern;
-
 public class TeacherMainMenuController extends Controller {
 
     private int page = 0;
@@ -20,6 +17,7 @@ public class TeacherMainMenuController extends Controller {
             do {
                 view.displayHeader();
 
+                /** for testing purposes **/
 //                User user = MoudeuleApp.getLoggedUser();
                 User user = User.getByPseudo("p");
 
@@ -34,7 +32,7 @@ public class TeacherMainMenuController extends Controller {
                     Course course = Course.getCourseByID(res);
                     if (course != null) {
                         /** to uncomment when UC are ready  **/
-                        System.out.println("start new view.TeacherEditCourseController(course).run() >> " + course.prettyPrint());
+                        System.out.println("start new view.TeacherEditCourseController(course).run() >> " + course.prettyString());
 //                        new view.TeacherEditCourseController(res).run();
                     } else {
                         System.out.println("il ne se passe rien");
@@ -49,9 +47,7 @@ public class TeacherMainMenuController extends Controller {
                     this.run();
                 }
                 if (res.equals("A")) {
-                    /** to uncomment when UC are ready  **/
-                    System.out.println("start new TeacherAddCourse().run();");
-//                    new TeacherAddCourse().run();
+                    new TeacherAddCourseController().run();
                 }
             } while (!res.equals("O"));
         } catch (View.ActionInterruptedException e) {
