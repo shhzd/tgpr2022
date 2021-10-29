@@ -14,9 +14,7 @@ public class StartMenuController extends Controller {
                 res = view.askForAction();
                 switch (res.getAction()) {
                     case 'C':
-                        /** to uncomment when UC are ready  **/
-                        System.out.println("start new LoginController().run()");
-//                        new LoginController().run();
+                         new LoginController().run();
                         /** uncomment to test TeacherMainMenuController()  **/
 //                        new TeacherMainMenuController().run();
                         break;
