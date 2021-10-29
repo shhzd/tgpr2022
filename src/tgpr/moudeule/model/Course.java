@@ -71,8 +71,11 @@ public class Course extends Model {
                 ", teacher : " + teacher;
     }
 
-    public String prettyPrint() {
-        return "" + id + "  " + code + "  " + capacity + "  " + description;
+    public String prettyString() {
+        return "" + id +
+                "  " + code +
+                "  " + ((capacity < 10) ? " " : "") + capacity +
+                "  " + description;
     }
 
     @Override
@@ -119,14 +122,14 @@ public class Course extends Model {
         try {
             PreparedStatement stmt;
             if (c == null) {
-                stmt = db.prepareStatement("insert into course (`id`, `code`, `description`, `capacity`, `teacher`) values (?, ?,?,?,?)");
+                stmt = db.prepareStatement("INSERT INTO `courses` (`id`, `code`, `description`, `capacity`, `teacher`) VALUES (?, ?, ?, ?, ?)");
                 stmt.setInt(1, id);
                 stmt.setString(2, code);
                 stmt.setString(3, description);
                 stmt.setInt(4, capacity);
                 stmt.setObject(5, teacher);
             } else {
-                stmt = db.prepareStatement("update course set code=?, description=?, capacity=?, teacher=? where id=?");
+                stmt = db.prepareStatement("UPDATE courses SET `code`=?, `description`=?, `capacity`=?, `teacher`=? WHERE `id`=?");
                 stmt.setString(1, code);
                 stmt.setString(2, description);
                 stmt.setInt(3, capacity);
@@ -181,7 +184,7 @@ public class Course extends Model {
             return null;
     }
 
-/**    Depreciated   **/
+    /**    Depreciated   **/
 //    public static boolean isValidCourseID(String courseID, User teacher) {
 //        try {
 //            int id = 0;
