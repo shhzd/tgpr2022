@@ -20,10 +20,14 @@ public class StudentMainMenuController extends Controller {
                         break;
                     case 'I':
                         // uncoment when UC is ready
-                        System.out.println('Liste de course Inscrit')
+                        System.out.println("Liste de course Inscrit");
                         //   new StudentEditCourses();
                 }
-            }
+            } while (res.getAction() != 'Q');
+        }catch (View.ActionInterruptedException e) {
+            // just leave
         }
+        view.pausedWarning("A bientôt.");
+        view.close();
     }
 }
