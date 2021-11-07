@@ -213,5 +213,19 @@ public class User extends Model {
         return false;
     }
 
-
+    public boolean deleteRegistration(Course course) {
+        if(this.role.equals(Role.STUDENT)) {
+            int count = 0;
+            try {
+                PreparedStatement stmt = Model.db.prepareStatement("DELETE FROM registrations WHERE course=? AND student=?");
+                stmt.setInt(1, course.getId());
+                stmt.setString(2, this.getPseudo());
+                count = stmt.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
 }
