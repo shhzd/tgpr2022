@@ -71,6 +71,13 @@ public class Course extends Model {
                 ", teacher : " + teacher;
     }
 
+    public String prettyString() {
+        return "" + id +
+                "  " + code +
+                "  " + ((capacity < 10) ? " " : "") + capacity +
+                "  " + description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -106,6 +113,150 @@ public class Course extends Model {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public boolean save() {
+
+        Course c = getCourseByID(this.id);
+        int count = 0;
+        try {
+            PreparedStatement stmt;
+            if (c == null) {
+                stmt = db.prepareStatement("INSERT INTO `courses` (`id`, `code`, `description`, `capacity`, `teacher`) VALUES (?, ?, ?, ?, ?)");
+                stmt.setInt(1, id);
+                stmt.setString(2, code);
+                stmt.setString(3, description);
+                stmt.setInt(4, capacity);
+                stmt.setObject(5, teacher);
+            } else {
+                stmt = db.prepareStatement("UPDATE courses SET `code`=?, `description`=?, `capacity`=?, `teacher`=? WHERE `id`=?");
+                stmt.setString(1, code);
+                stmt.setString(2, description);
+                stmt.setInt(3, capacity);
+                stmt.setObject(4, teacher);
+                stmt.setInt(5, id);
+            }
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+            return count == 1;
+    }
+
+    public static List<Course> getCoursesFromTeacher(User teacher) {
+        var list = new ArrayList<Course>();
+        try {
+            var stmt = Model.db.prepareStatement("SELECT * FROM `courses` WHERE `teacher` = ? ORDER BY `id` ASC");
+            stmt.setString(1, teacher.getPseudo());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var course = new Course();
+                mapper(rs, course);
+                list.add(course);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static Course getCourseByID(int id) {
+        try {
+            var stmt = Model.db.prepareStatement("SELECT * FROM `courses` WHERE `id` = ?;");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                Course course = new Course();
+                mapper(rs, course);
+                return course;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Course getCourseByID(String courseID) {
+        int id = 0;
+        if (isInteger(courseID)) {
+            return getCourseByID(Integer.parseInt(courseID));
+        } else
+            return null;
+    }
+
+    /**    Depreciated   **/
+//    public static boolean isValidCourseID(String courseID, User teacher) {
+//        try {
+//            int id = 0;
+//            if (isInteger(courseID))
+//                id = Integer.parseInt(courseID);
+//            else
+//                return false;
+//            // we check at the same if the ID is valid and if the course belongs to the teacher
+//            var stmt = Model.db.prepareStatement("SELECT * FROM `courses` WHERE `teacher` = ? AND `id` = ?;");
+//            stmt.setString(1, teacher.getPseudo());
+//            stmt.setInt(2, id);
+//            var rs = stmt.executeQuery();
+//            return (rs.next());
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return false;
+//    }
+
+    public List<String> validate() {
+
+        List<String> errors = new ArrayList<>();
+
+        var err = isValidID(id);
+        if (err != null) errors.add(err);
+        err = isValidCode(code);
+        if (err != null) errors.add(err);
+        err = isValidDescription(description);
+        if (err != null) errors.add(err);
+        err = isValidCapacity(capacity);
+        if (err != null) errors.add(err);
+        return errors;
+    }
+
+    public static String isValidID(int id) {
+        if (id > 9999) return "L'ID ne peut pas faire plus de 4 chiffres";
+        if (id < 1) return "L'ID doit être plus grand que zero " + id;
+        if (getCourseByID(id) != null) return "Cet ID existe déja";
+        return null;
+    }
+
+    public static String isValidCode(String code) {
+        if (code.length() != 4) return "Le code doit faire 4 carratères";
+
+        if (!code.matches("[a-zA-Z0-9]{4}"))
+            return "Seul les carractères alphanumériques sont autorisés";
+        return null;
+    }
+
+    public static String isValidDescription(String description) {
+        if (description.length() < 5)
+            return "La description n'est pas assez précise";
+        if (description.length() > 60)
+            return "La description est trop longue (60 carractère max)";
+        return null;
+    }
+
+    public static String isValidCapacity(int capacity) {
+        if (capacity < 4) return "La capacité minimal est de 4";
+        if (capacity > 28) return "La capacité maximal est de 28";
+        return null;
+    }
+
+    private static boolean isInteger(String input) {
+        try {
+            Integer.parseInt(input);
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
     }
 
     public User getTeacher() {
