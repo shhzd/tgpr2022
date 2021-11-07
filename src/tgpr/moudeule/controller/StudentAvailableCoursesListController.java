@@ -16,20 +16,25 @@ public class StudentAvailableCoursesListController extends Controller {
                 view.displayHeader();
                 view.displayCourses(courses);
                 res = view.askForAction(courses.size());
+                var m = courses.get(res.getNumber() - 1);
                 switch (res.getAction()) {
                     case 'I':
-
+                        student.addToWaitingList(m);
+                        courses = student.getAvailableCourses();
                         break;
                     case 'D':
+                        student.deleteRegistration(m);
+                        courses = student.getAvailableCourses();
                         break;
                     case 'V':
-                        break;
-                    case 'Q':
+                        System.out.println("Description du cours");
+                        // new StudentCourseDescription(m).run();
                         break;
                 }
             } while (res.getAction() != 'Q');
         } catch (View.ActionInterruptedException e) {
 
         }
+
     }
 }
