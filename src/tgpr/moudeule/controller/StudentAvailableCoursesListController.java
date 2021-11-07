@@ -1,8 +1,6 @@
 package tgpr.moudeule.controller;
 
 import tgpr.moudeule.MoudeuleApp;
-import tgpr.moudeule.model.Course;
-import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.StudentAvailableCoursesListView;
 import tgpr.moudeule.view.View;
 
@@ -16,7 +14,19 @@ public class StudentAvailableCoursesListController extends Controller {
             View.Action res;
             do {
                 view.displayHeader();
-                view.
+                view.displayCourses(courses);
+                res = view.askForAction(courses.size());
+                switch (res.getAction()) {
+                    case 'I':
+
+                        break;
+                    case 'D':
+                        break;
+                    case 'V':
+                        break;
+                    case 'Q':
+                        break;
+                }
             } while (res.getAction() != 'Q');
         } catch (View.ActionInterruptedException e) {
 

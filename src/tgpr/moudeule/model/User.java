@@ -195,4 +195,19 @@ public class User extends Model {
         }
         throw new RuntimeException("You are not a student");
     }
+
+    public boolean addToWaitingList(Course course) {
+        int count = 0;
+        try {
+            PreparedStatement stmt = Model.db.prepareStatement("INSERT INTO registrations VALUES (?,?,?)");
+            stmt.setInt(1, course.getId());
+            stmt.setString(2, this.getPseudo());
+            stmt.setInt(3, 0);
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count == 1;
+    }
+
 }
