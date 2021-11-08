@@ -9,7 +9,7 @@ public class StudentAvailableCoursesListController extends Controller {
     public void run() {
         var student = MoudeuleApp.getLoggedUser();
         var courses = student.getAvailableCourses();
-        StudentAvailableCoursesListView view = new StudentAvailableCoursesListView();
+        var view = new StudentAvailableCoursesListView();
         try {
             View.Action res;
             do {

@@ -13,10 +13,12 @@ public class StudentAvailableCoursesListView extends View {
 
     public void displayOneCourse(int i, Course course) {
         String status = course.getStatus(MoudeuleApp.getLoggedUser());
-        printf("[%2d] %s %s\n", i, course.getCode(), course.getDescription(), status);
+        printf("[%2d] %s %s %s %s\n", i,course.getId(), course.getCode(), course.getDescription(), status);
     }
 
     public void displayCourses(List<Course> courses) {
+        println("Ordre ID  Code Intitulé");
+        println("");
         int i = 1;
         for (var course : courses) {
             displayOneCourse(i, course);

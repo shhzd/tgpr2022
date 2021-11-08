@@ -295,14 +295,16 @@ public class Course extends Model {
 
 
     public boolean isInWaitingList(User student) {
-        if(student.role != Role.STUDENT) {
+        if(student.role.equals(Role.STUDENT)) {
             int result = 0;
             try {
-                PreparedStatement stmt = Model.db.prepareStatement("SELECT COUNT(*) FROM registrations WHERE course = ? AND student = ? AND active = 0");
-                stmt.setString(1, code);
+                PreparedStatement stmt = Model.db.prepareStatement("SELECT COUNT(*) count FROM registrations WHERE course = ? AND student = ? AND active = 0");
+                stmt.setInt(1, this.getId());
                 stmt.setString(2, student.getPseudo());
                 var rs = stmt.executeQuery();
-                result = rs.getInt(1);
+                if(rs.next()) {
+                    result = rs.getInt("count");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -313,11 +315,11 @@ public class Course extends Model {
 
     public String getStatus(User student) {
         String result = "";
-        if(student.role != Role.STUDENT) {
+        if(student.role.equals(Role.STUDENT)) {
             if(isInWaitingList(student)) {
-                result = "Est dans la liste des cours";
+                result = "(Est dans la liste d'attente)";
             } else {
-                result = "S'inscrire";
+                result = "(S'inscrire)";
             }
         }
         return result;
