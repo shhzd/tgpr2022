@@ -4,7 +4,11 @@ import tgpr.moudeule.model.Course;
 
 public class TeacherAddCourseView extends View{
 
-    public void displayHeader() {super.displayHeader("Ajouter un noueau cours");}
+    public void displayHeader() {super.displayHeader("Ajouter un nouveau cours");}
+
+    public void displayMenu() {
+        println("[0] Retour\n");
+    }
 
     public int askID(int actual) {
         return askInteger("entrez une ID " + "(" +
@@ -28,7 +32,7 @@ public class TeacherAddCourseView extends View{
 
     public View.Action askForAction() {
         return doAskForAction(-1, "\n" +
-                "[V] Valider, [A] Annuler", "[vVaA]");
+                "[O/N] Confirmer la création", "[oOnN]");
     }
 
 }

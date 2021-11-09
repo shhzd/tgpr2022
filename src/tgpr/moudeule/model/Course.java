@@ -222,7 +222,7 @@ public class Course extends Model {
 
     public static String isValidID(int id) {
         if (id > 9999) return "L'ID ne peut pas faire plus de 4 chiffres";
-        if (id < 1) return "L'ID doit être plus grand que zero " + id;
+        if (id < 1000) return "L'ID doit faire quatres chiffres " + id;
         if (getCourseByID(id) != null) return "Cet ID existe déja";
         return null;
     }
