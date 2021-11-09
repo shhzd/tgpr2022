@@ -5,6 +5,7 @@ import tgpr.moudeule.view.TeacherEditCourseView;
 import tgpr.moudeule.view.View;
 
 public class TeacherEditCourseController extends Controller {
+
     private TeacherEditCourseView view = new TeacherEditCourseView();
     private Course course;
 
