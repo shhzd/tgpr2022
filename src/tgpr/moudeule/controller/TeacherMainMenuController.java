@@ -16,25 +16,28 @@ public class TeacherMainMenuController extends Controller {
             String res;
             do {
                 view.displayHeader();
+                User user = MoudeuleApp.getLoggedUser();
 
                 /** for testing purposes **/
-//                User user = MoudeuleApp.getLoggedUser();
-                User user = User.getByPseudo("p");
+//                User user = User.getByPseudo("p");
 
                 var courses = Course.getCoursesFromTeacher(user);
                 int lgPage = 12;
                 int nbPages = (int)(courses.size() / (lgPage + 0.0)) + 1;
 
-                view.displayMenu(courses, page, nbPages, lgPage);
-                res = view.askForString().toUpperCase(); // les entrées en miniscule sont converties en majuscule
+                view.displayMenu(courses, page, nbPages, lgPage, user);
+                res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
                 if (res.length() > 1) {
-                    /** we should check that the teacher is allowed to see the course **/
+                    /** Now we choose which course to show in the view,
+                     *  should be refactored to happen in the model
+                     */
                     Course course = Course.getCourseByID(res);
                     if (course != null) {
                         /** to uncomment when UC are ready  **/
                         System.out.println("start new view.TeacherEditCourseController(course).run() >> " + course.prettyString());
 //                        new view.TeacherEditCourseController(res).run();
                     } else {
+                        /** for testing purposes **/
                         System.out.println("il ne se passe rien");
                     }
                 }
@@ -46,14 +49,13 @@ public class TeacherMainMenuController extends Controller {
                     this.page--;
                     this.run();
                 }
-                if (res.equals("A")) {
+                if (res.equals("0")) {
                     new TeacherAddCourseController().run();
                 }
-            } while (!res.equals("O"));
+            } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");
         }
-
         MoudeuleApp.logout();
     }
 }
