@@ -1,5 +1,6 @@
 package tgpr.moudeule.controller;
 
+import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Role;
 import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.SignupView;
@@ -30,6 +31,7 @@ public class SignupController extends Controller {
             var user = new User();
             do {
                 view.displayHeader();
+                view.displayMenu();
 
                 String pseudo = askPseudo(user.getPseudo());
                 String password = view.askPassword(user.getPassword());
@@ -53,9 +55,14 @@ public class SignupController extends Controller {
                 case 'V' :
                     user.setPassword(user.getPassword());
                     user.save();
+                    MoudeuleApp.setLoggedUser(user);
+                    /**
+                     * pending completion of the use case
+                     */
+                    //new StudentMainMenuController().run();
                     break;
                 case 'A' :
-                    new StartMenuController();
+                    new StartMenuController().run();
                     break;
             }
         } catch (View.ActionInterruptedException e) {

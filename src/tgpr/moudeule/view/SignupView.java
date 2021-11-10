@@ -12,24 +12,29 @@ public class SignupView extends View{
         super.displayHeader("S'enregistrer");
     }
 
+    public void displayMenu() {
+        println("[ESC] Retour\n");
+    }
+
     public String askPseudo(String actual) {
-        return askString("Pseudo (" + actual + "): ", actual);
+        return askString("Pseudo (" + ((actual != null) ? actual : "") + "): ", actual);
     }
 
     public String askPassword(String actual) {
-        String stars = null;
+        String stars = "min 3 caractères";
         if (actual != null)
             stars = String.join("", Collections.nCopies(actual.length(), "*"));
         return askString("Mot de passe (" + stars + "): ", actual, true);
     }
 
     public String askFullname(String actual) {
-        return askString("Nom complet (" + actual + "): ", actual);
+        return askString("Nom complet (" + ((actual != null) ? actual : "") + "): ", actual);
+
     }
 
     public LocalDate askBirthDate(LocalDate actual) {
         return askDate("Date de naissance (" +
-                (actual == null ? "null" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
+                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
     }
 
     public View.Action askForAction() {
