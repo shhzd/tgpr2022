@@ -35,7 +35,7 @@ public class TeacherMainMenuController extends Controller {
                     if (course != null) {
                         /** to uncomment when UC are ready  **/
                         System.out.println("start new view.TeacherEditCourseController(course).run() >> " + course.prettyString());
-//                        new view.TeacherEditCourseController(res).run();
+//                        new TeacherEditCourseController(course).run();
                     } else {
                         /** for testing purposes **/
                         System.out.println("il ne se passe rien");
