@@ -31,6 +31,7 @@ public class SignupController extends Controller {
             var user = new User();
             do {
                 view.displayHeader();
+                view.displayMenu();
 
                 String pseudo = askPseudo(user.getPseudo());
                 String password = view.askPassword(user.getPassword());
