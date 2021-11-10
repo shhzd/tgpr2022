@@ -7,7 +7,7 @@ public class TeacherAddCourseView extends View{
     public void displayHeader() {super.displayHeader("Ajouter un nouveau cours");}
 
     public void displayMenu() {
-        println("[0] Retour\n");
+        println("[ESC] Retour\n");
     }
 
     public int askID(int actual) {

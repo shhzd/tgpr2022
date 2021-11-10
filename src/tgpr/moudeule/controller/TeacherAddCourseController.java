@@ -33,13 +33,9 @@ public class TeacherAddCourseController extends Controller {
                 view.displayMenu();
 
                 int id = view.askID(course.getId());
-                keepAsking(id);
                 String code = view.askCode(course.getCode());
-                keepAsking(code);
                 String description = view.askDescription(course.getDescription());
-                keepAsking(description);
                 int capacity = view.askCapacity(course.getCapacity());
-                keepAsking(capacity);
 
                 course.setId(id);
                 course.setTeacher(user.getPseudo());
@@ -62,18 +58,6 @@ public class TeacherAddCourseController extends Controller {
             new TeacherMainMenuController().run();
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("création abandonnée");
-        }
-    }
-
-    private void keepAsking(int i) {
-        if (i == 0) {
-            throw new View.ActionInterruptedException();
-        }
-    }
-
-    private void keepAsking(String s) {
-        if (s.equals("0")) {
-            throw new View.ActionInterruptedException();
         }
     }
 
