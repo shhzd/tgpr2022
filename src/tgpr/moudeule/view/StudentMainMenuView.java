@@ -5,11 +5,14 @@ import java.util.List;
 
 public class StudentMainMenuView extends View{
     public void displayMenu(){
-        println("[D] Liste de course disponible");
-        println("[I] List de course inscrit");
+        println("[D] Liste de cours disponibles");
+        println("[I] Liste de cours inscrits");
+    }
+    public void displayHeader(){
+        super.displayHeader("Ecran d'accueil");
     }
     public Action askForAction() {
-        return doAskForAction(-1, "", "[dD]|[qQ]");
+        return doAskForAction(-1, "", "[dD]|[Ii]");
     }
 }
 

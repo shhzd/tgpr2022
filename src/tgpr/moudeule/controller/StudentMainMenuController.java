@@ -6,10 +6,11 @@ import tgpr.moudeule.view.View;
 
 public class StudentMainMenuController extends Controller {
     public void run() {
-        StudentMainMenuView view = new StudentMainMenuView();
+        var view = new StudentMainMenuView();
         try {
             View.Action res;
             do {
+                view.displayHeader();
                 view.displayMenu();
                 res = view.askForAction();
                 switch (res.getAction()){
