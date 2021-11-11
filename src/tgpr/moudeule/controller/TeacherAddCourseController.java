@@ -22,10 +22,10 @@ public class TeacherAddCourseController extends Controller {
             View.Action res;
             Course course = new Course();
 
-            /** to uncomment when UC are ready **/
             User user = MoudeuleApp.getLoggedUser();
-            /** ONLY for testing purposes **/
-//            User user = User.getByPseudo("p");
+            /** ONLY for testing purposes
+            User user = User.getByPseudo("p");
+             **/
 
             do {
                 view.displayHeader();

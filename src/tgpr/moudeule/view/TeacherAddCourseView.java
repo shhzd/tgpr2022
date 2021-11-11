@@ -11,22 +11,22 @@ public class TeacherAddCourseView extends View{
     }
 
     public int askID(int actual) {
-        return askInteger("entrez une ID " + "(" +
+        return askInteger("Entrez une ID " + "(" +
                 ((actual != 0) ?  actual : "4 chiffres") + ") : ", actual);
     }
 
     public String askCode(String actual) {
-        return askString("entrez un code " + "(" +
+        return askString("Entrez un code " + "(" +
                 ((actual != null) ? actual : "4 carractères") + ") : ", actual);
     }
 
     public String askDescription(String actual) {
-        return askString("entrez une description " + "(" +
+        return askString("Entrez une description " + "(" +
                 ((actual != null) ? actual : "max 60 carractères") + ") : ", actual);
     }
 
     public int askCapacity(int actual) {
-        return askInteger("entrez une capacité " + "(" +
+        return askInteger("Entrez une capacité " + "(" +
                 ((actual != 0) ? actual : "max 28") + ") : ", actual);
     }
 
