@@ -23,9 +23,9 @@ public class TeacherMainMenuController extends Controller {
 
                 var courses = Course.getCoursesFromTeacher(user);
                 int lgPage = 14;
-                int nbPages = (int)(courses.size() / (lgPage + 0.0));
+                int nbPages = (int)Math.ceil(courses.size() / (lgPage + 0.0));
 
-                view.displayMenu(courses, page, nbPages, lgPage, user);
+                view.displayMenu(courses, page, nbPages, lgPage);
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
                 if (res.length() > 1) {
                     Course course = Course.getCourseByID(res);
