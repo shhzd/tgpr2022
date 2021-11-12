@@ -7,12 +7,12 @@ public class StartMenuView extends View {
     }
 
     public void displayMenu() {
-        println("[C] Se Connecter");
-        println("[E] S'enregistrer");
+        println("[1] S'identifier");
+        println("[2] Enregistrer un nouveau compte");
         println("\n[Q] Quitter");
     }
 
     public Action askForAction() {
-        return doAskForAction(-1, "", "[qQ]|[cC]|[eE]");
+        return doAskForAction(-1, "", "[qQ]|[1]|[2]");
     }
 }
