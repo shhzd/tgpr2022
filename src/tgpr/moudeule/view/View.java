@@ -246,7 +246,7 @@ public abstract class View {
     }
 
     protected void displayHeader(String header) {
-
+        clear();
         print("\n=== " + header);
         println(" ===\n");
     }
