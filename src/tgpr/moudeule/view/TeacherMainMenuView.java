@@ -15,10 +15,7 @@ public class TeacherMainMenuView extends View {
 
         println(" ID   CODE Cap  Description");
 
-        System.out.println(courses.size());
-
-
-        for (int i = 0 ; (i + ((page - 1) * lgPage)) < courses.size() && i < (lgPage + 1) ; i++) {
+        for (int i = 0 ; (i + (page * lgPage)) <= courses.size() && i < (lgPage + 1) ; i++) {
             Course course = courses.get(i + ((page - 1) * lgPage));
             println(course.prettyString());
         }
