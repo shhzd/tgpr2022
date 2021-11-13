@@ -1,6 +1,7 @@
 package tgpr.moudeule.controller;
 
 import tgpr.moudeule.MoudeuleApp;
+import tgpr.moudeule.model.Course;
 import tgpr.moudeule.view.StudentEditCourseView;
 import tgpr.moudeule.view.View;
 
@@ -11,33 +12,41 @@ public class StudentEditCourseController extends Controller {
         var courses = student.getRegistratedCourses();
         var view = new StudentEditCourseView();
         try {
-            View.Action res;
+            String res;
             do {
                 view.displayHeader();
                 view.displayCourses(courses);
-                res = view.askForAction(courses.size());
-                var m = courses.get(res.getNumber() - 1);
-                switch (res.getAction()) {
+                System.out.println("");
+                //could eventually redirect to StudentAvailableCoursesList if the student is not registrated anywhere (to be discuted)
 
-                    //case sélectionner un cours
-
-                    case 'T':
-                        //student.getTestsList(m);
-                        break;
-                    case 'D':
-                        student.deactivateCourse(m);
-
-                        //confirmation ?
-
-                        break;
-                    case 'R':
-                        //new StudentAvailableCoursesListController().run();
-                        break;
+                view.displayIDSelection();
+                res = view.askForString().toUpperCase();
+                while (res.length() != 4) {
+                    view.pausedWarning("Entrez un ID de cours valide");
+                    res = view.askForString().toUpperCase();
                 }
-            } while (res.getAction() != 'Q');
+                var course = Course.getCourseByID(res);
+
+                view.displayChoices();
+                res = view.askForString().toUpperCase();
+                if (res.equals("1")) {
+                    view.pausedWarning("new StudentTestsList().run()");
+                    /**
+                     * to uncomment when UC ready
+                     */
+                    //new StudentTestsList().run();
+                }
+                if (res.equals("2")) {
+                    view.displayConfirmation(course);
+                    res = view.askForString().toUpperCase();
+                    if (res.equals("O")) {
+                        //student.deactivateCourse(course);
+                    }
+                }
+            } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
-
+            view.pausedWarning("logged out");
         }
-
+        MoudeuleApp.logout();
     }
 }

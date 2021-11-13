@@ -237,10 +237,7 @@ public class User extends Model {
             var list = new ArrayList<Course>();
             try {
                 var stmt = db.prepareStatement(
-                        "SELECT * FROM registrations" +
-                                "JOIN user ON registrations.student = users.pseudo" +
-                                "WHERE student = ?" +
-                                "AND active = 1;"
+                        "SELECT * FROM courses WHERE courses.id IN (SELECT course FROM registrations WHERE student =? AND active = 1);"
                 );
                 stmt.setString(1, this.pseudo);
                 var rs = stmt.executeQuery();
@@ -261,7 +258,7 @@ public class User extends Model {
         if(this.role.equals(Role.STUDENT)) {
             int count = 0;
             try {
-                PreparedStatement stmt = Model.db.prepareStatement("UPDATE registrations SET active = 0 WHERE course = ? AND student = ?;");
+                PreparedStatement stmt = Model.db.prepareStatement("UPDATE registrations SET active = 0 WHERE course =? AND student = ?;");
                 stmt.setInt(1, course.getId());
                 stmt.setString(2, this.getPseudo());
                 count = stmt.executeUpdate();
