@@ -1,6 +1,5 @@
 package tgpr.moudeule.view;
 
-import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class StudentEditCourseView extends View {
         } else {
             println("Vous n'êtes inscrit à aucun cours");
         }
-        println("\n[R] Retour - [Q] Quitter");
+        displayFooter();
     }
 
     public void displayIDSelection() {

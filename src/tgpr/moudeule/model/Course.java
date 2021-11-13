@@ -274,4 +274,43 @@ public class Course extends Model {
         }
         return teacher;
     }
+
+    public List<User> getRegistratedStudents() {
+        List<User> studentsList = new ArrayList<>();
+
+        try {
+            //Etudiants inscrits à ce cours
+            var stmt = db.prepareStatement("");
+            //
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var student = new User();
+                User.mapper(rs, student);
+                studentsList.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentsList;
+    }
+
+    public List<User> getPendingRegistrations() {
+        List<User> studentsList = new ArrayList<>();
+
+        try {
+            //Etudiants en liste d'attente pour s'inscrire à ce cours
+            var stmt = db.prepareStatement("");
+            //
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var student = new User();
+                User.mapper(rs, student);
+                studentsList.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentsList;
+    }
+
 }
