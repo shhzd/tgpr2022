@@ -12,7 +12,7 @@ public class TeacherQuizzesListView extends View{
         this.course = course;
     }
 
-    public void displayheader(){
+    public void displayHeader(){
         super.displayHeader("Liste des quiz pour le cours de " + course.getDescription());
     }
 
@@ -20,7 +20,19 @@ public class TeacherQuizzesListView extends View{
         println("N°    " + "    Nom du Quiz    " + " Date de début " + " Date de fin ");
         int i = 1;
         for(Quiz q : quizzes){
-            println(q.getId() + q.getTitle() + q.getStart() + q.getFinish() + q.getcourseId());
+            println("["+i+"] " + q.getId() + q.getTitle() + q.getStart() + q.getFinish() + q.getcourseId());
         }
+    }
+
+    public int quizzesAmount(List<Quiz> quizzes){
+        int i = 0;
+        for(Quiz q : quizzes){
+            ++i;
+        }
+        return i;
+    }
+
+    public View.Action askForAction(int maxNumber){
+        return doAskForAction(maxNumber,"\n[A] Add [R] Return, [Q] Quit", "[aA]|[rR]|[qQ]");
     }
 }
