@@ -6,7 +6,7 @@ import tgpr.moudeule.view.StudentEditCourseView;
 import tgpr.moudeule.view.View;
 
 public class StudentEditCourseController extends Controller {
-    String res;
+    private String res;
     private void quitPossibility(String res) {
         if (res.equals("R")) {
             new StudentMainMenuController().run();
@@ -33,7 +33,7 @@ public class StudentEditCourseController extends Controller {
                 res = view.askForString().toUpperCase();
                 quitPossibility(res);
                 while (res.length() != 4 && !res.equals("R") && !res.equals("Q")) {
-                    view.pausedWarning("Entrez un ID de cours valide");
+                    view.badID();
                     res = view.askForString().toUpperCase();
                     quitPossibility(res);
                 }

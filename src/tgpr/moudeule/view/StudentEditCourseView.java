@@ -49,4 +49,8 @@ public class StudentEditCourseView extends View {
         return askString("", "", false);
     }
 
+    public void badID() {
+        println("Entrez un ID de cours valide");
+    }
+
 }
