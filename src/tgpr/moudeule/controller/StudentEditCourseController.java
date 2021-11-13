@@ -6,13 +6,23 @@ import tgpr.moudeule.view.StudentEditCourseView;
 import tgpr.moudeule.view.View;
 
 public class StudentEditCourseController extends Controller {
+    String res;
+    private void quitPossibility(String res) {
+        if (res.equals("R")) {
+            new StudentMainMenuController().run();
+        }
+        if (res.equals("Q")) {
+            MoudeuleApp.logout();
+            new StartMenuController().run();
+        }
+    }
+
     @Override
     public void run() {
         var student = MoudeuleApp.getLoggedUser();
         var courses = student.getRegistratedCourses();
         var view = new StudentEditCourseView();
         try {
-            String res;
             do {
                 view.displayHeader();
                 view.displayCourses(courses);
@@ -21,23 +31,11 @@ public class StudentEditCourseController extends Controller {
 
                 view.displayIDSelection();
                 res = view.askForString().toUpperCase();
-                if (res.equals("R")) {
-                    new StudentMainMenuController().run();
-                }
-                if (res.equals("Q")) {
-                    MoudeuleApp.logout();
-                    new StartMenuController().run();
-                }
-                while (res.length() != 4) {
+                quitPossibility(res);
+                while (res.length() != 4 && !res.equals("R") && !res.equals("Q")) {
                     view.pausedWarning("Entrez un ID de cours valide");
                     res = view.askForString().toUpperCase();
-                    if (res.equals("R")) {
-                        new StudentMainMenuController().run();
-                    }
-                    if (res.equals("Q")) {
-                        MoudeuleApp.logout();
-                        new StartMenuController().run();
-                    }
+                    quitPossibility(res);
                 }
                 var course = Course.getCourseByID(res);
 
