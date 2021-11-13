@@ -7,7 +7,7 @@ import tgpr.moudeule.view.View;
 
 public class StudentEditCourseController extends Controller {
     private String res;
-    private void quitPossibility(String res) {
+    private void leavePossibility(String res) {
         if (res.equals("R")) {
             new StudentMainMenuController().run();
         }
@@ -31,11 +31,11 @@ public class StudentEditCourseController extends Controller {
 
                 view.displayIDSelection();
                 res = view.askForString().toUpperCase();
-                quitPossibility(res);
+                leavePossibility(res);
                 while (res.length() != 4 && !res.equals("R") && !res.equals("Q")) {
                     view.badID();
                     res = view.askForString().toUpperCase();
-                    quitPossibility(res);
+                    leavePossibility(res);
                 }
                 var course = Course.getCourseByID(res);
 

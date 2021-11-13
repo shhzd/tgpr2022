@@ -7,7 +7,7 @@ import tgpr.moudeule.view.View;
 
 public class TeacherEditCourseController extends Controller {
     private String res;
-    private void quitPossibility(String res) {
+    private void leavePossibility(String res) {
         if (res.equals("R")) {
             new TeacherMainMenuController().run();
         }
@@ -42,9 +42,9 @@ public class TeacherEditCourseController extends Controller {
                 view.displayManageQuizzes();
                 System.out.println("");
                 res = view.askForString().toUpperCase();
-                quitPossibility(res);
+                leavePossibility(res);
 
-                
+
 
             } while (!res.equals("Q"));
             MoudeuleApp.logout();
