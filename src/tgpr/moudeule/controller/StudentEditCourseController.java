@@ -21,9 +21,23 @@ public class StudentEditCourseController extends Controller {
 
                 view.displayIDSelection();
                 res = view.askForString().toUpperCase();
+                if (res.equals("R")) {
+                    new StudentMainMenuController().run();
+                }
+                if (res.equals("Q")) {
+                    MoudeuleApp.logout();
+                    new StartMenuController().run();
+                }
                 while (res.length() != 4) {
                     view.pausedWarning("Entrez un ID de cours valide");
                     res = view.askForString().toUpperCase();
+                    if (res.equals("R")) {
+                        new StudentMainMenuController().run();
+                    }
+                    if (res.equals("Q")) {
+                        MoudeuleApp.logout();
+                        new StartMenuController().run();
+                    }
                 }
                 var course = Course.getCourseByID(res);
 
@@ -43,10 +57,15 @@ public class StudentEditCourseController extends Controller {
                         //student.deactivateCourse(course);
                     }
                 }
+
+                if (res.equals("R")) {
+                    new StudentMainMenuController().run();
+                }
             } while (!res.equals("Q"));
+            MoudeuleApp.logout();
+            new StartMenuController().run();
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");
         }
-        MoudeuleApp.logout();
     }
 }

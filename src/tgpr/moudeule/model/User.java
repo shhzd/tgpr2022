@@ -258,7 +258,7 @@ public class User extends Model {
         if(this.role.equals(Role.STUDENT)) {
             int count = 0;
             try {
-                PreparedStatement stmt = Model.db.prepareStatement("UPDATE registrations SET active = 0 WHERE course =? AND student = ?;");
+                PreparedStatement stmt = Model.db.prepareStatement("UPDATE registrations SET registrations.active = 0 WHERE registrations.course =? AND registrations.student =?;");
                 stmt.setInt(1, course.getId());
                 stmt.setString(2, this.getPseudo());
                 count = stmt.executeUpdate();

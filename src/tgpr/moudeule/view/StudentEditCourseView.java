@@ -26,6 +26,7 @@ public class StudentEditCourseView extends View {
         } else {
             println("Vous n'êtes inscrit à aucun cours");
         }
+        println("\n[R] Retour - [Q] Quitter");
     }
 
     public void displayIDSelection() {
