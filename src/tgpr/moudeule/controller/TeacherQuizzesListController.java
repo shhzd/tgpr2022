@@ -35,7 +35,7 @@ public class TeacherQuizzesListController extends Controller {
         res = view.askForAction(maxNumber);
         switch (res.getAction()){
             case 'A' :
-                new TeacherAddQuizController().run(); //add view and controller;
+                new TeacherAddQuizController(course).run(); //add view and controller;
                 break;
         }
     }
