@@ -17,12 +17,20 @@ public class TeacherQuizzesListController extends Controller {
         this.view = new TeacherQuizzesListView(course);
     }
 
+    public int quizzesAmount(List<Quiz> quizzes){
+        int i = 0;
+        for(Quiz q : quizzes){
+            ++i;
+        }
+        return i;
+    }
+
     @Override
     public void run() {
         View.Action res;
         List<Quiz> quizzes  = Quiz.getAllQuizzesBycourseId(course.getId());
         view.displayHeader();
-        int maxNumber = view.quizzesAmount(quizzes);
+        int maxNumber = quizzesAmount(quizzes);
         view.displayQuizzesList(quizzes);
         res = view.askForAction(maxNumber);
         switch (res.getAction()){

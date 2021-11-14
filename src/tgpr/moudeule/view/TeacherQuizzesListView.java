@@ -24,14 +24,6 @@ public class TeacherQuizzesListView extends View{
         }
     }
 
-    public int quizzesAmount(List<Quiz> quizzes){
-        int i = 0;
-        for(Quiz q : quizzes){
-            ++i;
-        }
-        return i;
-    }
-
     public View.Action askForAction(int maxNumber){
         return doAskForAction(maxNumber,"\n[A] Add [R] Return, [Q] Quit", "[aA]|[rR]|[qQ]");
     }
