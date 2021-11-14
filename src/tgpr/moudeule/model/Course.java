@@ -143,6 +143,10 @@ public class Course extends Model {
             return count == 1;
     }
 
+    public boolean delete() {
+        return false;
+    }
+
     public static List<Course> getCoursesFromTeacher(User teacher) {
         var list = new ArrayList<Course>();
         try {
@@ -275,13 +279,13 @@ public class Course extends Model {
         return teacher;
     }
 
-    public List<User> getRegistratedStudents() {
+    public List<User> getRegistratedStudents(Course course) {
         List<User> studentsList = new ArrayList<>();
 
         try {
             //Etudiants inscrits à ce cours
-            var stmt = db.prepareStatement("");
-            //
+            var stmt = db.prepareStatement("SELECT student FROM registrations WHERE course =? AND active = 1");
+            stmt.setInt(1, course.getId());
             var rs = stmt.executeQuery();
             while (rs.next()) {
                 var student = new User();
@@ -294,7 +298,7 @@ public class Course extends Model {
         return studentsList;
     }
 
-    public List<User> getPendingRegistrations() {
+    public List<User> getPendingRegistrations(Course course) {
         List<User> studentsList = new ArrayList<>();
 
         try {
