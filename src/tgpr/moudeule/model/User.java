@@ -231,4 +231,42 @@ public class User extends Model {
 
         return errors;
     }
+
+    public List<Course> getRegistratedCourses() {
+        if(this.role.equals(Role.STUDENT)) {
+            var list = new ArrayList<Course>();
+            try {
+                var stmt = db.prepareStatement(
+                        "SELECT * FROM courses WHERE courses.id IN (SELECT course FROM registrations WHERE student =? AND active = 1);"
+                );
+                stmt.setString(1, this.pseudo);
+                var rs = stmt.executeQuery();
+                while (rs.next()) {
+                    var course = new Course();
+                    Course.mapper(rs, course);
+                    list.add(course);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return list;
+        }
+        throw new RuntimeException("You ar not a student");
+    }
+
+    public boolean deactivateCourse(Course course) {
+        if(this.role.equals(Role.STUDENT)) {
+            int count = 0;
+            try {
+                var stmt = db.prepareStatement("UPDATE registrations SET registrations.active = 0 WHERE registrations.course =? AND registrations.student =?;");
+                stmt.setInt(1, course.getId());
+                stmt.setString(2, this.getPseudo());
+                count = stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
 }

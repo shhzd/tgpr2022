@@ -143,6 +143,10 @@ public class Course extends Model {
             return count == 1;
     }
 
+    public boolean delete() {
+        return false;
+    }
+
     public static List<Course> getCoursesFromTeacher(User teacher) {
         var list = new ArrayList<Course>();
         try {
@@ -274,4 +278,57 @@ public class Course extends Model {
         }
         return teacher;
     }
+
+    public List<User> getRegistratedStudents(Course course) {
+        List<User> studentsList = new ArrayList<>();
+
+        try {
+            //Etudiants inscrits à ce cours
+            var stmt = db.prepareStatement("SELECT student FROM registrations WHERE course =? AND active = 1");
+            stmt.setInt(1, course.getId());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var student = new User();
+                User.mapper(rs, student);
+                studentsList.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentsList;
+    }
+
+    public List<User> getPendingRegistrations(Course course) {
+        List<User> studentsList = new ArrayList<>();
+
+        try {
+            //Etudiants en liste d'attente pour s'inscrire à ce cours
+            var stmt = db.prepareStatement("");
+            //
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var student = new User();
+                User.mapper(rs, student);
+                studentsList.add(student);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return studentsList;
+    }
+
+    public boolean isActive(Course course, User student) {
+        try {
+            var stmt = db.prepareStatement("SELECT * FROM registrations WHERE student =? AND course =? AND active = 1");
+            stmt.setString(1, student.getPseudo());
+            stmt.setInt(2, this.getId());
+            var rs = stmt.executeQuery();
+            if(rs.next())
+                return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
