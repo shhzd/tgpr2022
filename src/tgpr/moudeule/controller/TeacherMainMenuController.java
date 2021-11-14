@@ -11,14 +11,14 @@ public class TeacherMainMenuController extends Controller {
     private int page = 1;
 
     public void run() {
-        TeacherMainMenuView view = new TeacherMainMenuView();
+        var view = new TeacherMainMenuView();
         try {
             String res;
             do {
                 view.displayHeader();
                 User user = MoudeuleApp.getLoggedUser();
 
-                /** for testing purposes **/
+                /** ONLY for testing purposes **/
 //                User user = User.getByPseudo("p");
 
                 var courses = Course.getCoursesFromTeacher(user);
@@ -34,7 +34,7 @@ public class TeacherMainMenuController extends Controller {
                         System.out.println("start new view.TeacherEditCourseController(course).run() >> " + course.prettyString());
 //                        new TeacherEditCourseController(course).run();
                     } else {
-                        /** for testing purposes **/
+                        // for testing purposes
                         System.out.println("il ne se passe rien");
                     }
                 }
@@ -47,6 +47,12 @@ public class TeacherMainMenuController extends Controller {
                 if (res.equals("0")) {
                     new TeacherAddCourseController().run();
                 }
+
+                /** ONLY uncomment to test TeacherManageStudentRegistration **/
+//                if (res.equals("D")) {
+//                    new TeacherManageStudentRegistrationController(Course.getCourseByID(2000)).run();
+//                }
+
             } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");

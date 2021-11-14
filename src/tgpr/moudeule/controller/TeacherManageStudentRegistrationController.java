@@ -16,21 +16,17 @@ public class TeacherManageStudentRegistrationController extends Controller {
 
     public TeacherManageStudentRegistrationController(Course course) {
         this.course = course;
+        System.out.println("constructor works");
     }
 
-    @Override
-    public void run() {}
-
-    public void run(Course course) {
+    public void run() {
+        System.out.println("but the run");
         var view = new TeacherManageStudentRegistrationView();
         try {
             String res;
             do {
                 view.displayHeaderWithCourse(course.getCode());
                 User user = MoudeuleApp.getLoggedUser();
-
-                /** for testing purposes **/
-//                User user = User.getByPseudo("p");
 
                 var students = User.getByCourse(course);
                 int nbPages = (int)Math.ceil(students.size() / (lgPage + 0.0));
@@ -39,24 +35,38 @@ public class TeacherManageStudentRegistrationController extends Controller {
                 view.displayMenu(students, course, page, nbPages, lgPage);
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
-
-
                 if (res.equals("R")) {
                     /** to uncomment when ready **/
 //                    new TeacherEditCourseController(course).run();
                     System.out.println("Goes back to TeacherEditCourseController(" + course.getCode() + ").run()");
                 }
-
                 if (res.matches("[1-9]|[0][1-9]|[1][0-2]")) {
-
                     User student = students.get((int)Integer.parseInt(res) - 1);
                     if (student == null)
                         throw new View.ActionInterruptedException();
                     else {
-//                        student.changeStatus(course);
+                        String status = student.getStatus(course);
+                        /** the String status is not yes used, changes have to be made to the
+                         * database before.
+                         */
+                        view.displaySubMenu(student, status);
+                        String subMenuRes = view.askForString();
+                        switch (subMenuRes) {
+                            case "1" :
+                                student.changeStatus(course, 1);
+                                break;
+                            case "2" :
+                                student.changeStatus(course, 0);
+                                break;
+                            case "3" :
+                                view.showWarning();
+                                if (view.askForConfirmation().getAction() == 'O') {
+//                                    student.deleteFromCourse(course);
+                                }
+                                break;
+                        }
                     }
                 }
-
                 if (res.equals("S") && (page) != nbPages && nbPages > 1) {
                     this.page++;
                 }

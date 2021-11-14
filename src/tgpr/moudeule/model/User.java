@@ -141,6 +141,66 @@ public class User extends Model {
         return user;
     }
 
+    public static List<User> getByCourse(Course course) {
+        var list = new ArrayList<User>();
+        try {
+            var stmt = db.prepareStatement(
+                    "SELECT * FROM `users` WHERE users.pseudo IN " +
+                        "(SELECT registrations.student FROM registrations " +
+                        "WHERE registrations.course = ?) order by pseudo");
+            stmt.setInt(1, course.getId());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var user = new User();
+                mapper(rs, user);
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public String getStatus(Course course) {
+
+        String res = "";
+        try {
+            var stmt = db.prepareStatement(
+                "SELECT `active` FROM `registrations` " +
+                    "WHERE `registrations`.`student` = ? AND `registrations`.`course` = ?");
+            stmt.setString(1, pseudo);
+            stmt.setInt(2, course.getId());
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt(1) == 0)
+                    res = "inactif";
+                if (rs.getInt(1) == 1)
+                    res = "actif";
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public boolean changeStatus(Course course, int status) {
+        int count = 0;
+        try {
+            PreparedStatement stmt;
+            stmt = db.prepareStatement(
+                "UPDATE registrations SET registrations.active = ? " +
+                    "WHERE registrations.student = ? AND course = ?;");
+            stmt.setInt(1, status);
+            stmt.setString(2, pseudo);
+            stmt.setInt(3, course.getId());
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count == 1;
+    }
+
     public boolean save() {
         User m = getByPseudo(pseudo);
         int count = 0;
