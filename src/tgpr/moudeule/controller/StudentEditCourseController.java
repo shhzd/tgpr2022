@@ -10,7 +10,7 @@ public class StudentEditCourseController extends Controller {
     private void leavePossibility(String res) {
         switch (res) {
             case "R":
-                new TeacherMainMenuController().run();
+                new StudentMainMenuController().run();
                 break;
             case "Q":
                 MoudeuleApp.logout();
@@ -27,7 +27,7 @@ public class StudentEditCourseController extends Controller {
         try {
             do {
                 view.displayHeader();
-                view.displayCourses(courses);
+                view.displayCourses(courses, student);
                 System.out.println("");
                 //could eventually redirect to StudentAvailableCoursesList if the student is not registrated anywhere (to be discuted)
 
@@ -54,7 +54,7 @@ public class StudentEditCourseController extends Controller {
                     view.displayConfirmation(course);
                     res = view.askForString().toUpperCase();
                     if (res.equals("O")) {
-                        //student.deactivateCourse(course);
+                        student.deactivateCourse(course);
                     }
                 }
 

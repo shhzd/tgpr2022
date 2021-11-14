@@ -1,6 +1,7 @@
 package tgpr.moudeule.view;
 
 import tgpr.moudeule.model.Course;
+import tgpr.moudeule.model.User;
 
 import java.util.List;
 
@@ -14,13 +15,15 @@ public class StudentEditCourseView extends View {
         printf("[%2d] %s %s %s\n", i,course.getId(), course.getCode(), course.getDescription());
     }
 
-    public void displayCourses(List<Course> courses) {
+    public void displayCourses(List<Course> courses, User student) {
         println("ID  Code Intitulé\n");
         int i = 1;
-        if (courses.size() > 0) {
+        if (courses.size() > 0 ) {
             for (var course : courses) {
-                displayCourse(i, course);
-                ++i;
+                if (course.isActive(course, student)) {
+                    displayCourse(i, course);
+                    ++i;
+                }
             }
         } else {
             println("Vous n'êtes inscrit à aucun cours");
