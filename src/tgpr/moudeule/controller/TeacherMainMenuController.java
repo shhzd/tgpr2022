@@ -40,11 +40,9 @@ public class TeacherMainMenuController extends Controller {
                 }
                 if (res.equals("S") && (page + 1) != nbPages && nbPages > 1) {
                     this.page++;
-                    this.run();
                 }
                 if (res.equals("P") && page > 0) {
                     this.page--;
-                    this.run();
                 }
                 if (res.equals("A")) {
                     new TeacherAddCourseController().run();
