@@ -15,9 +15,9 @@ public class TeacherEditCourseView extends View {
     public void displayregistratedStudents(List<User> students) {
         if (students.size() > 0) {
             for (var student : students) {
-                System.out.println(student.fullname + ", ");
+                println(student.fullname + ", ");
             }
-            System.out.println("");
+            println("");
         } else {
             println("Aucun inscrit");
         }
@@ -41,11 +41,11 @@ public class TeacherEditCourseView extends View {
         println("Enseignant: " + course.getTeacher().getFullname());
         println("Capacité totale: " + course.getCapacity());
 
-        print("Inscrits: ");
+        println("Inscrits: ");
         displayregistratedStudents(course.getRegistratedStudents(course));
 
-        print("En attente: ");
-        displayPendingRegistrations(course.getPendingRegistrations(course));
+        println("En attente: ");
+        //displayPendingRegistrations(course.getPendingRegistrations(course));
     }
 
     public void displayDeleteCourse() {
@@ -73,7 +73,7 @@ public class TeacherEditCourseView extends View {
         println("[3] Modifier la description");
     }
     public void askDescription() {
-        print("Entrez la nouvelles description: ");
+        print("Entrez la nouvelle description: ");
     }
     public void displayEditDescriptionConfirmation() {
         println("[O/N] Confirmer la nouvelle description");

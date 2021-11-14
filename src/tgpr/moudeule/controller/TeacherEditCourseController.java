@@ -81,7 +81,7 @@ public class TeacherEditCourseController extends Controller {
                         break;
                     case "3":
                         view.askDescription();
-                        res = view.askForString().toUpperCase();
+                        res = view.askForString();
                         leavePossibility(res);
                         String newDescription = res;
                         view.displayEditDescriptionConfirmation();
