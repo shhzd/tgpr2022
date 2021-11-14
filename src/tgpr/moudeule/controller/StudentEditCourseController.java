@@ -8,12 +8,14 @@ import tgpr.moudeule.view.View;
 public class StudentEditCourseController extends Controller {
     private String res;
     private void leavePossibility(String res) {
-        if (res.equals("R")) {
-            new StudentMainMenuController().run();
-        }
-        if (res.equals("Q")) {
-            MoudeuleApp.logout();
-            new StartMenuController().run();
+        switch (res) {
+            case "R":
+                new TeacherMainMenuController().run();
+                break;
+            case "Q":
+                MoudeuleApp.logout();
+                new StartMenuController().run();
+                break;
         }
     }
 
