@@ -1,8 +1,10 @@
 package tgpr.moudeule.controller;
 
 import tgpr.moudeule.model.Course;
+import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
-import tgpr.moudeule.view.TeacherQuizzesListView;
+import java.time.LocalDate;
+
 
 public class TeacherAddQuizController extends Controller{
 
@@ -14,10 +16,18 @@ public class TeacherAddQuizController extends Controller{
         this.view = new TeacherAddQuizView(course);
     }
 
-
-
     @Override
     public void run() {
+        Quiz quiz;
+        quiz = new Quiz();
+
+            String title = view.askTitle(quiz.getTitle());
+            LocalDate startDate = view.askStartDate(quiz.getStart());
+            LocalDate finishDate = view.askFinishDate(quiz.getFinish());
+
+            quiz.setTitle(title);
+            quiz.setStart(startDate);
+            quiz.setFinish(finishDate);
 
     }
 }
