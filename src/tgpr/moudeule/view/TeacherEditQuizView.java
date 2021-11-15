@@ -48,4 +48,8 @@ public class TeacherEditQuizView extends View {
                 (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
     }
 
+    public LocalDate askForFinishDate(LocalDate actual) {
+        return askDate("Date de fin (" +
+                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
+    }
 }
