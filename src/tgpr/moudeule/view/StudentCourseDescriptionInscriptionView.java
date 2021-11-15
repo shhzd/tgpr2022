@@ -34,5 +34,15 @@ public class StudentCourseDescriptionInscriptionView extends View {
                 "\n[R] Retour - [Q] Quitter"); //-
     }
 
+    public String askForString() {
+        return askString("", "", false);
+    }
 
+    public void displayCourse(Course course, User student) {
+        displayCourseId(course);
+        displayInfoTeacher(course);
+        displayCourseDescription(course);
+        displayLeftPlaces(course);
+        displayStatus(course, student);
+    }
 }
