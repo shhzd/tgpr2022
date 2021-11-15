@@ -1,6 +1,7 @@
 package tgpr.moudeule.view;
 
 import tgpr.moudeule.model.Course;
+import tgpr.moudeule.model.User;
 
 public class StudentCourseDescriptionInscriptionView extends View {
 
@@ -23,4 +24,10 @@ public class StudentCourseDescriptionInscriptionView extends View {
     public void displayLeftPlaces(Course course) {
         println("Il reste " + course.getLeftPlaces() + " places");
     }
+
+    public void displayStatus(Course course, User student) {
+        println("Statut : " + course.getStatus(student));
+    }
+
+
 }
