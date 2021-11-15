@@ -33,4 +33,8 @@ public class TeacherEditQuizView extends View {
         println("\n[R] Retour - [Q] Quitter - " + (((page) != nbPages) ? " - [S] Page suivante " : "") +
                 ((page > 1) ? " - [P] Page précédente " : ""));
     }
+
+    public String askForString() {
+        return askString("", "", false);
+    }
 }
