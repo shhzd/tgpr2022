@@ -7,7 +7,9 @@ import tgpr.moudeule.view.View;
 
 public class StudentAvailableCoursesListController extends Controller {
 
-    private int page = 0;
+    private int page = 1;
+
+    private final static int NUMBER_DISPLAY_LINE = 12;
 
     @Override
     public void run() {
@@ -17,20 +19,21 @@ public class StudentAvailableCoursesListController extends Controller {
         try {
             String res;
             do {
-                view.displayHeader();
-                int lgPage = 12;
-                int nbPages = (int)(courses.size() / (lgPage + 0.0)) + 1;
-                view.displayCourses(courses, page, nbPages, lgPage);
-                view.displayOption(courses, page, nbPages, lgPage);
+                int nbPages = (int)Math.ceil(courses.size() / ((double)NUMBER_DISPLAY_LINE)) ;
+                view.displayHeaderWithNumberPage("Liste des cours disponibles", page, nbPages);
+                view.displayCourses(courses, page, NUMBER_DISPLAY_LINE);
+                view.displayOption(courses, page, nbPages, NUMBER_DISPLAY_LINE);
 
-                res = view.askForString();
+                res = view.askForString().toUpperCase();
 
                 if(res.length() > 1) {
                     Course course = Course.getCourseByID(res);
-                } else if (res.equals("S") && (page + 1) != nbPages && nbPages > 1) {
-                    this.page++;
-                } else if (res.equals("P") && page > 0) {
-                    this.page--;
+                    /**new StudentCourseDescription(course).run();**/
+                    /**To refactor avoiding code repetition**/
+                } else if (res.equals("S") && page < nbPages && nbPages > 1) {
+                    ++page;
+                } else if (res.equals("P") && page > 1) {
+                    --page;
                 } else if (res.equals("R")) {
                     new StartMenuController().run();
                     /**to uncomment

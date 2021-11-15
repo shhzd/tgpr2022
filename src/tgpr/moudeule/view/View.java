@@ -248,8 +248,6 @@ public abstract class View {
     protected void displayHeader(String header) {
         clear();
         print("\n=== " + header);
-        if (MoudeuleApp.isLogged())
-            print(" (" + MoudeuleApp.getLoggedUser().getPseudo() + ")");
         println(" ===\n");
     }
 
@@ -267,5 +265,9 @@ public abstract class View {
         if (MoudeuleApp.isLogged())
             print(" (" + MoudeuleApp.getLoggedUser().getPseudo() + ")");
         println(" ===\n");
+    }
+
+    protected void displayHeaderWithPageNumber(String header, int page, int lgPage) {
+        displayHeader(header + " - page " + page + " de " + lgPage);
     }
 }
