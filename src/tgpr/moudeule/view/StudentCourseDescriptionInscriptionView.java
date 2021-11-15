@@ -26,14 +26,14 @@ public class StudentCourseDescriptionInscriptionView extends View {
     }
 
     public void displayStatus(Course course, User student) {
-        String status = "Statut : ";
         StringBuilder sb = new StringBuilder();
+        sb.append("Statut : ");
         if(course.isInWaitingList(student)) {
             sb.append("est dans la liste d'attente");
         } else {
             sb.append("non inscrit");
         }
-        println(status);
+        println(sb.toString());
     }
 
     public View.Action askForAction(Course course, User student) {
