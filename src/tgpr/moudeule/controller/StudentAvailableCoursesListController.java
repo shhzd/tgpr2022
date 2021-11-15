@@ -39,7 +39,6 @@ public class StudentAvailableCoursesListController extends Controller {
                 }
             } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("Déconnecté.e");
         }
         MoudeuleApp.logout();
         new StartMenuController().run();
