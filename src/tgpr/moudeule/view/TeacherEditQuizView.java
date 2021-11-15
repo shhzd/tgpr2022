@@ -43,5 +43,9 @@ public class TeacherEditQuizView extends View {
         return askString("Titre (" + ((actual != null) ? actual : "") + "): ", actual);
     }
 
+    public LocalDate askForStartDate(LocalDate actual) {
+        return askDate("Date de début (" +
+                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
+    }
 
 }
