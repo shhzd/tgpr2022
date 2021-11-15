@@ -22,7 +22,7 @@ public class StudentMainMenuController extends Controller {
                     case '2':
                         // uncoment when UC is ready
                         System.out.println("Liste de course Inscrit");
-                        //   new StudentEditCourses();
+                            new StudentEditCourseController().run();
                 }
             } while (res.getAction() != 'Q');
         }catch (View.ActionInterruptedException e) {
