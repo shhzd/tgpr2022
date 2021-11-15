@@ -15,4 +15,9 @@ public class StudentCourseDescriptionInscriptionView extends View {
     public void displayInfoTeacher(Course course) {
         println("Enseignant : " + course.getTeacher().getFullname());
     }
+
+    public void displayCourseDescription(Course course) {
+        println(course.getDescription());
+    }
+
 }
