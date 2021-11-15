@@ -17,12 +17,12 @@ public class StudentMainMenuController extends Controller {
                     case '1':
                         // uncoment when UC is ready
                         System.out.println("Liste of course disponibles");
-                     //   new StudentAvailableCoursesList();
+                     new StudentAvailableCoursesListController().run();
                         break;
                     case '2':
                         // uncoment when UC is ready
                         System.out.println("Liste de course Inscrit");
-                        //   new StudentEditCourses();
+                            new StudentEditCourseController().run();
                 }
             } while (res.getAction() != 'Q');
         }catch (View.ActionInterruptedException e) {

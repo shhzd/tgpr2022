@@ -1,8 +1,7 @@
 package tgpr.moudeule.controller;
 
-import tgpr.moudeule.model.User;
 import tgpr.moudeule.MoudeuleApp;
-import tgpr.moudeule.controller.Controller;
+import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.LoginView;
 import tgpr.moudeule.view.View;
 
@@ -45,6 +44,7 @@ public class LoginController extends Controller {
                 /**
                  * pending completion of the use case
                  */
+
                 new StudentMainMenuController().run();
             }
 
