@@ -20,7 +20,7 @@ public class StudentAvailableCoursesListController extends Controller {
             String res;
             do {
                 int nbPages = (int)Math.ceil(courses.size() / ((double)NUMBER_DISPLAY_LINE)) ;
-                view.displayHeaderWithNumberPage("Liste des cours disponibles", page, nbPages);
+                view.displayHeaderWithPseudoAndPageNumber("Liste des cours disponibles", page, nbPages);
                 view.displayCourses(courses, page, NUMBER_DISPLAY_LINE);
                 view.displayOption(courses, page, nbPages, NUMBER_DISPLAY_LINE);
 
@@ -35,16 +35,12 @@ public class StudentAvailableCoursesListController extends Controller {
                 } else if (res.equals("P") && page > 1) {
                     --page;
                 } else if (res.equals("R")) {
-                    new StartMenuController().run();
-                    /**to uncomment
-                    new StudentMainMenuController.run();
-                     **/
+                    new StudentMainMenuController().run();
                 }
             } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("Déconnecté.e");
         }
-
         MoudeuleApp.logout();
+        new StartMenuController().run();
     }
 }
