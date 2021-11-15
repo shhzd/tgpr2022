@@ -20,12 +20,16 @@ public class StudentAvailableCoursesListView extends View {
     public void displayCourses(List<Course> courses, int page, int lgPage) {
         println("ID   Code Intitulé");
         println("");
-        int j = 0;
-        for(int i = (page - 1) * lgPage; i < courses.size(); ++i) {
-            if (i < courses.size() && j < lgPage) {
-                displayOneCourse(i, courses.get(i));
-                ++j;
+        if (courses.size() > 0) {
+            int j = 0;
+            for(int i = (page - 1) * lgPage; i < courses.size(); ++i) {
+                if (i < courses.size() && j < lgPage) {
+                    displayOneCourse(i, courses.get(i));
+                    ++j;
+                }
             }
+        } else {
+            println("Il n'y a actuellement pas de cours disponibles.");
         }
     }
 
