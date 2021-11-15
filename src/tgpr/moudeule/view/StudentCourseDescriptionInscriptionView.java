@@ -29,5 +29,10 @@ public class StudentCourseDescriptionInscriptionView extends View {
         println("Statut : " + course.getStatus(student));
     }
 
+    public void displayOption(Course course, User student) {
+        println("[1] " + (course.isInWaitingList(student) ? "Annuler l'inscription" : "S'inscrire au cours") +
+                "\n[R] Retour - [Q] Quitter"); //-
+    }
+
 
 }
