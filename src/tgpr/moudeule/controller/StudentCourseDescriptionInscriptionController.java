@@ -21,7 +21,14 @@ public class StudentCourseDescriptionInscriptionController extends Controller {
             do {
                 view.displayHeader();
                 view.displayCourse(this.course, student);
-                res = view.as
+                res = view.askForAction();
+                if(res.equals('1')) {
+                    if(this.course.isInWaitingList(student)) {
+                        student.deactivateCourse(this.course);
+                    } else {
+
+                    }
+                }
             } while (res.getAction() != 'Q');
         } catch (View.ActionInterruptedException e) {
 

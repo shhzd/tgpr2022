@@ -327,4 +327,21 @@ public class User extends Model {
         }
         return false;
     }
+
+    public boolean cancelWaitingList(Course course) {
+        if(this.role.equals(Role.STUDENT)) {
+            int count = 0;
+            try {
+                var stmt = db.prepareStatement("DELETE FROM registrations WHERE course = ? AND student = ?");
+                stmt.setInt(1, course.getId());
+                stmt.setString(2, this.getPseudo());
+                count = stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
 }
