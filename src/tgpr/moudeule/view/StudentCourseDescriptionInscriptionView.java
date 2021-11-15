@@ -26,24 +26,30 @@ public class StudentCourseDescriptionInscriptionView extends View {
     }
 
     public void displayStatus(Course course, User student) {
-        println("Statut : " + course.getStatus(student));
+        String status = "Statut : ";
+        StringBuilder sb = new StringBuilder();
+        if(course.isInWaitingList(student)) {
+            sb.append("est dans la liste d'attente");
+        } else {
+            sb.append("non inscrit");
+        }
+        println(status);
     }
 
-    public void displayOption(Course course, User student) {
-        println("[1] " + (course.isInWaitingList(student) ? "Annuler l'inscription" : "S'inscrire au cours") +
-                "\n[R] Retour - [Q] Quitter"); //-
-    }
-
-    public View.Action askForAction() {
-        return doAskForAction(-1, "",
-                "[1]+|[rR]+|[qQ]");
+    public View.Action askForAction(Course course, User student) {
+        return doAskForAction(0, "\n[1] " + (course.isInWaitingList(student) ? "Annuler l'inscription" : "S'inscrire au cours") +
+                        "\n[R] Retour - [Q] Quitter",
+                "[1-1]+|[rR]+|[qQ]");
     }
 
     public void displayCourse(Course course, User student) {
         displayCourseId(course);
+        println("");
         displayInfoTeacher(course);
         displayCourseDescription(course);
+        println("");
         displayLeftPlaces(course);
+        println("");
         displayStatus(course, student);
     }
 }
