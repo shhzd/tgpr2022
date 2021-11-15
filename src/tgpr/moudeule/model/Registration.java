@@ -2,7 +2,6 @@ package tgpr.moudeule.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class Registration extends Model {
@@ -62,5 +61,6 @@ public class Registration extends Model {
         registration.student = rs.getString("student");
         registration.active = rs.getShort("active");
     }
+
 
 }

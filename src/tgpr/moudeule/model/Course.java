@@ -331,4 +331,53 @@ public class Course extends Model {
         return false;
     }
 
+    public int getLeftPlaces() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) \n" +
+                    "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                    "WHERE c.id = ? AND r.active = 1\n" +
+                    "GROUP BY c.id;"
+            );
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            result = rs.getInt(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return this.getCapacity() - result;
+    }
+
+
+    public boolean isInWaitingList(User student) {
+        if(student.role.equals(Role.STUDENT)) {
+            int result = 0;
+            try {
+                PreparedStatement stmt = Model.db.prepareStatement("SELECT COUNT(*) count FROM registrations WHERE course = ? AND student = ? AND active = 0");
+                stmt.setInt(1, this.getId());
+                stmt.setString(2, student.getPseudo());
+                var rs = stmt.executeQuery();
+                if(rs.next()) {
+                    result = rs.getInt("count");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result == 1;
+        }
+        return false;
+    }
+
+    public String getStatus(User student) {
+        String result = "";
+        if(student.role.equals(Role.STUDENT)) {
+            if(isInWaitingList(student)) {
+                result = "(Est dans la liste d'attente)";
+            } else {
+                result = "(S'inscrire)";
+            }
+        }
+        return result;
+    }
 }
