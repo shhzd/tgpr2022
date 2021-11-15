@@ -2,9 +2,8 @@ package tgpr.moudeule;
 
 
 import tgpr.moudeule.controller.StartMenuController;
-import tgpr.moudeule.controller.TeacherMainMenuController;
-import tgpr.moudeule.model.User;
 import tgpr.moudeule.model.Model;
+import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.ErrorView;
 
 
@@ -31,7 +30,7 @@ public class MoudeuleApp {
 //    public static boolean isAdmin() {
 //        return loggedUser != null && loggedUser.isAdmin();
 //    }
-//
+
 
     public static void main(String[] args) {
         if (!Model.checkDb())

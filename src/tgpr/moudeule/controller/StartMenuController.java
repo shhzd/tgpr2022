@@ -13,12 +13,12 @@ public class StartMenuController extends Controller {
                 view.displayMenu();
                 res = view.askForAction();
                 switch (res.getAction()) {
-                    case 'C':
+                    case '1':
                          new LoginController().run();
                         /** uncomment to test TeacherMainMenuController()  **/
 //                        new TeacherMainMenuController().run();
                         break;
-                    case 'E':
+                    case '2':
                         new SignupController().run();
                         break;
                 }
