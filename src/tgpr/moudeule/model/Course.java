@@ -331,6 +331,25 @@ public class Course extends Model {
         return false;
     }
 
+    public int currentActiveStudents() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) count \n" +
+                    "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                    "WHERE c.id = ? AND r.active = 1\n" +
+                    "GROUP BY c.id;"
+            );
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public int getLeftPlaces() {
         int result = 0;
         try {

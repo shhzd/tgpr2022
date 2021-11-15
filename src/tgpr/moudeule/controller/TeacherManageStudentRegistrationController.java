@@ -3,7 +3,6 @@ package tgpr.moudeule.controller;
 import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.User;
-import tgpr.moudeule.view.TeacherMainMenuView;
 import tgpr.moudeule.view.TeacherManageStudentRegistrationView;
 import tgpr.moudeule.view.View;
 
@@ -16,11 +15,9 @@ public class TeacherManageStudentRegistrationController extends Controller {
 
     public TeacherManageStudentRegistrationController(Course course) {
         this.course = course;
-        System.out.println("constructor works");
     }
 
     public void run() {
-        System.out.println("but the run");
         var view = new TeacherManageStudentRegistrationView();
         try {
             String res;
@@ -31,7 +28,8 @@ public class TeacherManageStudentRegistrationController extends Controller {
                 var students = User.getByCourse(course);
                 int nbPages = (int)Math.ceil(students.size() / (lgPage + 0.0));
 
-                view.displaySubMenuWithPage(page, nbPages);
+                view.displaySubHeaderWithPage(page, nbPages);
+                view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
                 view.displayMenu(students, course, page, nbPages, lgPage);
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
@@ -45,25 +43,30 @@ public class TeacherManageStudentRegistrationController extends Controller {
                     if (student == null)
                         throw new View.ActionInterruptedException();
                     else {
+                        View.Action subRes;
                         String status = student.getStatus(course);
                         /** the String status is not yes used, changes have to be made to the
                          * database before.
                          */
                         view.displaySubMenu(student, status);
-                        String subMenuRes = view.askForString();
-                        switch (subMenuRes) {
-                            case "1" :
-                                student.changeStatus(course, 1);
-                                break;
-                            case "2" :
-                                student.changeStatus(course, 0);
-                                break;
-                            case "3" :
-                                view.showWarning();
-                                if (view.askForConfirmation().getAction() == 'O') {
-//                                    student.deleteFromCourse(course);
-                                }
-                                break;
+                        subRes = view.askForAction();
+//                        String subMenuRes = view.askForString();
+                        if (subRes.getAction() == '1') {
+                            switch (status) {
+                                case "en attente" :
+                                    student.activateCourse(course);
+                                    break;
+                                case "actif" :
+                                    view.showWarning();
+                                    if (view.askForConfirmation().getAction() == 'O') {
+                                        /** using cancelWaitingList for now, but needs a function
+                                         * that recursivly deleted all the test of student for that course
+                                         * when quiz are implemented
+                                         */
+                                        student.cancelWaitingList(course);
+                                    }
+                                    break;
+                            }
                         }
                     }
                 }

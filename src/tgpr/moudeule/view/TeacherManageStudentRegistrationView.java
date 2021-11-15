@@ -10,8 +10,16 @@ public class TeacherManageStudentRegistrationView extends View {
         displayHeader("Gestion des inscription - cours " + courseID);
     }
 
-    public void displaySubMenuWithPage (int page, int nbPages){
+    public void displaySubHeaderWithPage(int page, int nbPages){
         println("== Liste des étudiants - page " + page + " de " + nbPages + " ==\n");
+    }
+
+    public void displayCourseCapacity(int activeStudent, int courseCapacity) {
+        println("Capacité annoncée du cours : " + courseCapacity + ", actuellement : " + activeStudent + " inscriptions confirmées");
+        if (activeStudent > courseCapacity)
+            this.warning("Capacité dépassée de : " + (activeStudent - courseCapacity) + " étudiant" +
+                ((((activeStudent - courseCapacity) > 1)) ? "s." : "."));
+        println("");
     }
 
     public void displayMenu(List<User> students, Course course, int page, int nbPages, int lgPage) {
@@ -20,7 +28,7 @@ public class TeacherManageStudentRegistrationView extends View {
             User student = students.get(i + ((page - 1) * lgPage));
             println(prettyString(student, i, course));
         }
-        println("\n\n[n] Selectionner un étudiant - [I] Selectionner un étudiant ");
+        println("\n[n] Selectionner un étudiant - [I] Inscrire d'office un étudiant ");
         println("[R] Retour - [Q] Quitter " +
             ((page > 1) ? "- [P] page précédente " : "") +
             ((page != nbPages) ? "- [S] page suivante " : ""));
@@ -37,12 +45,23 @@ public class TeacherManageStudentRegistrationView extends View {
     }
 
     public void displaySubMenu(User Student, String status) {
-        println(Student.getFullname());
-        println("Voulez vous : [1] Activer - [2] Désactiver - [3] supprimer");
+        switch (status) {
+            case "en attente":
+                print("Voulez vous : [1] Activer " + Student.getFullname());
+                break;
+            case "actif":
+                print("Voulez vous : [1] Supprimer " + Student.getFullname());
+                break;
+        }
     }
 
     public void showWarning() {
-        println("Attention, cette opération est irréversible :");
+        this.warning("Attention, cette opération est irréversible !");
+    }
+
+    public View.Action askForAction() {
+        return doAskForAction(-1,
+                "", "[1]");
     }
 
     public View.Action askForConfirmation() {

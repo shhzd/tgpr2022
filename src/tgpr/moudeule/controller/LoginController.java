@@ -41,10 +41,6 @@ public class LoginController extends Controller {
             if(user.role.getRoleId() == 1) {
                 new TeacherMainMenuController().run();
             } else {
-                /**
-                 * pending completion of the use case
-                 */
-
                 new StudentMainMenuController().run();
             }
 

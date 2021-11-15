@@ -70,7 +70,7 @@ INSERT INTO `courses` (`id`, `code`, `description`, `capacity`, `teacher`) VALUE
 (1659, 'TGPR', 'Techniques de gestion de projets', 5, 'ben'),
 (1662, 'PRWB', 'Projet de développement web', 3, 'ben'),
 (1925, 'MAP4', 'Mathématiques appliquées à l\'informatique', 3, 'marc'),
-(2000, 'SALS', 'Cours de salsa', 8, 'p'),
+(2000, 'SALS', 'Cours de salsa', 14, 'p'),
 (2001, 'ROCK', 'Cours de rock acrobatique', 8, 'p'),
 (2002, 'TKNO', 'Cours de tektonique', 8, 'p'),
 (2003, 'VALS', 'Cours de valse', 8, 'p'),

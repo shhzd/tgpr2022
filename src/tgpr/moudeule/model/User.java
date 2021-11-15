@@ -164,7 +164,14 @@ public class User extends Model {
     }
 
     public String getStatus(Course course) {
-
+        /** In order to have the status : "actif", "inactif" and "en attente",
+         * a new table "status" should be added to the database.
+         * The ID of the element of that database will become foreign key in
+         * the "registration" table.
+         * At this point, a student is "en attente" when status is 0
+         * and "active" when status is 1.
+         * A student can't be "deactivated", only deleted.
+         */
         String res = "";
         try {
             var stmt = db.prepareStatement(
@@ -175,7 +182,7 @@ public class User extends Model {
             var rs = stmt.executeQuery();
             if (rs.next()) {
                 if (rs.getInt(1) == 0)
-                    res = "inactif";
+                    res = "en attente";
                 if (rs.getInt(1) == 1)
                     res = "actif";
 
@@ -184,23 +191,6 @@ public class User extends Model {
             e.printStackTrace();
         }
         return res;
-    }
-
-    public boolean changeStatus(Course course, int status) {
-        int count = 0;
-        try {
-            PreparedStatement stmt;
-            stmt = db.prepareStatement(
-                "UPDATE registrations SET registrations.active = ? " +
-                    "WHERE registrations.student = ? AND course = ?;");
-            stmt.setInt(1, status);
-            stmt.setString(2, pseudo);
-            stmt.setInt(3, course.getId());
-            count = stmt.executeUpdate();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return count == 1;
     }
 
     public boolean save() {
@@ -365,6 +355,22 @@ public class User extends Model {
             return list;
         }
         throw new RuntimeException("You ar not a student");
+    }
+
+    public boolean activateCourse(Course course) {
+        int count = 0;
+        try {
+            PreparedStatement stmt;
+            stmt = db.prepareStatement(
+                    "UPDATE registrations SET registrations.active = 1 " +
+                        "WHERE registrations.student = ? AND course = ?;");
+            stmt.setString(1, pseudo);
+            stmt.setInt(2, course.getId());
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count == 1;
     }
 
     public boolean deactivateCourse(Course course) {
