@@ -334,14 +334,16 @@ public class Course extends Model {
     public int getLeftPlaces() {
         int result = 0;
         try {
-            var stmt = db.prepareStatement("SELECT COUNT(*) \n" +
+            var stmt = db.prepareStatement("SELECT COUNT(*) count \n" +
                     "FROM courses c JOIN registrations r ON c.id = r.course\n" +
                     "WHERE c.id = ? AND r.active = 1\n" +
                     "GROUP BY c.id;"
             );
             stmt.setInt(1, id);
             var rs = stmt.executeQuery();
-            result = rs.getInt(1);
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -369,15 +371,4 @@ public class Course extends Model {
         return false;
     }
 
-    public String getStatus(User student) {
-        String result = "";
-        if(student.role.equals(Role.STUDENT)) {
-            if(isInWaitingList(student)) {
-                result = "(Est dans la liste d'attente)";
-            } else {
-                result = "(S'inscrire)";
-            }
-        }
-        return result;
-    }
 }

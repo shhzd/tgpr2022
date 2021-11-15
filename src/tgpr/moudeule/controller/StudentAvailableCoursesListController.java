@@ -28,7 +28,7 @@ public class StudentAvailableCoursesListController extends Controller {
 
                 if(res.length() > 1) {
                     Course course = Course.getCourseByID(res);
-                    /**new StudentCourseDescription(course).run();**/
+                    new StudentCourseDescriptionInscriptionController(course).run();
                     /**To refactor avoiding code repetition**/
                 } else if (res.equals("S") && page < nbPages && nbPages > 1) {
                     ++page;

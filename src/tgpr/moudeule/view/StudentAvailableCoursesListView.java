@@ -2,6 +2,8 @@ package tgpr.moudeule.view;
 
 import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
+import tgpr.moudeule.model.Role;
+import tgpr.moudeule.model.User;
 
 import java.util.List;
 
@@ -12,8 +14,20 @@ public class StudentAvailableCoursesListView extends View {
        super.displayHeaderWithPseudoAndPageNumber(header, page, lgPage);
     }
 
+    public String getStatus(Course course, User student) {
+        String result = "";
+        if(student.role.equals(Role.STUDENT)) {
+            if(course.isInWaitingList(student)) {
+                result = "(Est dans la liste d'attente)";
+            } else {
+                result = "(S'inscrire)";
+            }
+        }
+        return result;
+    }
+
     public void displayOneCourse(int i, Course course) {
-        String status = course.getStatus(MoudeuleApp.getLoggedUser());
+        String status = getStatus(course, MoudeuleApp.getLoggedUser());
         printf("%s %s %s %s\n", course.getId(), course.getCode(), course.getDescription(), status);
     }
 

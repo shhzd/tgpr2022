@@ -21,17 +21,21 @@ public class StudentCourseDescriptionInscriptionController extends Controller {
             do {
                 view.displayHeader();
                 view.displayCourse(this.course, student);
-                res = view.askForAction();
-                if(res.equals('1')) {
+                res = view.askForAction(this.course, student);
+                if(res.getAction() == '1') {
                     if(this.course.isInWaitingList(student)) {
-                        student.deactivateCourse(this.course);
+                        student.cancelWaitingList(this.course);
                     } else {
-
+                        student.addToWaitingList(this.course);
                     }
+                } else if(res.getAction() == 'R') {
+                    new StudentAvailableCoursesListController().run();
                 }
             } while (res.getAction() != 'Q');
         } catch (View.ActionInterruptedException e) {
 
         }
+        MoudeuleApp.logout();
+        new StartMenuController().run();
     }
 }
