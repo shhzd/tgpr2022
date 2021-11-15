@@ -175,9 +175,21 @@ public class User extends Model {
             var list = new ArrayList<Course>();
             try {
                 var stmt = db.prepareStatement(
-                        "SELECT c.* FROM courses c WHERE c.id IN (SELECT course FROM registrations r GROUP BY course HAVING COUNT(*) < c.capacity) OR c.id NOT IN (SELECT course FROM registrations) UNION SELECT c.* FROM courses c JOIN registrations r ON c.id = r.course WHERE student = ? AND r.active = 0;"
-                );
+                        "SELECT c.* FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                                "WHERE c.id NOT IN (SELECT course FROM registrations r WHERE student = ? AND active = 1)\n" +
+                                "GROUP BY c.id\n" +
+                                "HAVING Count(*) < c.capacity\n" +
+                                "\n" +
+                                "UNION \n" +
+                                "\n" +
+                                "SELECT c.* FROM courses c \n" +
+                                "WHERE c.id NOT IN (SELECT course FROM registrations)\n" +
+                                "\n" +
+                                "UNION \n" +
+                                "\n" +
+                                "SELECT c.* FROM courses c WHERE c.id IN (SELECT course FROM registrations r WHERE student = ? AND active = 0)");
                 stmt.setString(1, this.pseudo);
+                stmt.setString(2, this.pseudo);
                 var rs = stmt.executeQuery();
                 while (rs.next()) {
                     var course = new Course();
@@ -190,23 +202,6 @@ public class User extends Model {
             return list;
         }
         throw new RuntimeException("You are not a student");
-    }
-
-    public boolean addToWaitingList(Course course) {
-        if(this.role.equals(Role.STUDENT)) {
-            int count = 0;
-            try {
-                PreparedStatement stmt = Model.db.prepareStatement("INSERT INTO registrations VALUES (?,?,?)");
-                stmt.setInt(1, course.getId());
-                stmt.setString(2, this.getPseudo());
-                stmt.setInt(3, 0);
-                count = stmt.executeUpdate();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            return count == 1;
-        }
-        return false;
     }
 
     public boolean deleteRegistration(Course course) {
@@ -327,4 +322,38 @@ public class User extends Model {
         }
         return false;
     }
+
+    public boolean addToWaitingList(Course course) {
+        if(this.role.equals(Role.STUDENT)) {
+            int count = 0;
+            try {
+                PreparedStatement stmt = Model.db.prepareStatement("INSERT INTO registrations VALUES (?,?,?)");
+                stmt.setInt(1, course.getId());
+                stmt.setString(2, this.getPseudo());
+                stmt.setInt(3, 0);
+                count = stmt.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
+    public boolean cancelWaitingList(Course course) {
+        if(this.role.equals(Role.STUDENT)) {
+            int count = 0;
+            try {
+                var stmt = db.prepareStatement("DELETE FROM registrations WHERE course = ? AND student = ?");
+                stmt.setInt(1, course.getId());
+                stmt.setString(2, this.getPseudo());
+                count = stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
 }
