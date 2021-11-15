@@ -34,8 +34,9 @@ public class StudentCourseDescriptionInscriptionView extends View {
                 "\n[R] Retour - [Q] Quitter"); //-
     }
 
-    public String askForString() {
-        return askString("", "", false);
+    public View.Action askForAction() {
+        return doAskForAction(-1, "",
+                "[1]+|[rR]+|[qQ]");
     }
 
     public void displayCourse(Course course, User student) {
