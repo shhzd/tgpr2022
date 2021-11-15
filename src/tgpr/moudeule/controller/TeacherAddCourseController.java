@@ -4,7 +4,6 @@ import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.TeacherAddCourseView;
-import tgpr.moudeule.view.TeacherMainMenuView;
 import tgpr.moudeule.view.View;
 //import java.security.IdentityScope;
 
@@ -23,13 +22,15 @@ public class TeacherAddCourseController extends Controller {
             View.Action res;
             Course course = new Course();
 
-            /** to uncomment when UC are ready **/
-//        User user = MoudeuleApp.getLoggedUser();
-            /** ONLY for testing purposes **/
+            User user = MoudeuleApp.getLoggedUser();
+            /** ONLY for testing purposes
             User user = User.getByPseudo("p");
+             **/
 
             do {
                 view.displayHeader();
+
+                view.displayMenu();
 
                 int id = view.askID(course.getId());
                 String code = view.askCode(course.getCode());
@@ -49,20 +50,15 @@ public class TeacherAddCourseController extends Controller {
 
             res = view.askForAction();
             switch (res.getAction()) {
-                case 'V':
+                case 'O':
                     course.save();
-                    new TeacherMainMenuController().run();
-                    break;
-                case 'A':
-                    new StartMenuController();
                     break;
             }
+            view.close();
+            new TeacherMainMenuController().run();
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("création abandonnée");
         }
-
     }
-
-
 
 }

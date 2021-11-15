@@ -12,6 +12,10 @@ public class SignupView extends View{
         super.displayHeader("S'enregistrer");
     }
 
+    public void displayMenu() {
+        println("[ESC] Retour\n");
+    }
+
     public String askPseudo(String actual) {
         return askString("Pseudo (" + ((actual != null) ? actual : "") + "): ", actual);
     }

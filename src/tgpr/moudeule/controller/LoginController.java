@@ -44,8 +44,8 @@ public class LoginController extends Controller {
                 /**
                  * pending completion of the use case
                  */
-//                new StudentMainMenuController().run();
-                new StudentAvailableCoursesListController().run();
+
+                new StudentMainMenuController().run();
             }
 
         } catch (View.ActionInterruptedException e) {

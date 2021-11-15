@@ -35,16 +35,13 @@ public class StudentAvailableCoursesListController extends Controller {
                 } else if (res.equals("P") && page > 1) {
                     --page;
                 } else if (res.equals("R")) {
-                    new StartMenuController().run();
-                    /**to uncomment
-                    new StudentMainMenuController.run();
-                     **/
+                    new StudentMainMenuController().run();
                 }
             } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("Déconnecté.e");
         }
-
         MoudeuleApp.logout();
+        new StartMenuController().run();
     }
 }
