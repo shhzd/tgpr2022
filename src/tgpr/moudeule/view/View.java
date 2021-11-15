@@ -275,7 +275,7 @@ public abstract class View {
         }
     }
 
-    protected void displayHeaderWithPageNumber(String header, int page, int lgPage) {
-        displayHeader(header + " - page " + page + " de " + lgPage);
+    protected void displayHeaderWithPseudoAndPageNumber(String header, int page, int lgPage) {
+        displayHeader(header + " - " + MoudeuleApp.getLoggedUser().getPseudo() + " - page " + page + " de " + lgPage);
     }
 }

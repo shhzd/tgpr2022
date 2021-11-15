@@ -20,7 +20,7 @@ public class StudentAvailableCoursesListController extends Controller {
             String res;
             do {
                 int nbPages = (int)Math.ceil(courses.size() / ((double)NUMBER_DISPLAY_LINE)) ;
-                view.displayHeaderWithNumberPage("Liste des cours disponibles", page, nbPages);
+                view.displayHeaderWithPseudoAndPageNumber("Liste des cours disponibles", page, nbPages);
                 view.displayCourses(courses, page, NUMBER_DISPLAY_LINE);
                 view.displayOption(courses, page, nbPages, NUMBER_DISPLAY_LINE);
 

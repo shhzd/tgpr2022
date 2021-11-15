@@ -8,8 +8,8 @@ import java.util.List;
 public class StudentAvailableCoursesListView extends View {
 
 
-    public void displayHeaderWithNumberPage(String header, int page, int lgPage) {
-       super.displayHeaderWithPageNumber(header, page, lgPage);
+    public void displayHeaderWithPseudoAndPageNumber(String header, int page, int lgPage) {
+       super.displayHeaderWithPseudoAndPageNumber(header, page, lgPage);
     }
 
     public void displayOneCourse(int i, Course course) {
