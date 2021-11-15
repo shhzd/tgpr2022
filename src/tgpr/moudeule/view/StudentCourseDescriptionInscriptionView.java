@@ -20,4 +20,7 @@ public class StudentCourseDescriptionInscriptionView extends View {
         println(course.getDescription());
     }
 
+    public void displayLeftPlaces(Course course) {
+        println("Il reste " + course.getLeftPlaces() + " places");
+    }
 }
