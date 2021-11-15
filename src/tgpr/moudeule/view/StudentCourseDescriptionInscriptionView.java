@@ -11,4 +11,8 @@ public class StudentCourseDescriptionInscriptionView extends View {
     public void displayCourseId(Course course) {
         println("=== Cours " + course.getId() + " ===");
     }
+
+    public void displayInfoTeacher(Course course) {
+        println("Enseignant : " + course.getTeacher().getFullname());
+    }
 }
