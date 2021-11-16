@@ -90,9 +90,10 @@ public class Question extends Model {
             var stmt = db.prepareStatement("SELECT * FROM questions WHERE quiz = ?");
             stmt.setInt(1, id);
             var rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Question question = new Question();
                 mapper(rs, question);
+                list.add(question);
             }
         } catch (SQLException e) {
             e.printStackTrace();
