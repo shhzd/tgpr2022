@@ -1,0 +1,42 @@
+Instruction concernant l'utilisation de GIT et Trello
+
+URL de Trello : https://trello.com/b/pBZETczi/tgpr-2122-g03
+URL bitbucket : https://bitbucket.org/benoit_penelle/tgpr-2122-g03/src/master/
+
+1. Developpement d'une nouvelle feature : 
+
+	- La carte est dans la colonne DEV EN COURS, le developeur rejoint la carte,
+	- On développe dans la branche feat_name individuelle,
+	- On 'git add .' ou 'git add <fichier>',
+	- On git 'commit -m "message"',
+	- On 'git push' régulièrement.
+
+2. Test d'une feature ou d'une UC : 
+	- On déplace la carte dans A TESTER
+	- une fois qu'on a fini le UC et qu'on l'a testé personnellement, on va sur la branche develop et on 
+	  'merge git merge --no-ff --no-commit <feat_name>'.
+	  Le developpeur quitte la carte Trello et la laisse sans Membre,
+	- ensuite 'git add .' sauf certaines mdifs ne doivent pas être intégrée dans le merge,
+	- 'git merge --continue',
+	- 'git push'
+
+	- le TESTEUR (qui ne peut pas être le developpeur met la carte dans TEST EN COURS et rejoint la carte,
+	- le TESTEUR sur la branche develop et 'git pull' pour la tester DANS develop,
+	- si tout est ok carte dans la colonne PRET POUR RELEASE et le TESTEUR qui la carte,
+	- si BUG Mettre des bullet points dans la carte Trello et la replacer dans BACKLOG DE SPRINT
+
+3. Convention de nommage :
+
+	Convention imposée de nommage des messages git : https://moodle.epfc.eu/pluginfile.php/505088/mod_resource/content/2/site/02_bitbucket.html
+	SAUF pour le merge, on laisse le message par défaut.
+
+	Dans le message, pour que les commits soient harmonisés : 
+	- Lorsqu'on ajoute un fichier, on devrait noter "feat(UC_concerné): ADD nomDuFichier",
+	- Lorsqu'on modifie un fichier, on devrait noter "feat(UC_concerné): UPDATE ecrireCeQuOnAModifie",
+	- Lorsqu'on supprime quelque chose "feat(UC_concerné): DELETE ceQuOnASupprime".
+
+4. Difficultés spécifiques à surveiller :
+
+	- Lorsqu'on pull dans develop et qu'on veut changer de branche mais il y a le fichier .ipr qui bloque le checkout, il faut faire git clean -xdf ,
+	- quand vous créez votre propre branche, NE PAS le faire sur IntelliJ mais le faire dans un bash puis ouvrir dans IntelliJ,
+	- quand vous clonez, clonez en LIGNES DE COMMANDE et puis l'ouvrir avec IntelliJ.
