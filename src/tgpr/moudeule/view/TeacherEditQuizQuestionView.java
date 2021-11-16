@@ -52,5 +52,8 @@ public class TeacherEditQuizQuestionView extends View {
                 ((page > 1) ? " - [P] Page précédente " : ""));
     }
 
+    public String askForString() {
+        return askString("", "", false);
+    }
 
 }
