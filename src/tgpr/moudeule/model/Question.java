@@ -1,7 +1,9 @@
 package tgpr.moudeule.model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -130,5 +132,31 @@ public class Question extends Model {
             e.printStackTrace();
         }
         return res;
+    }
+
+    public boolean save() {
+        Question q = getById(id);
+        int count = 0;
+        try {
+            PreparedStatement stmt;
+            if (q == null) {
+                stmt = db.prepareStatement("insert into questions (title, type, quiz) values (?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                stmt.setString(1, title);
+                stmt.setString(2, type);
+                stmt.setInt(3, quizId);
+            } else {
+                stmt = db.prepareStatement("update questions set title=?, type=?, quiz=? where id=?");
+                stmt.setString(1, title);
+                stmt.setString(2, type);
+                stmt.setInt(3, quizId);
+                stmt.setInt(4, id);
+            }
+            count = stmt.executeUpdate();
+            if (q == null)
+                id = this.getLastInsertId(stmt);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count == 1;
     }
 }
