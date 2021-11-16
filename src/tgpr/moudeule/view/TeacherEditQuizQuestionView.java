@@ -19,7 +19,7 @@ public class TeacherEditQuizQuestionView extends View {
         println("Type " + question.getType());
     }
 
-    public void displayOption(Question question, int page, int nbPages, int lgPage) {
+    public void displayOption(Question question, int page, int lgPage) {
         println("\n[1] Modifier le titre : " + question.getTitle());
         println("[2] Modifier le type : " + question.getType() + "\n");
         List<Option> options = Option.getOptionsByQuestion(question.getId());
@@ -35,9 +35,6 @@ public class TeacherEditQuizQuestionView extends View {
             }
         }
         print("\n[0] Ajouter une proposition");
-
-        println("\n[R] Retour - [Q] Quitter" + ((page != nbPages) ? " - [S] Page suivante " : "") +
-                ((page > 1) ? " - [P] Page précédente " : ""));
     }
 
     public void displaySubOptions(Option option) {
@@ -49,4 +46,11 @@ public class TeacherEditQuizQuestionView extends View {
     public void displayConfirmation() {
         println("\n[O/N] Confirmer la modification");
     }
+
+    public void displayBottomOptions(int page, int nbPages){
+        println("\n[R] Retour - [Q] Quitter" + ((page != nbPages) ? " - [S] Page suivante " : "") +
+                ((page > 1) ? " - [P] Page précédente " : ""));
+    }
+
+
 }
