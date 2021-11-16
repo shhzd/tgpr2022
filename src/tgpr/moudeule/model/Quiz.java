@@ -178,11 +178,29 @@ public class Quiz extends Model {
         return result;
     }
 
-    public boolean isValidStartDate(LocalDate newDate) {
-        return newDate.compareTo(VariableForTesting.getCurrentDate()) >= 0 && newDate.compareTo(this.finish) <= 0;
+
+    public boolean newStartDateIsBeforeCurrentFinisedDate(LocalDate newStartDate) {
+        return newStartDate.compareTo(this.finish) <= 0;
     }
 
-    public boolean isValidFinishedDate(LocalDate newDate) {
-        return newDate.compareTo(VariableForTesting.getCurrentDate()) >= 0 && newDate.compareTo(this.start) >= 0;
+    public boolean newStartDateIsAfterCurrentDate(LocalDate newStartDate) {
+        return newStartDate.compareTo(VariableForTesting.getCurrentDate()) >= 0;
     }
+
+    public boolean isValidNewStartDate(LocalDate newStartDate) {
+        return newStartDateIsBeforeCurrentFinisedDate(newStartDate) && newStartDateIsAfterCurrentDate(newStartDate);
     }
+
+    public boolean newFinishedDateisAfterCurrentStartDate(LocalDate newFinishedDate) {
+        return newFinishedDate.compareTo(this.start) >= 0;
+    }
+
+    public boolean newFinisedDateIsAfterCurrentDate(LocalDate newDate) {
+        return newDate.compareTo(VariableForTesting.getCurrentDate()) >= 0;
+    }
+
+    public boolean isValidNewFinishedDate(LocalDate newFinishedDate) {
+        return newFinishedDateisAfterCurrentStartDate(newFinishedDate) && newFinisedDateIsAfterCurrentDate(newFinishedDate);
+    }
+
+}

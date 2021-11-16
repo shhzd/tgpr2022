@@ -29,7 +29,7 @@ public class TeacherEditQuizController extends Controller {
             String res;
             do {
                 int nbPages = (int) Math.ceil(questions.size() / ((double) NUMBER_DISPLAY_LINE));
-                view.displayHeader(quiz);
+                view.displayHeaderWithPseudoAndPageNumber(quiz, page, nbPages);
                 view.displayTitle(quiz);
                 view.displayOption(quiz, page, nbPages, NUMBER_DISPLAY_LINE);
 
@@ -41,14 +41,16 @@ public class TeacherEditQuizController extends Controller {
                     quiz.save();
                 } else if (res.equals("2")) {
                     LocalDate startDate = view.askForStartDate(quiz.getStart());
-                    while (!quiz.isValidStartDate(startDate)) {
+                    while (!quiz.isValidNewStartDate(startDate)) {
+                        view.displayStartDateError(quiz, startDate);
                         startDate = view.askForStartDate(quiz.getStart());
                     }
                     quiz.setStart(startDate);
                     quiz.save();
                 } else if (res.equals("3")) {
                     LocalDate endDate = view.askForFinishDate(quiz.getFinish());
-                    while (!quiz.isValidFinishedDate(endDate)) {
+                    while (!quiz.isValidNewFinishedDate(endDate)) {
+                        view.displayFinisedDateError(quiz, endDate);
                         endDate = view.askForFinishDate(quiz.getFinish());
                     }
                     quiz.setFinish(endDate);
