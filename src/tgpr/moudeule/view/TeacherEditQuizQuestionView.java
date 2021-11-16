@@ -59,4 +59,12 @@ public class TeacherEditQuizQuestionView extends View {
     public String askForTitle(String actual) {
         return askString("Titre (" + ((actual != null) ? actual : "") + "): ", actual);
     }
+
+    public String askForType(String actual) {
+        return askString("Type (" + ((actual != null) ? actual : "") + "): ", actual);
+    }
+
+    public void showTypeError() {
+        showError("Le type n'est pas valide. Veuillez choisir entre \"QCM\" et \"QRM\".");
+    }
 }
