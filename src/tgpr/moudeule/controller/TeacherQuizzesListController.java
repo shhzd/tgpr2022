@@ -12,8 +12,8 @@ public class TeacherQuizzesListController extends Controller {
     private final Course course;
     private final TeacherQuizzesListView view;
 
-    public TeacherQuizzesListController(Course course) {
-        this.course = course;
+    public TeacherQuizzesListController(int courseID) {
+        this.course = Course.getCourseByID(courseID);
         this.view = new TeacherQuizzesListView(course);
     }
 
@@ -28,8 +28,10 @@ public class TeacherQuizzesListController extends Controller {
     @Override
     public void run() {
 
-        List<Quiz> quizzes  = Quiz.getAllQuizzesBycourseId(course.getId());
+        List<Quiz> quizzes;
+        quizzes = Quiz.getAllQuizzesBycourseId(course.getId());
         int maxNumber = quizzesAmount(quizzes);
+
         try {
             View.Action res;
             do {
@@ -44,11 +46,10 @@ public class TeacherQuizzesListController extends Controller {
                         int q;
                         q = res.getNumber();
                         new TeacherEditQuizController(q);
-                    case 'R':
-                        new TeacherEditCourseController(course.getId());
+                        break;
                 }
             }
-            while (res.getAction() != 'L');
+            while (res.getAction() != 'R');
         } catch (View.ActionInterruptedException e) {
             //just leave the loop
         }
