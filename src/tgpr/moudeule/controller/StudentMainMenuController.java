@@ -14,10 +14,12 @@ public class StudentMainMenuController extends Controller {
                 view.displayMenu();
                 res = view.askForAction();
                 switch (res.getAction()){
-                    case 'D':
-                        new StudentAvailableCoursesListController().run();
+                    case '1':
+                        // uncoment when UC is ready
+                        System.out.println("Liste of course disponibles");
+                     new StudentAvailableCoursesListController().run();
                         break;
-                    case 'I':
+                    case '2':
                         // uncoment when UC is ready
                         System.out.println("Liste de course Inscrit");
                             new StudentEditCourseController().run();

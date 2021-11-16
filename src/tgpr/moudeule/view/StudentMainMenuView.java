@@ -1,18 +1,19 @@
 package tgpr.moudeule.view;
 
-import tgpr.moudeule.model.Course;
-import java.util.List;
+
 
 public class StudentMainMenuView extends View{
     public void displayMenu(){
-        println("[D] Liste de cours disponibles");
-        println("[I] Liste de cours inscrits");
+        println("[1] Liste de cours disponibles");
+        println("[2] Liste de cours inscrits");
+        println("\n[Q] Quitter Moudeule");
+
     }
     public void displayHeader(){
-        super.displayHeader("Ecran d'accueil");
+        super.displayHeaderWithPseudo("Menu Principal");
     }
     public Action askForAction() {
-        return doAskForAction(-1, "", "[dD]|[Ii]");
+        return doAskForAction(-1, "", "[qQ]|[1]|[2]");
     }
 }
 
