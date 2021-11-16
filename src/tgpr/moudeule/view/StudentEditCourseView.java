@@ -54,7 +54,7 @@ public class StudentEditCourseView extends View {
     }
 
     public void badID() {
-        println("Entrez un ID de cours valide");
+        this.showError("Entrez un ID de cours valide");
     }
 
 }
