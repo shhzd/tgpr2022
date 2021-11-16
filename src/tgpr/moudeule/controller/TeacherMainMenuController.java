@@ -46,6 +46,9 @@ public class TeacherMainMenuController extends Controller {
                 if (res.equals("0")) {
                     new TeacherAddCourseController().run();
                 }
+                if (res.equals("4")) {
+                    new TeacherEditQuizController(4).run();
+                }
             } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");
