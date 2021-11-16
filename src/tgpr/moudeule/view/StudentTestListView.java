@@ -13,6 +13,8 @@ public class StudentTestListView extends View {
 
     public void displayMenu(List<Test> tests, Course course, int page, int nbPages, int lgPage) {
 
+        println("Date du jour Global String\n");
+
         for (int i = 0 ; (i + ((page - 1) * lgPage)) < tests.size() && i < (lgPage + 1) ; i++) {
             Test test = tests.get(i + ((page - 1) * lgPage));
             println(prettyString(test, i, course));
@@ -30,7 +32,7 @@ public class StudentTestListView extends View {
     private String prettyString(Test test, int i, Course course) {
         return "[" + ((i < 9) ? " " : "") +
             (i+1) +  "] " + test.getTitle() +
-            " - (" + test.getStatus(user) + ")";
+            " - (" + test.getStart() + ")";
     }
 
     public Action askForAction() {

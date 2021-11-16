@@ -28,22 +28,29 @@ public class StudentTestListController extends Controller {
         }
     }
 
+    private void leave(Test test) {
+        System.out.println("NewStudentTestxxx");
+        /** to uncomment when ready **/
+//                new NewStudentTestxxx(test).run();
+    }
+
     public void run() {
         var view = new StudentTestListView();
+        String res = "";
         try {
             do {
                 view.displayHeaderWithCourse(course.getCode());
                 User user = MoudeuleApp.getLoggedUser();
 
-                var tests = Test.getByCourseAndStudent(course, student);
-                int nbPages = (int)Math.ceil(test.size() / (NUMBER_DISPLAY_LINE + 0.0));
+                var tests = Test.getByCourseAndStudent(course, user);
+                int nbPages = (int)Math.ceil(tests.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
                 view.displayMenu(tests, course, page, nbPages, NUMBER_DISPLAY_LINE);
-                View.Action res;
-                res = view.askForAction(); // lowercase entries are converted to uppercase
+//                View.Action res;
+                res = view.askForString(); // lowercase entries are converted to uppercase
 
 
-                if (res.getAction() == 'R') {
+                if (res.equals("R")) {
                     keepLooping = false;
                     leave(res);
                 }
@@ -54,7 +61,7 @@ public class StudentTestListController extends Controller {
                         throw new View.ActionInterruptedException();
                     else {
                         keepLooping = false;
-                        leave(res.getAction());
+                        leave(test);
                     }
                 }
                 if (res.equals("S") && (page) != nbPages && nbPages > 1) {
