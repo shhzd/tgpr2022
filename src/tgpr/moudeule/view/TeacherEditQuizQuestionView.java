@@ -43,6 +43,6 @@ public class TeacherEditQuizQuestionView extends View {
     public void displaySubOptions(Option option) {
         println("\n[1] Modifier le texte de la proposition");
         println("[2] Modifier la réponse à la proposition");
-        println("[3] Supprimer la proposition)";
+        println("[3] Supprimer la proposition)");
     }
 }
