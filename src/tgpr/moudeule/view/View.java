@@ -245,6 +245,11 @@ public abstract class View {
         pausedError("\nTry again");
     }
 
+    public void showError(String errorMessage) {
+        error("\nErreur : " + errorMessage);
+        pausedError("\nTry again");
+    }
+
     protected void displayHeader(String header) {
         clear();
         print("\n=== " + header);

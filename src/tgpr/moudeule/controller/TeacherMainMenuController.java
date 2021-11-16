@@ -31,7 +31,7 @@ public class TeacherMainMenuController extends Controller {
                     Course course = Course.getCourseByID(res);
                     if (course != null) {
                         /** to uncomment when UC are ready  **/
-                        //new TeacherEditCourseController(course.getId()).run();
+                        new TeacherEditCourseController(course.getId()).run();
                     } else {
                         // for testing purposes
                         System.out.println("il ne se passe rien");
@@ -45,6 +45,10 @@ public class TeacherMainMenuController extends Controller {
                 }
                 if (res.equals("0")) {
                     new TeacherAddCourseController().run();
+                }
+                /** Uncomment to test TeacherEditQuiz **/
+                if (res.equals("4")) {
+                    new TeacherEditQuizController(4).run();
                 }
 
                 /** ONLY uncomment to test TeacherManageStudentRegistration **/

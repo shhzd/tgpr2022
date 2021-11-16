@@ -422,4 +422,34 @@ public class User extends Model {
         return false;
     }
 
+    public boolean removeCourseFromRegistrations(Course course) {
+        if(this.role.equals(Role.TEACHER)) {
+            int count = 0;
+            try {
+                var stmt = db.prepareStatement("DELETE FROM registrations WHERE course=?");
+                stmt.setInt(1, course.getId());
+                count = stmt.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
+    public boolean deleteCourse(Course course) {
+        if(this.role.equals(Role.TEACHER)) {
+            int count = 0;
+            try {
+                var stmt = db.prepareStatement("DELETE FROM courses WHERE id=?");
+                stmt.setInt(1, course.getId());
+                count = stmt.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
 }

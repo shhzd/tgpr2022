@@ -27,6 +27,13 @@ public class SignupView extends View{
         return askString("Mot de passe (" + stars + "): ", actual, true);
     }
 
+    public String askPasswordConfirm(String actual) {
+        String stars = "le même mot de passe";
+        if (actual != null)
+            stars = String.join("", Collections.nCopies(actual.length(), "*"));
+        return askString("Confirmer le mot de passe (" + stars + "): ", actual, true);
+    }
+
     public String askFullname(String actual) {
         return askString("Nom complet (" + ((actual != null) ? actual : "") + "): ", actual);
 
@@ -35,6 +42,12 @@ public class SignupView extends View{
     public LocalDate askBirthDate(LocalDate actual) {
         return askDate("Date de naissance (" +
                 (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
+    }
+
+    public void showError(String s) {
+        if (s != null)
+            printf(s + "\n");
+        printf("");
     }
 
     public View.Action askForAction() {
