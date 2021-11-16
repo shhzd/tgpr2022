@@ -56,4 +56,7 @@ public class TeacherEditQuizQuestionView extends View {
         return askString("", "", false);
     }
 
+    public String askForTitle(String actual) {
+        return askString("Titre (" + ((actual != null) ? actual : "") + "): ", actual);
+    }
 }
