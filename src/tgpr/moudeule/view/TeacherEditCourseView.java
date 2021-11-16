@@ -23,10 +23,10 @@ public class TeacherEditCourseView extends View {
         }
     }
 
-    public void displayPendingRegistrations(List<User> students) {
+    public void displayWaitingList(List<User> students) {
         if (students.size() > 0) {
             for (var student : students) {
-                System.out.println(student.fullname + ", ");
+                println(student.fullname + ", ");
             }
             System.out.println("");
         } else {
@@ -45,7 +45,7 @@ public class TeacherEditCourseView extends View {
         displayregistratedStudents(course.getRegistratedStudents(course));
 
         println("En attente: ");
-        //displayPendingRegistrations(course.getPendingRegistrations(course));
+        displayWaitingList(course.getInWaitingListStudents(course));
     }
 
     public void displayDeleteCourse() {

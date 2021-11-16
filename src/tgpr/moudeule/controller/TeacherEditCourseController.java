@@ -2,6 +2,7 @@ package tgpr.moudeule.controller;
 
 import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
+import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.TeacherEditCourseView;
 import tgpr.moudeule.view.View;
 
@@ -52,7 +53,9 @@ public class TeacherEditCourseController extends Controller {
                         leavePossibility(res);
                         switch (res) {
                             case "O":
-                                course.delete();
+                                teacher.removeCourseFromRegistrations(course);
+                                teacher.deleteCourse(course);
+                                new TeacherMainMenuController().run();
                                 break;
                         }
                         break;
@@ -109,7 +112,7 @@ public class TeacherEditCourseController extends Controller {
                                         /**
                                          * to uncomment when UC ready
                                          */
-                                        //new TeacherManageStudentRegistration().run();
+                                        new TeacherManageStudentRegistrationController(course).run();
                                         break;
                                         case "6":
                                             /**
