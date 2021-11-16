@@ -27,16 +27,30 @@ public class TeacherQuizzesListController extends Controller {
 
     @Override
     public void run() {
-        View.Action res;
+
         List<Quiz> quizzes  = Quiz.getAllQuizzesBycourseId(course.getId());
-        view.displayHeader();
         int maxNumber = quizzesAmount(quizzes);
-        view.displayQuizzesList(quizzes);
-        res = view.askForAction(maxNumber);
-        switch (res.getAction()){
-            case 'A' :
-                new TeacherAddQuizController(course).run(); //add view and controller;
-                break;
+        try {
+            View.Action res;
+            do {
+                view.displayHeader();
+                view.displayQuizzesList(quizzes);
+                res = view.askForAction(maxNumber);
+                switch (res.getAction()) {
+                    case 'A':
+                        new TeacherAddQuizController(course).run(); //add view and controller;
+                        break;
+                    case 'S':
+                        int q;
+                        q = res.getNumber();
+                        new TeacherEditQuizController(q);
+                    case 'R':
+                        new TeacherEditCourseController(course.getId());
+                }
+            }
+            while (res.getAction() != 'L');
+        } catch (View.ActionInterruptedException e) {
+            //just leave the loop
         }
     }
 }

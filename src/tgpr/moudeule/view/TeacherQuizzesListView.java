@@ -18,13 +18,13 @@ public class TeacherQuizzesListView extends View{
 
     public void displayQuizzesList(List<Quiz> quizzes){
         println("N°    " + "    Nom du Quiz    " + " Date de début " + " Date de fin ");
-        int i = 1;
         for(Quiz q : quizzes){
-            println("["+i+"] " + q.getId() + q.getTitle() + q.getStart() + q.getFinish() + q.getcourseId());
+            println(q.getId() + q.getTitle() + q.getStart() + q.getFinish());
         }
     }
 
-    public View.Action askForAction(int maxNumber){
-        return doAskForAction(maxNumber,"\n[A] Add [R] Return, [Q] Quit", "[aA]|[rR]|[qQ]");
+    public View.Action askForAction(int size){
+        return doAskForAction(size,"\n[A] Add quiz, [S] Select, [R] Return, [L] Leave",
+                "[aA]+|[sS][0-9]+|[rR]+|[lL]");
     }
 }
