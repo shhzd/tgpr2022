@@ -1,5 +1,6 @@
 package tgpr.moudeule.controller;
 
+import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.view.StudentMainMenuView;
 import tgpr.moudeule.view.View;
 
@@ -26,7 +27,6 @@ public class StudentMainMenuController extends Controller {
         }catch (View.ActionInterruptedException e) {
             // just leave
         }
-        view.pausedWarning("A bientôt.");
-        view.close();
+        MoudeuleApp.logout();
     }
 }

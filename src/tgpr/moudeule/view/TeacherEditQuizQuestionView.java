@@ -28,7 +28,7 @@ public class TeacherEditQuizQuestionView extends View {
             int j = 0;
             for(int k = (page - 1) * lgPage; k < options.size(); ++k) {
                 if(k < options.size() && j < lgPage) {
-                    println("[" + index + "] Proposition " + (char)('A' + j) + "     " + (options.get(j).getCorrect() == 1 ? " Vrai" : " Faux"));
+                    println("[" + index + "] " + options.get(j).getTitle() + "     " + (options.get(j).getCorrect() == 1 ? " Vrai" : " Faux"));
                     ++index;
                     ++j;
                 }
@@ -40,5 +40,9 @@ public class TeacherEditQuizQuestionView extends View {
                 ((page > 1) ? " - [P] Page précédente " : ""));
     }
 
-
+    public void displaySubOptions(Option option) {
+        println("\n[1] Modifier le texte de la proposition");
+        println("[2] Modifier la réponse à la proposition");
+        println("[3] Supprimer la proposition)";
+    }
 }
