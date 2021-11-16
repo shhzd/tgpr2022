@@ -26,9 +26,11 @@ public class StudentAvailableCoursesListController extends Controller {
 
                 res = view.askForString().toUpperCase();
 
-                if(res.length() > 1) {
+                if(res.length() == 4) {
                     Course course = Course.getCourseByID(res);
-                    new StudentCourseDescriptionInscriptionController(course).run();
+                    if(course != null) {
+                        new StudentCourseDescriptionInscriptionController(course).run();
+                    }
                     /**To refactor avoiding code repetition**/
                 } else if (res.equals("S") && page < nbPages && nbPages > 1) {
                     ++page;
