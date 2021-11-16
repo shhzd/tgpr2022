@@ -10,11 +10,20 @@ public class TeacherManageStudentRegistrationController extends Controller {
 
     private int page = 1;
     private Course course = new Course();
+    private boolean keepLooping = true;
     /** should be included in Controller() **/
     static final int NUMBER_DISPLAY_LINE = 14;
 
     public TeacherManageStudentRegistrationController(Course course) {
         this.course = course;
+    }
+
+    private void leave(String res) {
+        switch (res) {
+            case "R":
+                new TeacherEditCourseController(course.getId()).run();
+                break;
+        }
     }
 
     public void run() {
@@ -34,7 +43,8 @@ public class TeacherManageStudentRegistrationController extends Controller {
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
                 if (res.equals("R")) {
-                    new TeacherEditCourseController(course.getId()).run();
+                    keepLooping = false;
+                    leave(res);
                 }
                 if (res.matches("[1-9]|[0][1-9]|[1][0-2]")) {
                     User student = students.get((int)Integer.parseInt(res) - 1);
@@ -73,10 +83,14 @@ public class TeacherManageStudentRegistrationController extends Controller {
                 if (res.equals("P") && page > 1) {
                     this.page--;
                 }
-            } while (!res.equals("Q"));
+            } while (!res.equals("Q") && keepLooping);
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");
         }
-        MoudeuleApp.logout();
+        if (keepLooping) {
+            MoudeuleApp.logout();
+        }
+        view.close();
     }
+
 }
