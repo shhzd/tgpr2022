@@ -12,6 +12,7 @@ public class TeacherEditQuizView extends View {
 
     public void displayHeader(Quiz quiz) {
         super.displayHeader("Modifier un quiz - cours " + quiz.getCourseCode());
+        println("\nDate du jour : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(VariableForTesting.getCurrentDate()) + "\n");
     }
 
     public void displayTitle(Quiz quiz) {
@@ -21,9 +22,8 @@ public class TeacherEditQuizView extends View {
     public void displayOption(Quiz quiz, int page, int nbPages, int lgPage) {
         println("[ESC] Pour abandonner la modification");
         println("\n[1] Modifier le titre : " + quiz.getTitle());
-        println("Current date " + VariableForTesting.getCurrentDate());
-        println("[2] Modifier la date de début : " + quiz.getStart());
-        println("[3] Modifier la date de fin : " + quiz.getFinish());
+        println("[2] Modifier la date de début : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(quiz.getStart()));
+        println("[3] Modifier la date de fin : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(quiz.getFinish()));
         println("\n");
         List<Question> questions = Question.getQuestionsByQuiz(quiz.getId());
         if(questions.size() > 0) {
