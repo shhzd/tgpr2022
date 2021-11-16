@@ -16,7 +16,7 @@ public class TeacherEditQuizQuestionView extends View {
     }
 
     public void displayType(Question question) {
-        println("Type " + question.getType().toUpperCase());
+        println("\nType " + question.getType().toUpperCase());
     }
 
     public void displayOption(Question question, int page, int lgPage) {
@@ -79,7 +79,7 @@ public class TeacherEditQuizQuestionView extends View {
     }
 
     public int askForOptionCorrect(int actual) {
-        return askInteger("Correct (0 pour Faux - 1 pour Vrai) : (" +  actual  + ")", actual);
+        return askInteger("Correct (0 pour Faux - 1 pour Vrai) : (" +  actual  + ") ", actual);
     }
 
     public void showTypeError() {
@@ -90,4 +90,7 @@ public class TeacherEditQuizQuestionView extends View {
         showError("Impossible de transformer une question QRM à QCM lorsqu'il y a plusieurs réponses correctes. Veuillez choisir une réponse unique avant.");
     }
 
+    public void showTypeErrorNoCorrectAnswer() {
+        showError("Impossible de changer la réponse, un QRM doit contenir au moins une bonne réponse.");
+    }
 }

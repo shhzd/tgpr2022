@@ -41,9 +41,7 @@ public class TeacherEditQuizQuestionController extends Controller {
                 if (res.equals("1")) {
                     String title = view.askForTitle(question.getTitle());
                     question.setTitle(title);
-                    if(!title.equals("")) {
-                        question.save();
-                    }
+                    question.save();
                 } else if (res.equals("2")) {
                     if (question.getType().equalsIgnoreCase("QRM") && Question.getNumberTrueAnswers(question) < 2 || question.getType().equalsIgnoreCase("QCM")) {
                         String type = view.askForType(question.getType());
@@ -58,16 +56,23 @@ public class TeacherEditQuizQuestionController extends Controller {
                     }
 
                 } else if (res.equals("0")) {
-                    String optionTitle = view.askForOptionTitle();
-                    int optionCorrect = view.askForOptionCorrect();
-                    if (optionCorrect == 1 && question.getType().equalsIgnoreCase("QCM")) {
-                        for (Option option : options) {
-                            option.setCorrect(0);
-                            option.save();
+                    try {
+                        String optionTitle = view.askForOptionTitle();
+                        int optionCorrect = view.askForOptionCorrect();
+                        if (optionCorrect == 1 && question.getType().equalsIgnoreCase("QCM")) {
+                            for (Option option : options) {
+                                option.setCorrect(0);
+                                option.save();
+                            }
                         }
+                        Option newOption = new Option(optionTitle, optionCorrect, questionId);
+                        if (!(optionTitle == null || optionTitle.equals(""))) {
+                            newOption.setTitle(optionTitle);
+                            newOption.save();
+                        }
+                    } catch (View.ActionInterruptedException e) {
                     }
-                    Option newOption = new Option(optionTitle, optionCorrect, questionId);
-                    newOption.save();
+
                 } else if (isParsable(res) && Integer.parseInt(res) >= 3 && Integer.parseInt(res) < 3 + options.size()) {
                     try {
                         int index = Integer.parseInt(res) - 3;
@@ -88,8 +93,12 @@ public class TeacherEditQuizQuestionController extends Controller {
                                     o.save();
                                 }
                             }
-                            currentOption.setCorrect(option);
-                            currentOption.save();
+                            if (option == 0 && question.getType().equalsIgnoreCase("QRM") && option != currentOption.getCorrect() && Question.getNumberTrueAnswers(question) == 1) {
+                                view.showTypeErrorNoCorrectAnswer();
+                            } else {
+                                currentOption.setCorrect(option);
+                                currentOption.save();
+                            }
                         } else if (subRes.equals("3")) {
                             currentOption.delete();
                         }
