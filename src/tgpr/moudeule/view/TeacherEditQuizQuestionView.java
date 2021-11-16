@@ -11,4 +11,10 @@ public class TeacherEditQuizQuestionView extends View {
     public void displayTitle(Question question) {
         println("=== " + question.getTitle() + " ===");
     }
+
+    public void displayType(Question question) {
+        println("Type " + question.getType());
+    }
+
+
 }
