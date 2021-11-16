@@ -17,12 +17,20 @@ public class TeacherQuizzesListController extends Controller {
         this.view = new TeacherQuizzesListView(course);
     }
 
-    public int quizzesAmount(List<Quiz> quizzes){
+    /*public int quizzesAmount(List<Quiz> quizzes){
         int i = 0;
         for(Quiz q : quizzes){
             ++i;
         }
         return i;
+    }*/
+
+    public int quizId(List<Quiz> quizzes){
+        int max = 0;
+        for(Quiz q : quizzes){
+            max = q.getId();
+        }
+        return max;
     }
 
     @Override
@@ -30,7 +38,7 @@ public class TeacherQuizzesListController extends Controller {
 
         List<Quiz> quizzes;
         quizzes = Quiz.getAllQuizzesBycourseId(course.getId());
-        int maxNumber = quizzesAmount(quizzes);
+        int maxNumber = quizId(quizzes);
 
         try {
             View.Action res;

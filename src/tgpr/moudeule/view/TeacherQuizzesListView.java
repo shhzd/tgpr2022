@@ -19,8 +19,10 @@ public class TeacherQuizzesListView extends View{
     public void displayQuizzesList (List<Quiz> quizzes){
         println("N°" + " Nom du Quiz " + " Date de début " + " Date de fin ");
         if (quizzes.size() > 1) {
+            int i = 1;
             for (Quiz q : quizzes) {
                 println(q.getId() +"     " +q.getTitle()+"      "+ q.getStart() +"    "+ q.getFinish());
+                i++;
             }
         }
         print("[ID] Sélectionnez un quiz  ");
