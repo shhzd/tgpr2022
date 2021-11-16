@@ -55,20 +55,20 @@ public class TeacherEditCourseView extends View {
     public void displayDeleteCourse() {
         println("\n[1] Supprimer ce cours");
     }
-        public void displayDeleteCourseConfirmation(Course course) {
+    public void displayDeleteCourseConfirmation(Course course) {
         println("[O/N] Confirmer la suppression du cours " + course.getId());
     }
 
     public void displayEditCode() {
         println("[2] Modifier le code");
     }
-        public void askCode() {
+    public void askCode() {
         print("Entrez le nouveau code (4 caractères): ");
     }
-        public void badCode() {
-        println("Entrez un code valide (4 caractères): ");
+    public void badCode() {
+        this.showError("Entrez un code valide (4 caractères)");
     }
-        public void displayEditCodeConfirmation() {
+    public void displayEditCodeConfirmation() {
         println("[O/N] Confirmer le nouveau code");
     }
 
@@ -76,23 +76,26 @@ public class TeacherEditCourseView extends View {
     public void displayEditDescription() {
         println("[3] Modifier la description");
     }
-        public void askDescription() {
+    public void askDescription() {
         print("Entrez la nouvelle description: ");
     }
-        public void displayEditDescriptionConfirmation() {
+    public void displayEditDescriptionConfirmation() {
         println("[O/N] Confirmer la nouvelle description");
     }
 
     public void displayEditCapacity() {
         println("[4] Modifier la capacité");
     }
-        public void askCapacity() {
-        print("Entrez la nouvelle capacité (max ?): ");
+    public void askCapacity() {
+        print("Entrez la nouvelle capacité : ");
     }
-        public void badCapacity() {
-        println("Entrez une capacité valide");
-    }
-        public void displayEditCapacityConfirmation() {
+    /**
+     public void badCapacity() {
+     println("Entrez une capacité valide");
+     }
+     */
+
+    public void displayEditCapacityConfirmation() {
         println("[O/N] Confirmer la nouvelle capacité");
     }
 
