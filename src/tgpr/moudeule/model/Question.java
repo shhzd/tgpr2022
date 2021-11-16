@@ -101,4 +101,18 @@ public class Question extends Model {
         return list;
     }
 
+    public String getCourseCodeByQuestionId() {
+        String res = "";
+        try {
+            var stmt = db.prepareStatement("SELECT code FROM courses WHERE id IN (SELECT course FROM quizzes WHERE id IN (SELECT quiz FROM questions WHERE id = ?))");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                res = rs.getString("code");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
 }
