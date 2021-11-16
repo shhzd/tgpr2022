@@ -203,4 +203,20 @@ public class Quiz extends Model {
         return newFinishedDateisAfterCurrentStartDate(newFinishedDate) && newFinisedDateIsAfterCurrentDate(newFinishedDate);
     }
 
+
+    public static Quiz getByQuestionId(int id) {
+        Quiz quiz = null;
+        try {
+            var stmt = db.prepareStatement("SELECT quizzes.* FROM quizzes JOIN questions ON quizzes.id = questions.quiz WHERE questions.id = ?");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                quiz = new Quiz();
+                mapper(rs, quiz);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quiz;
+    }
 }

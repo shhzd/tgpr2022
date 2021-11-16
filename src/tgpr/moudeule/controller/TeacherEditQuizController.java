@@ -64,11 +64,11 @@ public class TeacherEditQuizController extends Controller {
                     /**to uncomment when is done
                      new TeacherQuizzesList().run();
                      **/
-                } else {
-                    /** to uncomment when is done
-                     if(getQuestionById() is not null)
-                     new TeacherEditQuestion().run();
-                     **/
+                } else if (isParsable(res) && Integer.parseInt(res) >= 4 && Integer.parseInt(res) < 4 + questions.size()){
+                    int index = Integer.parseInt(res) - 4;
+                    if(questions.get(index) != null) {
+                        new TeacherEditQuizQuestionController(questions.get(index).getId()).run();
+                    }
                 }
             } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {
