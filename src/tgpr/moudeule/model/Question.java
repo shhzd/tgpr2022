@@ -83,6 +83,22 @@ public class Question extends Model {
         question.type = rs.getString("type");
         question.quizId = rs.getInt("quiz");
     }
+
+    public static Question getById(int id) {
+        Question question = null;
+        try {
+            var stmt = db.prepareStatement("SELECT * FROM questions WHERE id = ?");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                question = new Question();
+                mapper(rs, question);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return question;
+    }
     
     public static List<Question> getQuestionsByQuiz(int id) {
         var list = new ArrayList<Question>();
