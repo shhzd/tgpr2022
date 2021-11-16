@@ -70,7 +70,7 @@ INSERT INTO `courses` (`id`, `code`, `description`, `capacity`, `teacher`) VALUE
 (1659, 'TGPR', 'Techniques de gestion de projets', 5, 'ben'),
 (1662, 'PRWB', 'Projet de développement web', 3, 'ben'),
 (1925, 'MAP4', 'Mathématiques appliquées à l\'informatique', 3, 'marc'),
-(2000, 'SALS', 'Cours de salsa', 8, 'p'),
+(2000, 'SALS', 'Cours de salsa', 14, 'p'),
 (2001, 'ROCK', 'Cours de rock acrobatique', 8, 'p'),
 (2002, 'TKNO', 'Cours de tektonique', 8, 'p'),
 (2003, 'VALS', 'Cours de valse', 8, 'p'),
@@ -222,7 +222,26 @@ INSERT INTO `registrations` (`course`, `student`, `active`) VALUES
 (1659, 'fred', 1),
 (1659, 'guest', 0),
 (1662, 'harry', 0),
-(1925, 'bob', 1);
+(1925, 'bob', 1),
+(2000, 'ALB01', 0),
+(2000, 'ALB02', 0),
+(2000, 'ALB03', 0),
+(2000, 'ALB04', 0),
+(2000, 'ALB05', 1),
+(2000, 'ALB06', 1),
+(2000, 'ALB07', 1),
+(2000, 'ALB08', 1),
+(2000, 'ALB09', 1),
+(2000, 'ALB10', 1),
+(2000, 'ALB11', 1),
+(2000, 'ALB12', 1),
+(2000, 'ALB13', 1),
+(2000, 'ALB14', 1),
+(2000, 'ALB15', 1),
+(2000, 'ALB16', 1),
+(2000, 'ALB17', 1),
+(2000, 'ALB18', 1),
+(2000, 'ALB19', 1);
 
 -- --------------------------------------------------------
 
@@ -276,7 +295,25 @@ INSERT INTO `users` (`pseudo`, `password`, `fullname`, `birthdate`, `role`) VALU
 ('harry', 'harry', 'Harry Cover', NULL, 2),
 ('marc', 'marc', 'Marc Michel', NULL, 1),
 ('p', 'p', 'Prof Developpement', NULL, 1),
-('s', 's', 'Etudiant Developpement', NULL, 2);
+('ALB01', 'FFR', 'BAILLE Cyril', NULL, 2),
+('ALB02', 'FFR', 'MARCHAND Julien', NULL, 2),
+('ALB03', 'FFR', 'HAOUAS Mohamed', NULL, 2),
+('ALB04', 'FFR', 'FLAMENT Thibaud', NULL, 2),
+('ALB05', 'FFR', 'WILLEMSE Paul', NULL, 2),
+('ALB06', 'FFR', 'CROS François', NULL, 2),
+('ALB07', 'FFR', 'JELONCH Anthony', NULL, 2),
+('ALB08', 'FFR', 'WOKI Cameron', NULL, 2),
+('ALB09', 'FFR', 'DUPONT Antoine', NULL, 2),
+('ALB10', 'FFR', 'JALIBERT Matthieu', NULL, 2),
+('ALB11', 'FFR', 'VILLIÈRE Gabin', NULL, 2),
+('ALB12', 'FFR', 'NTAMACK Romain', NULL, 2),
+('ALB13', 'FFR', 'FICKOU Gaël', NULL, 2),
+('ALB14', 'FFR', 'PENAUD Damian', NULL, 2),
+('ALB15', 'FFR', 'JAMINET Melvyn', NULL, 2),
+('ALB16', 'FFR', 'MAUVAKA Peato', NULL, 2),
+('ALB17', 'FFR', 'ALLDRITT Grégory', NULL, 2),
+('ALB18', 'FFR', 'GROS Jean-Baptiste', NULL, 2),
+('ALB19', 'FFR', 'MACALOU Sekou', NULL, 2);
 
 --
 -- Index pour les tables déchargées

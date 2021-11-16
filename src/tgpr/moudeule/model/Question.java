@@ -2,7 +2,6 @@ package tgpr.moudeule.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -82,22 +81,24 @@ public class Question extends Model {
         question.id = rs.getInt("id");
         question.title = rs.getString("title");
         question.type = rs.getString("type");
-        question.quizId = rs.getInt("quizId");
+        question.quizId = rs.getInt("quiz");
     }
     
     public static List<Question> getQuestionsByQuiz(int id) {
         var list = new ArrayList<Question>();
         try {
-            var stmt = db.prepareStatement("SELECT * FROM questions WHERE id = ?");
+            var stmt = db.prepareStatement("SELECT * FROM questions WHERE quiz = ?");
             stmt.setInt(1, id);
             var rs = stmt.executeQuery();
-            if (rs.next()) {
+            while (rs.next()) {
                 Question question = new Question();
                 mapper(rs, question);
+                list.add(question);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return list;
     }
+
 }

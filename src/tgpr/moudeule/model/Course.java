@@ -283,8 +283,7 @@ public class Course extends Model {
         List<User> studentsList = new ArrayList<>();
 
         try {
-            //Etudiants inscrits à ce cours
-            var stmt = db.prepareStatement("SELECT student FROM registrations WHERE course =? AND active = 1");
+            var stmt = db.prepareStatement("SELECT * FROM users JOIN registrations on users.pseudo = registrations.student WHERE registrations.course =? AND registrations.active = 1;");
             stmt.setInt(1, course.getId());
             var rs = stmt.executeQuery();
             while (rs.next()) {
@@ -298,13 +297,12 @@ public class Course extends Model {
         return studentsList;
     }
 
-    public List<User> getPendingRegistrations(Course course) {
+    public List<User> getInWaitingListStudents(Course course) {
         List<User> studentsList = new ArrayList<>();
 
         try {
-            //Etudiants en liste d'attente pour s'inscrire à ce cours
-            var stmt = db.prepareStatement("");
-            //
+            var stmt = db.prepareStatement("SELECT * FROM users JOIN registrations on users.pseudo = registrations.student WHERE registrations.course =? AND registrations.active = 0;");
+            stmt.setInt(1, course.getId());
             var rs = stmt.executeQuery();
             while (rs.next()) {
                 var student = new User();
@@ -329,6 +327,25 @@ public class Course extends Model {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public int currentActiveStudents() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) count \n" +
+                    "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                    "WHERE c.id = ? AND r.active = 1\n" +
+                    "GROUP BY c.id;"
+            );
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public int getLeftPlaces() {
