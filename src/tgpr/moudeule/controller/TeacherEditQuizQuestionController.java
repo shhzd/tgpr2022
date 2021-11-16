@@ -1,6 +1,6 @@
 package tgpr.moudeule.controller;
 
-public class TeacherEditQuizQuestion extends Controller {
+public class TeacherEditQuizQuestionController extends Controller {
     @Override
     public void run() {
 
