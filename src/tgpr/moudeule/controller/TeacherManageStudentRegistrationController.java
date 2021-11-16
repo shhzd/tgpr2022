@@ -11,7 +11,7 @@ public class TeacherManageStudentRegistrationController extends Controller {
     private int page = 1;
     private Course course = new Course();
     /** should be included in Controller() **/
-    static final int lgPage = 14;
+    static final int NUMBER_DISPLAY_LINE = 14;
 
     public TeacherManageStudentRegistrationController(Course course) {
         this.course = course;
@@ -26,17 +26,15 @@ public class TeacherManageStudentRegistrationController extends Controller {
                 User user = MoudeuleApp.getLoggedUser();
 
                 var students = User.getByCourse(course);
-                int nbPages = (int)Math.ceil(students.size() / (lgPage + 0.0));
+                int nbPages = (int)Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
                 view.displaySubHeaderWithPage(page, nbPages);
                 view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
-                view.displayMenu(students, course, page, nbPages, lgPage);
+                view.displayMenu(students, course, page, nbPages, NUMBER_DISPLAY_LINE);
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
                 if (res.equals("R")) {
-                    /** to uncomment when ready **/
-//                    new TeacherEditCourseController(course).run();
-                    System.out.println("Goes back to TeacherEditCourseController(" + course.getCode() + ").run()");
+                    new TeacherEditCourseController(course.getId()).run();
                 }
                 if (res.matches("[1-9]|[0][1-9]|[1][0-2]")) {
                     User student = students.get((int)Integer.parseInt(res) - 1);
@@ -50,7 +48,6 @@ public class TeacherManageStudentRegistrationController extends Controller {
                          */
                         view.displaySubMenu(student, status);
                         subRes = view.askForAction();
-//                        String subMenuRes = view.askForString();
                         if (subRes.getAction() == '1') {
                             switch (status) {
                                 case "en attente" :
