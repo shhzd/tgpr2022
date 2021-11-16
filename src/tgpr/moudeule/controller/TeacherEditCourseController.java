@@ -8,34 +8,27 @@ import tgpr.moudeule.view.View;
 
 public class TeacherEditCourseController extends Controller {
     private String res;
-    private boolean keepLooping = true;
-    private Course course = new Course();
-
-    public TeacherEditCourseController(Course course) {
-        this.course = course;
-    }
-
-    private void leave(String res) {
+    private void leavePossibility(String res) {
         switch (res) {
             case "R":
                 new TeacherMainMenuController().run();
                 break;
-            case "5":
-                new TeacherManageStudentRegistrationController(course).run();
-                break;
-            case "6":
-                /**
-                 * To uncomment when UC ready
-                 */
-                new TeacherManageStudentRegistrationController(course).run();
-                //new TeacherQuizzesList().run();
-                break;
+                case "Q":
+                    MoudeuleApp.logout();
+                    new StartMenuController().run();
+                    break;
         }
+    }
+
+    private int courseID;
+    public TeacherEditCourseController(int courseID) {
+        this.courseID = courseID;
     }
 
     @Override
     public void run() {
         var teacher = MoudeuleApp.getLoggedUser();
+        var course = Course.getCourseByID(courseID);
         var view = new TeacherEditCourseView();
         try {
             do {
@@ -52,78 +45,84 @@ public class TeacherEditCourseController extends Controller {
                 view.displayFooter();
                 System.out.println("");
                 res = view.askForString().toUpperCase();
+                leavePossibility(res);
                 switch (res) {
-                    case "R":
-                        leave(res);
                     case "1":
                         view.displayDeleteCourseConfirmation(course);
                         res = view.askForString().toUpperCase();
+                        leavePossibility(res);
                         switch (res) {
                             case "O":
                                 teacher.removeCourseFromRegistrations(course);
                                 teacher.deleteCourse(course);
-                                keepLooping = false;
-                                leave(res);
+                                new TeacherMainMenuController().run();
                                 break;
                         }
                         break;
-                    case "2":
-                        view.askCode();
-                        res = view.askForString().toUpperCase();
-                        while (res.length() < 4) {
-                            view.badCode();
+                        case "2":
+                            view.askCode();
                             res = view.askForString().toUpperCase();
-                        }
-                        String newCode = res;
-                        view.displayEditCodeConfirmation();
-                        res = view.askForString().toUpperCase();
-                        switch (res) {
-                            case "O":
-                                course.setCode(newCode);
-                                course.save();
+                            leavePossibility(res);
+                            while (res.length() < 4 && !res.equals("R") && !res.equals("Q")) {
+                                view.badCode();
+                                res = view.askForString().toUpperCase();
+                                leavePossibility(res);
+                            }
+                            String newCode = res;
+                            view.displayEditCodeConfirmation();
+                            res = view.askForString().toUpperCase();
+                            leavePossibility(res);
+                            switch (res) {
+                                case "O":
+                                    course.setCode(newCode);
+                                    course.save();
+                                    break;
+                            }
+                            break;
+                            case "3":
+                                view.askDescription();
+                                res = view.askForString();
+                                leavePossibility(res);
+                                String newDescription = res;
+                                view.displayEditDescriptionConfirmation();
+                                res = view.askForString().toUpperCase();
+                                leavePossibility(res);
+                                switch (res) {
+                                    case "O":
+                                        course.setDescription(newDescription);
+                                        course.save();
+                                        break;
+                                }
                                 break;
-                        }
-                        break;
-                    case "3":
-                        view.askDescription();
-                        res = view.askForString();
-                        String newDescription = res;
-                        view.displayEditDescriptionConfirmation();
-                        res = view.askForString().toUpperCase();
-                        switch (res) {
-                            case "O":
-                                course.setDescription(newDescription);
-                                course.save();
-                                break;
-                        }
-                        break;
-                    case "4":
-                        view.askCapacity();
-                        res = view.askForString().toUpperCase();
-                        int newCapacity = Integer.parseInt(res);
-                        view.displayEditCapacityConfirmation();
-                        res = view.askForString().toUpperCase();
-                        switch (res) {
-                            case "O":
-                                course.setCapacity(newCapacity);
-                                course.save();
-                        }
-                        break;
-                    case "5":
-                        keepLooping = false;
-                        leave(res);
-                        break;
-                    case "6":
-                        keepLooping = false;
-                        leave(res);
-                        break;
+                                case "4":
+                                    view.askCapacity();
+                                    res = view.askForString().toUpperCase();
+                                    leavePossibility(res);
+                                    int newCapacity = Integer.parseInt(res);
+                                    view.displayEditCapacityConfirmation();
+                                    res = view.askForString().toUpperCase();
+                                    leavePossibility(res);
+                                    switch (res) {
+                                        case "O":
+                                            course.setCapacity(newCapacity);
+                                            course.save();
+                                    }
+                                    break;
+                                    case "5":
+                                        /**
+                                         * to uncomment when UC ready
+                                         */
+                                        new TeacherManageStudentRegistrationController(course).run();
+                                        break;
+                                        case "6":
+                                            new TeacherQuizzesListController(course.getId()).run();
+                                            break;
                 }
-            } while (!res.equals("Q") && keepLooping);
+            } while (!res.equals("Q"));
+            MoudeuleApp.logout();
+            new StartMenuController().run();
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");
         }
-        if (keepLooping)
-            MoudeuleApp.logout();
-        view.close();
     }
 }

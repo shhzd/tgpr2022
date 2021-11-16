@@ -105,7 +105,7 @@ public class Quiz extends Model {
     public static List<Quiz> getAllQuizzesBycourseId(int id) {
         var list = new ArrayList<Quiz>();
         try {
-            var stmt = db.prepareStatement("SELECT * FROM quizzes WHERE course IN (SELECT id FROM course WHERE id = ?)");
+            var stmt = db.prepareStatement("SELECT * FROM quizzes WHERE course IN (SELECT id FROM courses WHERE id = ?)");
             stmt.setInt(1, id);
             var rs = stmt.executeQuery();
             while (rs.next()) {
