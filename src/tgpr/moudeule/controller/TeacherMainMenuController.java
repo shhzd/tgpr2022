@@ -6,6 +6,8 @@ import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.TeacherMainMenuView;
 import tgpr.moudeule.view.View;
 
+import java.util.List;
+
 public class TeacherMainMenuController extends Controller {
 
     private int page = 1;
@@ -31,7 +33,7 @@ public class TeacherMainMenuController extends Controller {
                     Course course = Course.getCourseByID(res);
                     if (course != null) {
                         /** to uncomment when UC are ready  **/
-                        new TeacherEditCourseController(course.getId()).run();
+                        new TeacherEditCourseController(course).run();
                     } else {
                         // for testing purposes
                         System.out.println("il ne se passe rien");
