@@ -27,6 +27,9 @@ public class Quiz extends Model {
         this.courseId = courseId;
     }
 
+    public static void getQuizById(int quizId) {
+    }
+
     public int getId() {
         return id;
     }
@@ -96,7 +99,7 @@ public class Quiz extends Model {
         quiz.title = rs.getString("title");
         quiz.start = rs.getObject("start", LocalDate.class);
         quiz.finish = rs.getObject("finish", LocalDate.class);
-        quiz.courseId = rs.getInt("courseId");
+        quiz.courseId = rs.getInt("course");
     }
 
     public static List<Quiz> getAllQuizzesBycourseId(int id) {
