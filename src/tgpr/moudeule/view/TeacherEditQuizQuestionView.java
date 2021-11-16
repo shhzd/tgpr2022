@@ -16,5 +16,9 @@ public class TeacherEditQuizQuestionView extends View {
         println("Type " + question.getType());
     }
 
+    public void displayOption(Question question, int page, int nbPage, int lgPage) {
+        println("\n[1] Modifier le titre : " + question.getTitle());
+        println("\n[2] Modifier le type : " + question.getType() + "\n");
 
+    }
 }

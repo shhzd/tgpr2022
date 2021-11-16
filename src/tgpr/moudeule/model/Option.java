@@ -2,7 +2,8 @@ package tgpr.moudeule.model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Option extends Model {
@@ -81,5 +82,22 @@ public class Option extends Model {
         option.title = rs.getString("title");
         option.correct = rs.getInt("correct");
         option.questionId = rs.getInt("questionId");
+    }
+
+    public static List<Option> getOptionsByQuestion(int id) {
+        var list = new ArrayList<Option>();
+        try {
+            var stmt = db.prepareStatement("SELECT * FROM options WHERE question = ?");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                Option option = new Option();
+                mapper(rs, option);
+                list.add(option);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 }
