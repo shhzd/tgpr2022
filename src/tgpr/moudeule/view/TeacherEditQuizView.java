@@ -10,10 +10,6 @@ import java.util.List;
 
 public class TeacherEditQuizView extends View {
 
-//    public void displayHeader(Quiz quiz) {
-//        super.displayHeader("Modifier un quiz - cours " + quiz.getCourseCode());
-//        println("\nDate du jour : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(VariableForTesting.getCurrentDate()) + "\n");
-//    }
     public void displayHeaderWithPseudoAndPageNumber(Quiz quiz, int page, int lgPage) {
         super.displayHeaderWithPseudoAndPageNumber("Modifier un quiz - cours "   + quiz.getCourseCode(), page, lgPage);
         println("Date du jour : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(VariableForTesting.getCurrentDate()) + "\n");
@@ -34,7 +30,7 @@ public class TeacherEditQuizView extends View {
             int k = 0;
             for(int j = (page - 1) * lgPage; j < questions.size(); ++j) {
                 if(j < questions.size() && k < lgPage) {
-                    println("[" + index + "] la question " + (index - 3) + " : " + questions.get(j).getTitle());
+                    println("[" + index + "] Question " + (index - 3) + " : " + questions.get(j).getTitle());
                     ++index;
                     ++k;
                 }

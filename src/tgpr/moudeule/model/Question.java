@@ -159,4 +159,24 @@ public class Question extends Model {
         }
         return count == 1;
     }
+
+    public static boolean isValidType(String type) {
+        return type.equalsIgnoreCase("QCM") || type.equalsIgnoreCase("QRM");
+    }
+
+    public static int getNumberTrueAnswers(Question question) {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT Count(*) count FROM options WHERE question = ? AND correct = 1");
+            stmt.setInt(1, question.getId());
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

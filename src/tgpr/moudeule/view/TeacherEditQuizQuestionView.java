@@ -7,8 +7,8 @@ import java.util.List;
 
 public class TeacherEditQuizQuestionView extends View {
 
-    public void displayHeader(Question question){
-        super.displayHeader("Modifier une question - Cours " + question.getCourseCodeByQuestionId());
+    public void displayHeaderWithPseudoAndPageNumber(Question question, int page, int lgPage) {
+        super.displayHeaderWithPseudoAndPageNumber("Modifier une question - cours "   + question.getCourseCodeByQuestionId(), page, lgPage);
     }
 
     public void displayTitle(Question question) {
@@ -16,19 +16,19 @@ public class TeacherEditQuizQuestionView extends View {
     }
 
     public void displayType(Question question) {
-        println("Type " + question.getType());
+        println("Type " + question.getType().toUpperCase());
     }
 
     public void displayOption(Question question, int page, int lgPage) {
-        println("\n[1] Modifier le titre : " + question.getTitle());
-        println("[2] Modifier le type : " + question.getType() + "\n");
+        println("\n[1] Modifier l'énoncé : " + question.getTitle());
+        println("[2] Modifier le type : " + question.getType().toUpperCase() + "\n");
         List<Option> options = Option.getOptionsByQuestion(question.getId());
         if(options.size() > 0) {
-            int index = 3;
+            int index = (page - 1) * lgPage + 3;
             int j = 0;
             for(int k = (page - 1) * lgPage; k < options.size(); ++k) {
                 if(k < options.size() && j < lgPage) {
-                    println("[" + index + "] " + options.get(j).getTitle() + "     " + (options.get(j).getCorrect() == 1 ? " Vrai" : " Faux"));
+                    printf("%s %s\n","[" + index + "] " + options.get(k).getTitle(), (options.get(k).getCorrect() == 1 ? " Vrai" : " Faux"));
                     ++index;
                     ++j;
                 }
@@ -37,10 +37,11 @@ public class TeacherEditQuizQuestionView extends View {
         print("\n[0] Ajouter une proposition");
     }
 
-    public void displaySubOptions(Option option) {
-        println("\n[1] Modifier le texte de la proposition");
+    public void displaySubOptions() {
+        println("\n[0] Pour quitter le menu de modifiction");
+        println("[1] Modifier le texte de la proposition");
         println("[2] Modifier la réponse à la proposition");
-        println("[3] Supprimer la proposition)");
+        println("[3] Supprimer la proposition");
     }
 
     public void displayConfirmation() {
@@ -56,6 +57,7 @@ public class TeacherEditQuizQuestionView extends View {
         return askString("", "", false);
     }
 
+
     public String askForTitle(String actual) {
         return askString("Titre (" + ((actual != null) ? actual : "") + "): ", actual);
     }
@@ -64,7 +66,28 @@ public class TeacherEditQuizQuestionView extends View {
         return askString("Type (" + ((actual != null) ? actual : "") + "): ", actual);
     }
 
+    public String askForOptionTitle() {
+        return askString("Proposition : ", "");
+    }
+
+    public String askForOptionTitle(String actual) {
+        return askString("Proposition (" + ((actual != null) ? actual : "") + "): ", actual);
+    }
+
+    public int askForOptionCorrect() {
+        return askInteger("Correct (0 pour Faux - 1 pour Vrai) : ", 0);
+    }
+
+    public int askForOptionCorrect(int actual) {
+        return askInteger("Correct (0 pour Faux - 1 pour Vrai) : (" +  actual  + ")", actual);
+    }
+
     public void showTypeError() {
         showError("Le type n'est pas valide. Veuillez choisir entre \"QCM\" et \"QRM\".");
     }
+
+    public void showTypeErrorManyCorrectAnswers() {
+        showError("Impossible de transformer une question QRM à QCM lorsqu'il y a plusieurs réponses correctes. Veuillez choisir une réponse unique avant.");
+    }
+
 }
