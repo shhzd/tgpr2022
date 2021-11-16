@@ -177,4 +177,12 @@ public class Quiz extends Model {
         }
         return result;
     }
-}
+
+    public boolean isValidStartDate(LocalDate newDate) {
+        return newDate.compareTo(VariableForTesting.getCurrentDate()) >= 0 && newDate.compareTo(this.finish) <= 0;
+    }
+
+    public boolean isValidFinishedDate(LocalDate newDate) {
+        return newDate.compareTo(VariableForTesting.getCurrentDate()) >= 0 && newDate.compareTo(this.start) >= 0;
+    }
+    }
