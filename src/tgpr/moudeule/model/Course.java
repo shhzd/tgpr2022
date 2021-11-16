@@ -331,4 +331,63 @@ public class Course extends Model {
         return false;
     }
 
+    public int currentActiveStudents() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) count \n" +
+                    "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                    "WHERE c.id = ? AND r.active = 1\n" +
+                    "GROUP BY c.id;"
+            );
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public int getLeftPlaces() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) count \n" +
+                    "FROM courses c JOIN registrations r ON c.id = r.course\n" +
+                    "WHERE c.id = ? AND r.active = 1\n" +
+                    "GROUP BY c.id;"
+            );
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if(rs.next()) {
+                result = rs.getInt("count");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return this.getCapacity() - result;
+    }
+
+
+    public boolean isInWaitingList(User student) {
+        if(student.role.equals(Role.STUDENT)) {
+            int result = 0;
+            try {
+                PreparedStatement stmt = Model.db.prepareStatement("SELECT COUNT(*) count FROM registrations WHERE course = ? AND student = ? AND active = 0");
+                stmt.setInt(1, this.getId());
+                stmt.setString(2, student.getPseudo());
+                var rs = stmt.executeQuery();
+                if(rs.next()) {
+                    result = rs.getInt("count");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result == 1;
+        }
+        return false;
+    }
+
 }

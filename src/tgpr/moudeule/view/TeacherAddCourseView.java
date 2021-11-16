@@ -1,7 +1,5 @@
 package tgpr.moudeule.view;
 
-import tgpr.moudeule.model.Course;
-
 public class TeacherAddCourseView extends View{
 
     public void displayHeader() {super.displayHeader("Ajouter un nouveau cours");}
