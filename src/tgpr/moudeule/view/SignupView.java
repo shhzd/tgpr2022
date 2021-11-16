@@ -44,12 +44,6 @@ public class SignupView extends View{
                 (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
     }
 
-    public void showError(String s) {
-        if (s != null)
-            printf(s + "\n");
-        printf("");
-    }
-
     public View.Action askForAction() {
         return doAskForAction(-1, "\n[V] Valider, [A] Annuler", "[vVaA]");
     }
