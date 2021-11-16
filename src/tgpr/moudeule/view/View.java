@@ -275,9 +275,6 @@ public abstract class View {
         print("      \\/_/ \\/_/ \\/___/   \\/___/  \\/__,_ / \\/____/  \\/___/  \\/____/ \\/____/\n");
         println("       ====================================================================\n");
         print("\n");
-        if (MoudeuleApp.isLogged()) {
-            print(" (" + MoudeuleApp.getLoggedUser().getPseudo() + ")");
-        }
     }
 
     protected void displayHeaderWithPseudoAndPageNumber(String header, int page, int lgPage) {
