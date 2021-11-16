@@ -7,7 +7,7 @@ public abstract class Model {
 
     static {
         try {
-            db = DriverManager.getConnection("jdbc:mariadb://localhost:3306/tgpr-2122-z03?user=root&password=");
+            db = DriverManager.getConnection("jdbc:mariadb://localhost:3306/tgpr-2122-z03?user=root&password=root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
