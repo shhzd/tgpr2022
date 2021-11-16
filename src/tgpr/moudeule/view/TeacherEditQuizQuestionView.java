@@ -45,4 +45,8 @@ public class TeacherEditQuizQuestionView extends View {
         println("[2] Modifier la réponse à la proposition");
         println("[3] Supprimer la proposition)");
     }
+
+    public void displayConfirmation() {
+        println("\n[O/N] Confirmer la modification");
+    }
 }
