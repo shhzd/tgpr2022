@@ -7,4 +7,8 @@ public class TeacherEditQuizQuestionView extends View {
     public void displayHeader(Question question){
         super.displayHeader("Modifier une question - Cours " + question.getCourseCodeByQuestionId());
     }
+
+    public void displayTitle(Question question) {
+        println("=== " + question.getTitle() + " ===");
+    }
 }
