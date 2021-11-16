@@ -1,6 +1,9 @@
 package tgpr.moudeule.view;
 
+import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
+
+import java.util.List;
 
 public class TeacherEditQuizQuestionView extends View {
 
@@ -16,9 +19,26 @@ public class TeacherEditQuizQuestionView extends View {
         println("Type " + question.getType());
     }
 
-    public void displayOption(Question question, int page, int nbPage, int lgPage) {
+    public void displayOption(Question question, int page, int nbPages, int lgPage) {
         println("\n[1] Modifier le titre : " + question.getTitle());
-        println("\n[2] Modifier le type : " + question.getType() + "\n");
+        println("[2] Modifier le type : " + question.getType() + "\n");
+        List<Option> options = Option.getOptionsByQuestion(question.getId());
+        if(options.size() > 0) {
+            int index = 3;
+            int j = 0;
+            for(int k = (page - 1) * lgPage; k < options.size(); ++k) {
+                if(k < options.size() && j < lgPage) {
+                    println("[" + index + "] Proposition " + (char)('A' + j) + "     " + (options.get(j).getCorrect() == 1 ? " Vrai" : " Faux"));
+                    ++index;
+                    ++j;
+                }
+            }
+        }
+        print("\n[0] Ajouter une proposition");
 
+        println("\n[R] Retour - [Q] Quitter" + ((page != nbPages) ? " - [S] Page suivante " : "") +
+                ((page > 1) ? " - [P] Page précédente " : ""));
     }
+
+
 }
