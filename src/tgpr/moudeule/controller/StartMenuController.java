@@ -14,9 +14,7 @@ public class StartMenuController extends Controller {
                 res = view.askForAction();
                 switch (res.getAction()) {
                     case '1':
-                         new LoginController().run();
-                        /** uncomment to test TeacherMainMenuController()  **/
-//                        new TeacherMainMenuController().run();
+                        new LoginController().run();
                         break;
                     case '2':
                         new SignupController().run();
