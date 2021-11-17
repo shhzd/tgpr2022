@@ -3,6 +3,8 @@ package tgpr.moudeule.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Test extends Model {
@@ -53,6 +55,33 @@ public class Test extends Model {
         this.start = start;
     }
 
+    public String getTitle() {
+        String title = "";
+        try {
+            var stmt = db.prepareStatement(
+                    "SELECT quizzes.title FROM quizzes WHERE id = ?;");
+            stmt.setInt(1,quizId);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                title = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return title;
+    }
+
+    public String getStatus(LocalDate today) {
+        String status = "";
+        Quiz quiz = Quiz.getById(this.quizId);
+        if (quiz != null)
+            if (today.compareTo(quiz.getFinish()) > 0)
+                status = "Test cloturé, voir le résultat";
+            else
+                status = "Test en cours jusqu'au " + quiz.getFinish() +", éditer les réponses";
+        return status;
+    }
+
     @Override
     public String toString() {
         return "Test{" +
@@ -81,5 +110,47 @@ public class Test extends Model {
         test.student = rs.getString("student");
         test.quizId = rs.getInt("quiz");
         test.start = rs.getObject("start", LocalDate.class);
+    }
+
+    public static List<Test> getByCourseAndStudent(Course course, User student) {
+        List<Test> tests = new ArrayList<>();
+
+        try {
+            var stmt = db.prepareStatement(
+                    "SELECT * FROM tests WHERE tests.quiz IN"+
+                        "(SELECT quizzes.id FROM quizzes WHERE quizzes.course = ?)" +
+                        "AND tests.student = ?;"
+            );
+            stmt.setInt(1, course.getId());
+            stmt.setString(2, student.getPseudo());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var test = new Test();
+                Test.mapper(rs, test);
+                tests.add(test);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tests;
+    }
+
+    public static Test getByQuizAndStudent(Quiz quiz, User student) {
+        Test test = null;
+        try {
+            var stmt = db.prepareStatement(
+                    "SELECT * FROM tests WHERE tests.quiz = ?;"
+            );
+            stmt.setInt(1, quiz.getId());
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                var t = new Test();
+                Test.mapper(rs, t);
+                test = t;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return test;
     }
 }
