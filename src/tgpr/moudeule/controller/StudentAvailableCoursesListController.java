@@ -14,11 +14,11 @@ public class StudentAvailableCoursesListController extends Controller {
     @Override
     public void run() {
         var student = MoudeuleApp.getLoggedUser();
-        var courses = student.getAvailableCourses();
         var view = new StudentAvailableCoursesListView();
         try {
             String res;
             do {
+                var courses = student.getAvailableCourses();
                 int nbPages = (int)Math.ceil(courses.size() / ((double)NUMBER_DISPLAY_LINE)) ;
                 view.displayHeaderWithPseudoAndPageNumber("Liste des cours disponibles", page, nbPages);
                 view.displayCourses(courses, page, NUMBER_DISPLAY_LINE);
@@ -28,7 +28,7 @@ public class StudentAvailableCoursesListController extends Controller {
 
                 if(res.length() == 4) {
                     Course course = Course.getCourseByID(res);
-                    if(course != null) {
+                    if(course != null && courses.contains(course)) {
                         new StudentCourseDescriptionInscriptionController(course).run();
                     }
                     /**To refactor avoiding code repetition**/
