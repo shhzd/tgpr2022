@@ -33,23 +33,24 @@ public class StudentEditCourseController extends Controller {
                 view.displayIDSelection();
                 res = view.askForString().toUpperCase();
                 leavePossibility(res);
-                while (res.length() != 4 && !res.equals("R") && !res.equals("Q")) {
-                    view.badID();
-                    res = view.askForString().toUpperCase();
-                    leavePossibility(res);
-                }
-                var course = Course.getCourseByID(res);
 
-                view.displayChoices();
-                res = view.askForString().toUpperCase();
-                if (res.equals("1")) {
-                    new StudentTestListController(course).run();
-                }
-                if (res.equals("2")) {
-                    view.displayConfirmation(course);
-                    res = view.askForString().toUpperCase();
-                    if (res.equals("O")) {
-                        student.deactivateCourse(course);
+                if(res.length() == 4) {
+                    Course course = Course.getCourseByID(res);
+                    if (course != null && courses.contains(course)) {
+                        view.displayChoices();
+                        res = view.askForString().toUpperCase();
+                        if (res.equals("1")) {
+                            new StudentTestListController(course).run();
+                        }
+                        if (res.equals("2")) {
+                            view.displayConfirmation(course);
+                            res = view.askForString().toUpperCase();
+                            if (res.equals("O")) {
+                                student.deactivateCourse(course);
+                            }
+                        }
+                    } else {
+                        view.badID();
                     }
                 }
 

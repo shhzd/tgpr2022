@@ -13,24 +13,30 @@ public class TeacherQuizzesListView extends View{
     }
 
     public void displayHeader(){
-        super.displayHeader("Liste des quiz pour le cours de " + course.getDescription());
+        super.displayHeader("Gestion des quiz - " + course.getDescription() + " " + course.getCode());
     }
 
     public void displayQuizzesList (List<Quiz> quizzes){
-        println("N°" + " Nom du Quiz " + " Date de début " + " Date de fin ");
+        println("                Date de début " + " Date de fin ");
         if (quizzes.size() > 1) {
             int i = 1;
             for (Quiz q : quizzes) {
-                println(q.getId() +"     " +q.getTitle()+"      "+ q.getStart() +"    "+ q.getFinish());
+                println(i +"     " +q.getTitle()+"      "+ q.getStart() +"    "+ q.getFinish());
                 i++;
             }
         }
-        print("[ID] Sélectionnez un quiz  ");
-        println("[R] Retour");
+        println("\n[0] Créer un nouveau quiz \n[n] Sélectionner un quiz " +
+                "\n[R] Retour - [Q] Quitter \n[D] Changer la date courante");
     }
 
-    public View.Action askForAction(int size){
-        return doAskForAction(size,"\n[A] Add quiz, [S][ID] Select quiz, [R] Return",
-                "[aA]+|[sS][0-9]+|[rR]");
+    /*public View.Action askForAction(int size){
+        return doAskForAction(size,"\n[0] Créer un nouveau quiz \n[n] Sélectionner un quiz " +
+                        "\n[R] Retour - [Q] Quitter \n[D] Changer la date courante",
+                "[0]+|[1-9]+|[rR]+|[qQ]+|[dD]");
+    }*/
+
+    public String askForString() {
+        return askString("", "", false);
     }
+
 }

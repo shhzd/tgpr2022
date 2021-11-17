@@ -58,7 +58,6 @@ public class StudentTestListController extends Controller {
                 System.out.println("res : " + res);
 
                 if (res.equals("R")) {
-                    System.out.println("should print R " + res);
                     keepLooping = false;
                     leave(res);
                 }
@@ -72,12 +71,12 @@ public class StudentTestListController extends Controller {
                     Test test = Test.getByQuizAndStudent(quizzes.get((int)Integer.parseInt(res) - 1), user);
                     if (test == null) {
                         /** to uncomment when ready **/
-                        view.pausedWarning("Ce opération n'est pas encore possible");
+                        view.pausedWarning("Cette opération n'est pas encore possible");
 //                        keepLooping = false;
 //                        leave(test);
                     } else {
                         /** to uncomment when ready **/
-                        view.pausedWarning("Ce opération n'est pas encore possible");
+                        view.pausedWarning("Cette opération n'est pas encore possible");
 //                        keepLooping = false;
 //                        leave(test);
                     }
