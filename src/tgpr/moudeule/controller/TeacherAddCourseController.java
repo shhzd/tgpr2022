@@ -11,11 +11,12 @@ import java.util.List;
 
 public class TeacherAddCourseController extends Controller {
 
-    private TeacherAddCourseView view = new TeacherAddCourseView();
 
     private int page = 0;
 
     public void run() {
+
+        var view = new TeacherAddCourseView();
 
         try {
             List<String> errors;

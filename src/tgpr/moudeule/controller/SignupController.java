@@ -11,33 +11,50 @@ import java.util.List;
 
 public class SignupController extends Controller {
 
-    private SignupView view = new SignupView();
-
-    public String askPseudo(String actual) {
-        String pseudo;
-        String error;
-        do {
-            pseudo = view.askPseudo(actual);
-            error = User.isValidAvailablePseudo(pseudo);
-            if (error != null) view.error(error);
-        } while (error != null);
-        return pseudo;
-    }
-
+    @Override
     public void run() {
         try {
-            View.Action res;
+            var view = new SignupView();
             List<String> errors;
             var user = new User();
+            View.Action res;
             do {
                 view.displayHeader();
                 view.displayMenu();
 
-                String pseudo = askPseudo(user.getPseudo());
-                String password = view.askPassword(user.getPassword());
-                String passwordConfirm = view.askPassword(user.getPassword());
+                String pseudo;
+                do {
+                    pseudo = view.askPseudo(user.getPseudo());
+                    String error = User.isValidAvailablePseudo(pseudo);
+                    if (error != null)
+                        view.showError(error);
+                } while (User.isValidAvailablePseudo(pseudo) != null);
+
+                String password;
+                do {
+                    password = view.askPassword(user.getPassword());
+                    String error = User.isValidPassword(password);
+                    if (error != null)
+                        view.showError(error);
+                }while (User.isValidPassword(password) != null);
+
+                String passwordConfirm;
+                do {
+                    passwordConfirm = view.askPasswordConfirm(user.getPassword());
+                    String error = User.isValidPasswordConfirm(passwordConfirm, password);
+                    if (error != null)
+                        view.showError(error);
+                } while (User.isValidPasswordConfirm(passwordConfirm, password) != null);
+
                 String fullname = view.askFullname(user.getFullname());
-                LocalDate birthDate = view.askBirthDate(user.getBirthdate());
+
+                LocalDate birthDate;
+                do {
+                    birthDate = view.askBirthDate(user.getBirthdate());
+                    String error = User.isValidBirthdate(birthDate);
+                    if (error != null)
+                        view.showError(error);
+                } while (User.isValidBirthdate(birthDate) == "impossible d'être né dans le futur" || User.isValidBirthdate(birthDate) == "avoir minimum 18 ans accomplis");
 
                 user.setPseudo(pseudo);
                 user.setPassword(password);
@@ -46,8 +63,6 @@ public class SignupController extends Controller {
                 user.setRole(Role.STUDENT);
 
                 errors = user.validate(passwordConfirm);
-                if (errors.size() > 0)
-                    view.showErrors(errors);
             } while (errors.size() > 0);
 
             res = view.askForAction();
@@ -56,17 +71,14 @@ public class SignupController extends Controller {
                     user.setPassword(user.getPassword());
                     user.save();
                     MoudeuleApp.setLoggedUser(user);
-                    /**
-                     * pending completion of the use case
-                     */
-                    //new StudentMainMenuController().run();
+                    new StudentMainMenuController().run();
                     break;
                 case 'A' :
                     new StartMenuController().run();
                     break;
             }
         } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("inscription abandonnée");
+
         }
     }
 

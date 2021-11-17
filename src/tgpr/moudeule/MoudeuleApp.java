@@ -1,7 +1,7 @@
 package tgpr.moudeule;
 
 
-import tgpr.moudeule.controller.StartMenuController;
+import tgpr.moudeule.controller.VariableForTestingController;
 import tgpr.moudeule.model.Model;
 import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.ErrorView;
@@ -26,20 +26,11 @@ public class MoudeuleApp {
         setLoggedUser(null);
     }
 
-
-//    public static boolean isAdmin() {
-//        return loggedUser != null && loggedUser.isAdmin();
-//    }
-
-
     public static void main(String[] args) {
         if (!Model.checkDb())
             new ErrorView("Database is not available").close();
         else {
-
-            new StartMenuController().run();
+            new VariableForTestingController().run();
         }
-
     }
-
 }

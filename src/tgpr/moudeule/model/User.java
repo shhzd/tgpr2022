@@ -143,6 +143,56 @@ public class User extends Model {
         return user;
     }
 
+    public static List<User> getByCourse(Course course) {
+        var list = new ArrayList<User>();
+        try {
+            var stmt = db.prepareStatement(
+                    "SELECT * FROM `users` WHERE users.pseudo IN " +
+                        "(SELECT registrations.student FROM registrations " +
+                        "WHERE registrations.course = ?) order by pseudo");
+            stmt.setInt(1, course.getId());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var user = new User();
+                mapper(rs, user);
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public String getStatus(Course course) {
+        /** In order to have the status : "actif", "inactif" and "en attente",
+         * a new table "status" should be added to the database.
+         * The ID of the element of that database will become foreign key in
+         * the "registration" table.
+         * At this point, a student is "en attente" when status is 0
+         * and "active" when status is 1.
+         * A student can't be "deactivated", only deleted.
+         */
+        String res = "";
+        try {
+            var stmt = db.prepareStatement(
+                "SELECT `active` FROM `registrations` " +
+                    "WHERE `registrations`.`student` = ? AND `registrations`.`course` = ?");
+            stmt.setString(1, pseudo);
+            stmt.setInt(2, course.getId());
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt(1) == 0)
+                    res = "en attente";
+                if (rs.getInt(1) == 1)
+                    res = "actif";
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
     public boolean save() {
         User m = getByPseudo(pseudo);
         int count = 0;
@@ -236,9 +286,9 @@ public class User extends Model {
     public static String isValidBirthdate(LocalDate birthdate) {
         if (birthdate == null)
             return null;
-        if (birthdate.compareTo(LocalDate.now()) > 0)
-            return "impossible d'être né dans le future";
-        if (Period.between(birthdate, LocalDate.now()).getYears() < 18)
+        if (birthdate.compareTo(VariableForTesting.getCurrentDate()) > 0)
+            return "impossible d'être né dans le futur";
+        if (Period.between(birthdate, VariableForTesting.getCurrentDate()).getYears() < 18)
             return "avoir minimum 18 ans accomplis";
         return null;
     }
@@ -307,6 +357,22 @@ public class User extends Model {
         throw new RuntimeException("You ar not a student");
     }
 
+    public boolean activateCourse(Course course) {
+        int count = 0;
+        try {
+            PreparedStatement stmt;
+            stmt = db.prepareStatement(
+                    "UPDATE registrations SET registrations.active = 1 " +
+                        "WHERE registrations.student = ? AND course = ?;");
+            stmt.setString(1, pseudo);
+            stmt.setInt(2, course.getId());
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count == 1;
+    }
+
     public boolean deactivateCourse(Course course) {
         if(this.role.equals(Role.STUDENT)) {
             int count = 0;
@@ -350,6 +416,36 @@ public class User extends Model {
                 count = stmt.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
+    public boolean removeCourseFromRegistrations(Course course) {
+        if(this.role.equals(Role.TEACHER)) {
+            int count = 0;
+            try {
+                var stmt = db.prepareStatement("DELETE FROM registrations WHERE course=?");
+                stmt.setInt(1, course.getId());
+                count = stmt.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
+    public boolean deleteCourse(Course course) {
+        if(this.role.equals(Role.TEACHER)) {
+            int count = 0;
+            try {
+                var stmt = db.prepareStatement("DELETE FROM courses WHERE id=?");
+                stmt.setInt(1, course.getId());
+                count = stmt.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
             return count == 1;
         }

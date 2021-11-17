@@ -15,7 +15,17 @@ public class TeacherAddStudentController extends Controller {
                 view.displayHeader();
                 view.displayMenu();
                 res = view.askForAction();
-
+                switch (res.getAction()){
+                    case '1':
+                        // uncoment when UC is ready
+                        System.out.println("Liste of course disponibles");
+                        new StudentAvailableCoursesListController().run();
+                        break;
+                    case '2':
+                        // uncoment when UC is ready
+                        System.out.println("Liste de course Inscrit");
+                        new StudentEditCourseController().run();
+                }
             } while (res.getAction() != 'Q');
         }catch (View.ActionInterruptedException e) {
             // just leave

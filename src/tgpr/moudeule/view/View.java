@@ -245,6 +245,11 @@ public abstract class View {
         pausedError("\nTry again");
     }
 
+    public void showError(String errorMessage) {
+        error("\nErreur : " + errorMessage);
+        pausedError("\nTry again");
+    }
+
     protected void displayHeader(String header) {
         clear();
         print("\n=== " + header);
@@ -270,9 +275,6 @@ public abstract class View {
         print("      \\/_/ \\/_/ \\/___/   \\/___/  \\/__,_ / \\/____/  \\/___/  \\/____/ \\/____/\n");
         println("       ====================================================================\n");
         print("\n");
-        if (MoudeuleApp.isLogged()) {
-            print(" (" + MoudeuleApp.getLoggedUser().getPseudo() + ")");
-        }
     }
 
     protected void displayHeaderWithPseudoAndPageNumber(String header, int page, int lgPage) {

@@ -27,6 +27,9 @@ public class Quiz extends Model {
         this.courseId = courseId;
     }
 
+    public static void getQuizById(int quizId) {
+    }
+
     public int getId() {
         return id;
     }
@@ -96,13 +99,13 @@ public class Quiz extends Model {
         quiz.title = rs.getString("title");
         quiz.start = rs.getObject("start", LocalDate.class);
         quiz.finish = rs.getObject("finish", LocalDate.class);
-        quiz.courseId = rs.getInt("courseId");
+        quiz.courseId = rs.getInt("course");
     }
 
-    public static List<Quiz> getAllQuizzesBycourseId(int id) {
+    public static List<Quiz> getQuizzesBycourseId(int id) {
         var list = new ArrayList<Quiz>();
         try {
-            var stmt = db.prepareStatement("SELECT * FROM quizzes WHERE course IN (SELECT id FROM course WHERE id = ?)");
+            var stmt = db.prepareStatement("SELECT * FROM quizzes WHERE course IN (SELECT id FROM courses WHERE id = ?)");
             stmt.setInt(1, id);
             var rs = stmt.executeQuery();
             while (rs.next()) {
@@ -158,5 +161,62 @@ public class Quiz extends Model {
             ex.printStackTrace();
         }
         return count == 1;
+    }
+
+    public String getCourseCode() {
+        String result = "";
+        try {
+            var stmt = db.prepareStatement("SELECT code FROM courses WHERE id IN (SELECT course FROM quizzes WHERE id = ?)");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                result = rs.getString("code");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    public boolean newStartDateIsBeforeCurrentFinisedDate(LocalDate newStartDate) {
+        return newStartDate.compareTo(this.finish) <= 0;
+    }
+
+    public boolean newStartDateIsAfterCurrentDate(LocalDate newStartDate) {
+        return newStartDate.compareTo(VariableForTesting.getCurrentDate()) >= 0;
+    }
+
+    public boolean isValidNewStartDate(LocalDate newStartDate) {
+        return newStartDateIsBeforeCurrentFinisedDate(newStartDate) && newStartDateIsAfterCurrentDate(newStartDate);
+    }
+
+    public boolean newFinishedDateisAfterCurrentStartDate(LocalDate newFinishedDate) {
+        return newFinishedDate.compareTo(this.start) >= 0;
+    }
+
+    public boolean newFinisedDateIsAfterCurrentDate(LocalDate newDate) {
+        return newDate.compareTo(VariableForTesting.getCurrentDate()) >= 0;
+    }
+
+    public boolean isValidNewFinishedDate(LocalDate newFinishedDate) {
+        return newFinishedDateisAfterCurrentStartDate(newFinishedDate) && newFinisedDateIsAfterCurrentDate(newFinishedDate);
+    }
+
+
+    public static Quiz getByQuestionId(int id) {
+        Quiz quiz = null;
+        try {
+            var stmt = db.prepareStatement("SELECT quizzes.* FROM quizzes JOIN questions ON quizzes.id = questions.quiz WHERE questions.id = ?");
+            stmt.setInt(1, id);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                quiz = new Quiz();
+                mapper(rs, quiz);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quiz;
     }
 }

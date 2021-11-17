@@ -12,17 +12,18 @@ public class StudentEditCourseView extends View {
     }
 
     public void displayCourse(int i, Course course) {
-        printf("[%2d] %s %s %s\n", i,course.getId(), course.getCode(), course.getDescription());
+        printf("%s %s %s", course.getId(), course.getCode(), course.getDescription());
     }
 
     public void displayCourses(List<Course> courses, User student) {
-        println("ID  Code Intitulé\n");
+        println("ID       Code      Intitulé\n");
         int i = 1;
         if (courses.size() > 0 ) {
             for (var course : courses) {
                 if (course.isActive(course, student)) {
                     displayCourse(i, course);
                     ++i;
+                    println("");
                 }
             }
         } else {
@@ -44,7 +45,8 @@ public class StudentEditCourseView extends View {
     }
 
     public void displayFooter() {
-        print("[R] Retour - [Q] Quitter");
+        println("");
+        println("[R] Retour - [Q] Quitter");
     }
 
     public String askForString() {
@@ -52,7 +54,7 @@ public class StudentEditCourseView extends View {
     }
 
     public void badID() {
-        println("Entrez un ID de cours valide");
+        this.showError("Entrez un ID de cours valide");
     }
 
 }

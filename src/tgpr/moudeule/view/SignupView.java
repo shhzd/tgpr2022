@@ -27,6 +27,13 @@ public class SignupView extends View{
         return askString("Mot de passe (" + stars + "): ", actual, true);
     }
 
+    public String askPasswordConfirm(String actual) {
+        String stars = "le même mot de passe";
+        if (actual != null)
+            stars = String.join("", Collections.nCopies(actual.length(), "*"));
+        return askString("Confirmer le mot de passe (" + stars + "): ", actual, true);
+    }
+
     public String askFullname(String actual) {
         return askString("Nom complet (" + ((actual != null) ? actual : "") + "): ", actual);
 
