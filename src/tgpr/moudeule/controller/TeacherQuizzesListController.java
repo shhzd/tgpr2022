@@ -1,5 +1,6 @@
 package tgpr.moudeule.controller;
 
+import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherQuizzesListView;
@@ -17,49 +18,63 @@ public class TeacherQuizzesListController extends Controller {
         this.view = new TeacherQuizzesListView(course);
     }
 
-    /*public int quizzesAmount(List<Quiz> quizzes){
+    public int quizzesAmount(List<Quiz> quizzes){
         int i = 0;
         for(Quiz q : quizzes){
             ++i;
         }
         return i;
-    }*/
+    }
 
-    public int quizId(List<Quiz> quizzes){
+    /*public int quizId(List<Quiz> quizzes){
         int max = 0;
         for(Quiz q : quizzes){
             max = q.getId();
         }
         return max;
-    }
+    }*/
 
     @Override
     public void run() {
 
         List<Quiz> quizzes;
         quizzes = Quiz.getQuizzesBycourseId(course.getId());
-        int maxNumber = quizId(quizzes);
+        //int maxNumber = quizId(quizzes);
 
         try {
-            View.Action res;
+            String res;
             do {
                 view.displayHeader();
                 view.displayQuizzesList(quizzes);
-                res = view.askForAction(maxNumber);
+                res = view.askForString().toUpperCase();
+                if (res.matches("[1-9]|[0][1-9]|[1][0-2]")){
+                    int q = Integer.parseInt(res);
+                    new TeacherEditQuizController(q).run();
+                }
+                if (res.matches("0")){
+                    view.pausedWarning("Cette opération n'est pas encore disponible");
+                }
+                if (res.equals("R")){
+                    new TeacherEditCourseController(course.getId()).run();
+                }
+                /*res = view.askForAction(maxNumber);
                 switch (res.getAction()) {
-                    case 'A':
-                        new TeacherAddQuizController(course).run(); //add view and controller;
+                    case '0':
+                        //new TeacherAddQuizController(course).run(); //add view and controller;
+                        view.pausedWarning("Cette opération n'est pas encore disponible");
                         break;
                     case 'S':
                         int q;
                         q = res.getNumber();
-                        new TeacherEditQuizController(q);
+                        new TeacherEditQuizController(q).run();
                         break;
-                }
-            }
-            while (res.getAction() != 'R');
+                }*/
+            } while (!res.equals("Q"));
+            MoudeuleApp.logout();
+            new StartMenuController().run();
+
         } catch (View.ActionInterruptedException e) {
-            //just leave the loop
+            view.pausedWarning("logged out");
         }
     }
 }
