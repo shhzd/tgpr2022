@@ -36,25 +36,34 @@ public class TeacherEditQuizController extends Controller {
                 res = view.askForString().toUpperCase();
 
                 if (res.equals("1")) {
-                    String title = view.askForTitle(quiz.getTitle());
-                    quiz.setTitle(title);
-                    quiz.save();
+                    try {
+                        String title = view.askForTitle(quiz.getTitle());
+                        quiz.setTitle(title);
+                        quiz.save();
+                    } catch (View.ActionInterruptedException e) {
+                    }
                 } else if (res.equals("2")) {
-                    LocalDate startDate = view.askForStartDate(quiz.getStart());
-                    while (!quiz.isValidNewStartDate(startDate)) {
-                        view.displayStartDateError(quiz, startDate);
-                        startDate = view.askForStartDate(quiz.getStart());
+                    try {
+                        LocalDate startDate = view.askForStartDate(quiz.getStart());
+                        while (!quiz.isValidNewStartDate(startDate)) {
+                            view.displayStartDateError(quiz, startDate);
+                            startDate = view.askForStartDate(quiz.getStart());
+                        }
+                        quiz.setStart(startDate);
+                        quiz.save();
+                    } catch (View.ActionInterruptedException e) {
                     }
-                    quiz.setStart(startDate);
-                    quiz.save();
                 } else if (res.equals("3")) {
-                    LocalDate endDate = view.askForFinishDate(quiz.getFinish());
-                    while (!quiz.isValidNewFinishedDate(endDate)) {
-                        view.displayFinisedDateError(quiz, endDate);
-                        endDate = view.askForFinishDate(quiz.getFinish());
+                    try {
+                        LocalDate endDate = view.askForFinishDate(quiz.getFinish());
+                        while (!quiz.isValidNewFinishedDate(endDate)) {
+                            view.displayFinisedDateError(quiz, endDate);
+                            endDate = view.askForFinishDate(quiz.getFinish());
+                        }
+                        quiz.setFinish(endDate);
+                        quiz.save();
+                    } catch (View.ActionInterruptedException e) {
                     }
-                    quiz.setFinish(endDate);
-                    quiz.save();
                 } else if (res.equals("S") && page < nbPages && nbPages > 1) {
                     ++page;
                 } else if (res.equals("P") && page > 1) {
@@ -64,11 +73,11 @@ public class TeacherEditQuizController extends Controller {
                     /**to uncomment when is done
                      new TeacherQuizzesList().run();
                      **/
-                } else {
-                    /** to uncomment when is done
-                     if(getQuestionById() is not null)
-                     new TeacherEditQuestion().run();
-                     **/
+                } else if (isParsable(res) && Integer.parseInt(res) >= 4 && Integer.parseInt(res) < 4 + questions.size()){
+                    int index = Integer.parseInt(res) - 4;
+                    if(questions.get(index) != null) {
+                        new TeacherEditQuizQuestionController(questions.get(index).getId()).run();
+                    }
                 }
             } while (!res.equals("Q"));
         } catch (View.ActionInterruptedException e) {

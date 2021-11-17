@@ -33,7 +33,6 @@ public class StudentCourseDescriptionInscriptionController extends Controller {
                 }
             } while (res.getAction() != 'Q');
         } catch (View.ActionInterruptedException e) {
-
         }
         MoudeuleApp.logout();
         new StartMenuController().run();
