@@ -39,7 +39,7 @@ public class TeacherQuizzesListController extends Controller {
 
         List<Quiz> quizzes;
         quizzes = Quiz.getQuizzesBycourseId(course.getId());
-        int maxNumber = quizId(quizzes);
+        //int maxNumber = quizId(quizzes);
 
         try {
             String res;
