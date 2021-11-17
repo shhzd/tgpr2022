@@ -115,10 +115,7 @@ public class TeacherEditCourseController extends Controller {
                                         new TeacherManageStudentRegistrationController(course).run();
                                         break;
                                         case "6":
-                                            /**
-                                             * to uncomment when UC ready
-                                             */
-                                            //new TeacherQuizzesList().run();
+                                            new TeacherQuizzesListController(course.getId()).run();
                                             break;
                 }
             } while (!res.equals("Q"));
