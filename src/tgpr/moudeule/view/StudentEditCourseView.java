@@ -20,7 +20,7 @@ public class StudentEditCourseView extends View {
         int i = 1;
         if (courses.size() > 0 ) {
             for (var course : courses) {
-                if (course.isActive(course, student)) {
+                if (course.isActive(student)) {
                     displayCourse(i, course);
                     ++i;
                     println("");
