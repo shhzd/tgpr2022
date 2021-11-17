@@ -102,10 +102,10 @@ public class Quiz extends Model {
         quiz.courseId = rs.getInt("course");
     }
 
-    public static List<Quiz> getAllQuizzesBycourseId(int id) {
+    public static List<Quiz> getQuizzesBycourseId(int id) {
         var list = new ArrayList<Quiz>();
         try {
-            var stmt = db.prepareStatement("SELECT * FROM quizzes WHERE course IN (SELECT id FROM course WHERE id = ?)");
+            var stmt = db.prepareStatement("SELECT * FROM quizzes WHERE course IN (SELECT id FROM courses WHERE id = ?)");
             stmt.setInt(1, id);
             var rs = stmt.executeQuery();
             while (rs.next()) {
