@@ -91,3 +91,6 @@ EPFC
     - Les instruction d'utilisation du GIT se trouvent dans un document séparé : /doc/Git_Instructions.txt
 	
 6. Bugs connus
+
+    Les bugs sont documentés dans les fiches Trello de leur UC respectives.
+    Voir dans paragraphe 3 pour l'URL.

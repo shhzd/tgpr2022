@@ -9,6 +9,23 @@ import tgpr.moudeule.view.View;
 public class TeacherMainMenuController extends Controller {
 
     private int page = 1;
+    private boolean keepLooping = true;
+
+    private void leave(String res, Course course) {
+        switch (res) {
+            case "E":
+                new TeacherEditCourseController(course.getId()).run();
+                break;
+        }
+    }
+
+    private void leave(String res) {
+        switch (res) {
+            case "0":
+                new TeacherAddCourseController().run();
+                break;
+        }
+    }
 
     public void run() {
         var view = new TeacherMainMenuView();
@@ -30,11 +47,8 @@ public class TeacherMainMenuController extends Controller {
                 if (res.length() > 1) {
                     Course course = Course.getCourseByID(res);
                     if (course != null) {
-                        /** to uncomment when UC are ready  **/
-                        new TeacherEditCourseController(course.getId()).run();
-                    } else {
-                        // for testing purposes
-                        System.out.println("il ne se passe rien");
+                        keepLooping = false;
+                        leave("E", course);
                     }
                 }
                 if (res.equals("S") && (page) != nbPages && nbPages > 1) {
@@ -44,22 +58,22 @@ public class TeacherMainMenuController extends Controller {
                     this.page--;
                 }
                 if (res.equals("0")) {
-                    new TeacherAddCourseController().run();
+                    keepLooping = false;
+                    leave(res);
                 }
                 /** Uncomment to test TeacherEditQuiz **/
-                if (res.equals("4")) {
-                    new TeacherEditQuizController(4).run();
-                }
-
-                /** ONLY uncomment to test TeacherManageStudentRegistration **/
-//                if (res.equals("D")) {
-//                    new TeacherManageStudentRegistrationController(Course.getCourseByID(2000)).run();
+//                if (res.equals("4")) {
+//                    new TeacherEditQuizController(4).run();
 //                }
 
-            } while (!res.equals("Q"));
+            } while (!res.equals("Q") && keepLooping);
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");
         }
-        MoudeuleApp.logout();
+        if (keepLooping) {
+            MoudeuleApp.logout();
+        }
+        view.close();
     }
+
 }
