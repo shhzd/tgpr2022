@@ -23,7 +23,10 @@ public class TeacherManageStudentRegistrationController extends Controller {
             case "R":
                 new TeacherEditCourseController(course.getId()).run();
                 break;
-        }
+            case "I":
+                /** to uncomment when ready **/
+                new TeacherAddStudentController(course).run();
+                break;        }
     }
 
     public void run() {
@@ -46,6 +49,12 @@ public class TeacherManageStudentRegistrationController extends Controller {
                     keepLooping = false;
                     leave(res);
                 }
+                if (res.equals("I")) {
+                    view.pausedWarning("Cette opération n'est pas encore possible");
+//                        keepLooping = false;
+//                        leave(test);
+                }
+
                 if (res.matches("[1-9]|[0][1-9]|[1][0-2]")) {
                     User student = students.get((int)Integer.parseInt(res) - 1);
                     if (student == null)
