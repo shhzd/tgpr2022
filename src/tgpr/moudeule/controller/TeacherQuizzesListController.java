@@ -48,15 +48,16 @@ public class TeacherQuizzesListController extends Controller {
                 view.displayQuizzesList(quizzes);
                 res = view.askForString().toUpperCase();
                 if (res.matches("[1-9]|[0][1-9]|[1][0-2]")){
-                    int q = Integer.parseInt(res);
-                    new TeacherEditQuizController(q).run();
+                    int p = Integer.parseInt(res);
+                    Quiz q = quizzes.get(p-1);
+                    new TeacherEditQuizController(q.getId()).run();
                 }
                 if (res.matches("0")){
                     view.pausedWarning("Cette opération n'est pas encore disponible");
                 }
-                if (res.equals("R")){
+                /*if (res.equals("R")){
                     new TeacherEditCourseController(course.getId()).run();
-                }
+                }*/ //obsolete
                 /*res = view.askForAction(maxNumber);
                 switch (res.getAction()) {
                     case '0':
