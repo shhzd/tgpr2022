@@ -54,8 +54,8 @@ public class TeacherQuizzesListController extends Controller {
                     new TeacherEditQuizController(q.getId()).run();
                 }
                 if (res.matches("0")){
-                    view.pausedWarning("Cette opération n'est pas encore disponible");
-                    new TeacherAddQuizController(course).run();
+                    view.pausedWarning("Développement en cours");
+                    //new TeacherAddQuizController(course).run();
                 }
                 if (res.equals("R")){
                     new TeacherEditCourseController(course.getId()).run();

@@ -18,7 +18,7 @@ public class TeacherQuizzesListView extends View{
     }
 
     public void displayQuizzesList (List<Quiz> quizzes){
-        println("                Date de début " + " Date de fin ");
+        println("               Date de début " + "  Date de fin ");
         if (quizzes.size() > 1) {
             int i = 1;
             for (Quiz q : quizzes) {
