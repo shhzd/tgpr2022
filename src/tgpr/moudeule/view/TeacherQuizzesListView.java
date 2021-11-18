@@ -7,14 +7,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TeacherQuizzesListView extends View{
-    private final Course course;
+    /*private final Course course;
 
     public TeacherQuizzesListView(Course course){
         this.course = course;
-    }
+    }*/
 
-    public void displayHeader(){
-        super.displayHeader("Gestion des quiz - " + course.getDescription() + " " + course.getCode());
+    public void displayHeader(Course course){
+        super.displayHeader("Gestion des quiz - " + "cours" + " " + course.getCode());
     }
 
     public void displayQuizzesList (List<Quiz> quizzes){
@@ -28,7 +28,7 @@ public class TeacherQuizzesListView extends View{
             }
         }
         println("\n[0] Créer un nouveau quiz \n[n] Sélectionner un quiz " +
-                "\n[Esc] Retour - [Q] Quitter");
+                "\n[R] Retour - [Q] Quitter");
     }
 
     /*public View.Action askForAction(int size){

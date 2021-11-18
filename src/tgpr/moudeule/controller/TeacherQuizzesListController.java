@@ -11,20 +11,20 @@ import java.util.List;
 public class TeacherQuizzesListController extends Controller {
 
     private final Course course;
-    private final TeacherQuizzesListView view;
+    //private final TeacherQuizzesListView view;
 
     public TeacherQuizzesListController(int courseID) {
         this.course = Course.getCourseByID(courseID);
-        this.view = new TeacherQuizzesListView(course);
+        //this.view = new TeacherQuizzesListView();
     }
 
-    public int quizzesAmount(List<Quiz> quizzes){
+    /*public int quizzesAmount(List<Quiz> quizzes){
         int i = 0;
         for(Quiz q : quizzes){
             ++i;
         }
         return i;
-    }
+    }*/
 
     /*public int quizId(List<Quiz> quizzes){
         int max = 0;
@@ -39,12 +39,13 @@ public class TeacherQuizzesListController extends Controller {
 
         List<Quiz> quizzes;
         quizzes = Quiz.getQuizzesBycourseId(course.getId());
+        var view = new TeacherQuizzesListView();
         //int maxNumber = quizId(quizzes);
 
         try {
             String res;
             do {
-                view.displayHeader();
+                view.displayHeader(course);
                 view.displayQuizzesList(quizzes);
                 res = view.askForString().toUpperCase();
                 if (res.matches("[1-9]|[0][1-9]|[1][0-2]")){
@@ -54,10 +55,11 @@ public class TeacherQuizzesListController extends Controller {
                 }
                 if (res.matches("0")){
                     view.pausedWarning("Cette opération n'est pas encore disponible");
+                    new TeacherAddQuizController(course).run();
                 }
-                /*if (res.equals("R")){
+                if (res.equals("R")){
                     new TeacherEditCourseController(course.getId()).run();
-                }*/ //obsolete
+                }
                 /*res = view.askForAction(maxNumber);
                 switch (res.getAction()) {
                     case '0':
