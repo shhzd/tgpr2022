@@ -10,6 +10,9 @@ import tgpr.moudeule.view.TeacherAddStudentView;
 import tgpr.moudeule.view.TeacherManageStudentRegistrationView;
 import tgpr.moudeule.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TeacherAddStudentController extends Controller {
     private int page = 1;
     private Course course = new Course();
@@ -24,25 +27,35 @@ public class TeacherAddStudentController extends Controller {
     private void leave(String res) {
         switch (res) {
             case "R":
-                new TeacherEditCourseController(course.getId()).run();
+                new TeacherManageStudentRegistrationController(course).run();
                 break;
         }
     }
 
+    public List<User> newStudent(Course course) {
+        var students = User.getAllStudents();
+        List<User> newStudents = new ArrayList<>();
+        for(User s:students){
+            if(s.getStatus(course) == ""){
+                newStudents.add(s);
+            }
+        }return newStudents;
+    }
+
     public void run() {
-        var view = new TeacherManageStudentRegistrationView();
+        var view = new TeacherAddStudentView();
         try {
             String res;
             do {
                 view.displayHeaderWithCourse(course.getCode());
                 User user = MoudeuleApp.getLoggedUser();
 
-                var students = User.getByCourse(course);
+                var students = User.getAllStudents();
                 int nbPages = (int)Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
                 view.displaySubHeaderWithPage(page, nbPages);
-                view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
-                view.displayMenu(students, course, page, nbPages, NUMBER_DISPLAY_LINE);
+                var newStudent = newStudent(course);
+                view.displayNewStudents(newStudent);
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
                 if (res.equals("R")) {

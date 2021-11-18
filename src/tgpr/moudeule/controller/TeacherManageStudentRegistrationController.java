@@ -23,10 +23,11 @@ public class TeacherManageStudentRegistrationController extends Controller {
             case "R":
                 new TeacherEditCourseController(course.getId()).run();
                 break;
-            case "I":
-                /** to uncomment when ready **/
+        }
+    }
+
+    private void leave(Course course) {
                 new TeacherAddStudentController(course).run();
-                break;        }
     }
 
     public void run() {
@@ -50,9 +51,9 @@ public class TeacherManageStudentRegistrationController extends Controller {
                     leave(res);
                 }
                 if (res.equals("I")) {
-                    view.pausedWarning("Cette opération n'est pas encore possible");
-//                        keepLooping = false;
-//                        leave(test);
+//                    view.pausedWarning("Cette opération n'est pas encore possible");
+                        keepLooping = false;
+                        leave(course);
                 }
 
                 if (res.matches("[1-9]|[0][1-9]|[1][0-2]")) {
