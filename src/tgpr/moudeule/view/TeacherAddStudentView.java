@@ -37,8 +37,11 @@ public class TeacherAddStudentView extends View {
 
     public void displaySubMenu(User Student, String status) {
         switch (status) {
-            case "1":
-                print("Voulez vous : [1] Inscrire un étudiant " + Student.getFullname());
+            case "en attent":
+                print("Voulez vous : [1] Inscrire " + Student.getFullname());
+                break;
+            case "actif":
+                print("Voulez vous : [1] Inscrire " + Student.getFullname());
                 break;
         }
     }

@@ -50,12 +50,13 @@ public class TeacherAddStudentController extends Controller {
                 view.displayHeaderWithCourse(course.getCode());
                 User user = MoudeuleApp.getLoggedUser();
 
-                var students = User.getAllStudents();
+                var students = User.getByCourse(course);
+
                 int nbPages = (int)Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
                 view.displaySubHeaderWithPage(page, nbPages);
-                var newStudent = newStudent(course);
-                view.displayNewStudents(newStudent);
+                var newStudentr = newStudent(course);
+                view.displayNewStudents(newStudentr);
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
                 if (res.equals("R")) {
@@ -86,7 +87,7 @@ public class TeacherAddStudentController extends Controller {
                                          * that recursivly deleted all the test of student for that course
                                          * when quiz are implemented
                                          */
-                                        student.cancelWaitingList(course);
+                                        student.activateCourse(course);
                                     }
                                     break;
                             }
