@@ -27,7 +27,45 @@ EPFC
     Shahzad  Rahman
     Silvère  Sayag
 
-3. UC de l'application
+3. Règles métiers imposées
+
+    - Tous les utilisateurs du système se connectent au moyen d’un identifiant unique et d’un mot de passe.
+    - Les étudiants peuvent s'inscrire dans l'application.
+
+    - Les étudiants peuvent voir le titre et le descriptif de tous les cours.
+    - Les étudiants peuvent s'incrire à un cours, cette inscrption doit être activé par un professeur.
+    - Un étudiant n’a accès qu’aux quiz des cours auxquels pour lesquels il a été activé.
+    - Chaque cours a une capacité maximum d’étudiants, définie par le professeur.
+    - Un étudiant peut se désinscrire d'un cours.
+    - Le professeur peut inscrire lui-même des étudiants à son cours.
+    - Le professeur peut activer et désactiver les inscriptions à ses cours.
+    - Le professeur peut supprimer une inscription, libérant ainsi une place, et effacer tous les test éventuels.
+
+    - Le professeur est responsable des quiz de son cours.
+    - Un quiz est composé de QRM et que QCM.
+    - Les seules réponses possibles ont Vrai ou Faux.
+    - Un quiz doit avoir une période de validité.
+    - Un étudiant ne peut participer à un quiz (remplir un test) que durant la période de validité.
+    - La date à laquelle un étudiant répond à un test doit être enregistrée sans pouvoir être modifiée.
+    - Un étudiant peut répondre à un test, ou éditer ses réponses pendant toute la période de validité d'un quiz.
+    - Un étudiant peut voir les réponse d'un test auquel il a participé après la date de clôture
+    - Les questions sont proposées dans un ordre aléatoire.
+    - Les propositions sont proposées dans un ordre aléatoire au sein de leurs questions.
+    - Un professeur peut voir tout les tests passés et en cours des cours dont il a la charge.
+
+4. Règles métiers décidé par l'équipe
+
+    - Seul le professeur titulaire peut confirmer un candidat à son cours.
+    - Les ID de cours sont compris entre 1000 et 9999.
+    - Le code d'un cours est toujours en majuscule. 
+    - Plusieurs cours peuvent avoir le même code.
+    - Un professeur peut choisir une capacité inférieure au nombre d'inscrit, mais il est prévenu du surnombre.
+    - Un quiz doit comporte au moins une question comprenant au moins une proposition.
+    - Un professeur ne peut changer la date de début d'un quiz si celle-ci est dans le passé.
+    - Un professeur est autorisé à changer une question ou une proposition jusqu'à la fin d'un quiz.
+    - Les cours ont une capacité fixée entre 4 et 32
+
+5. UC de l'application
 
     Certaine user story ont été develloppées, consulter le tableau Trello : https://trello.com/b/pBZETczi/tgpr-2122-g03.
 	
@@ -65,7 +103,7 @@ EPFC
         UC_TeacherCoursesList					Deprecated		
 
 
-4. Utilisateurs de l'application
+6. Utilisateurs de l'application
 
     pseudo	password	fullname			birthdate	role
 
@@ -84,13 +122,13 @@ EPFC
     s		s			Etudiant Dev.		NULL		student
 
 
-5. Choix de l'équipe concernant le fonctionnement de l'application
+7. Documents explcatifs et choix relatifs à l'application
 
     - Le wireframe de l'application se trouve dans /doc/Moudeule_User_Interface.pdf
     - Les menus utilisent des chiffres de préférence à des initiale, à l'exception des options de navigation
     - Les instruction d'utilisation du GIT se trouvent dans un document séparé : /doc/Git_Instructions.txt
 	
-6. Bugs connus
+8. Bugs connus
 
     Les bugs sont documentés dans les fiches Trello de leur UC respectives.
-    Voir dans paragraphe 3 pour l'URL.
+    Voir dans paragraphe 5. pour l'URL.
