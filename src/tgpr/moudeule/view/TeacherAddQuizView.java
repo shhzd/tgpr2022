@@ -59,7 +59,7 @@ public class TeacherAddQuizView extends View{
         print("Cette proposition est-elle [1] vraie ou [2] fausse ? ");
     }
 
-    public void addNewQuestion(){
+    public void askAddNewQuestion(){
         println("[O/N] Voulez vous ajouter une question ? ");
     }
 

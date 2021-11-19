@@ -18,6 +18,7 @@ public class TeacherAddQuizController extends Controller{
         this.course = course;
     }
 
+
     @Override
     public void run() {
         var view = new TeacherAddQuizView();
@@ -49,7 +50,9 @@ public class TeacherAddQuizController extends Controller{
                 quiz.setcourseId(course.getId());
                 quiz.save();
 
-                Question quest = new Question();
+                new TeacherAddQuestionController(quiz, view).run();
+
+                /*Question quest = new Question();
                 quest.setquizId(quiz.getId());
                 String qtit = view.askQuestionText(quest.getTitle());
                 quest.setTitle(qtit);
@@ -61,12 +64,13 @@ public class TeacherAddQuizController extends Controller{
                 if (res.matches("2")){
                     quest.setType("QRM");
                 }
-                quest.save();
+                quest.save();*/
 
-                view.askAddOption();
-                res = view.askForString().toUpperCase();
-                if (res.equals("O")){
-                    Option opt = new Option();
+                //view.askAddOption();
+                //res = view.askForString().toUpperCase();
+                //if (res.equals("O")){
+                    //new TeacherAddOptionController(quest, view).run();
+                    /*Option opt = new Option();
                     opt.setQuestionId(quest.getId());
                     String optext = view.enterOptionText(opt.getTitle());
                     opt.setTitle(optext);
@@ -78,11 +82,11 @@ public class TeacherAddQuizController extends Controller{
                     if(res.matches("0")){
                         opt.setCorrect(0);
                     }
-                    opt.save();
-                }
-                if (res.equals("N")){
-                    view.addNewQuestion();
-                }
+                    opt.save();*/
+                //}
+                //if (res.equals("N")){
+                    //view.addNewQuestion();
+                //}
             } while (!res.equals("Q"));
 
         } catch (View.ActionInterruptedException e){
