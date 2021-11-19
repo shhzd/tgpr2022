@@ -59,8 +59,21 @@ public class TeacherEditCourseView extends View {
         println("[O/N] Confirmer la suppression du cours " + course.getId());
     }
 
+    public void displayEditID() {
+        println("[2] Modifier l'ID");
+    }
+    public void askID() {
+        print("Entrez le nouvel ID: ");
+    }
+    public void badID() {
+        this.showError("Entrez un ID valide (unique et numérique, entre 1000 et 9999)");
+    }
+    public void displayEditIDConfirmation() {
+        println("[O/N] Confirmer le nouvel ID");
+    }
+
     public void displayEditCode() {
-        println("[2] Modifier le code");
+        println("[3] Modifier le code");
     }
     public void askCode() {
         print("Entrez le nouveau code (4 caractères): ");
@@ -74,37 +87,38 @@ public class TeacherEditCourseView extends View {
 
 
     public void displayEditDescription() {
-        println("[3] Modifier la description");
+        println("[4] Modifier la description");
     }
     public void askDescription() {
         print("Entrez la nouvelle description: ");
+    }
+    public void badDescription() {
+        this.showError("Entrez une description");
     }
     public void displayEditDescriptionConfirmation() {
         println("[O/N] Confirmer la nouvelle description");
     }
 
     public void displayEditCapacity() {
-        println("[4] Modifier la capacité");
+        println("[5] Modifier la capacité");
     }
     public void askCapacity() {
         print("Entrez la nouvelle capacité : ");
     }
-    /**
-     public void badCapacity() {
-     println("Entrez une capacité valide");
-     }
-     */
+    public void badCapacity() {
+    this.showError("Entrez une capacité valide");
+    }
 
     public void displayEditCapacityConfirmation() {
         println("[O/N] Confirmer la nouvelle capacité");
     }
 
     public void displayManageRegistrations() {
-        println("[5] Gérer les inscriptions");
+        println("[6] Gérer les inscriptions");
     }
 
     public void displayManageQuiz() {
-        println("[6] Gérer les quiz");
+        println("[7] Gérer les quiz");
     }
 
     public void displayFooter() {
@@ -113,6 +127,10 @@ public class TeacherEditCourseView extends View {
 
     public String askForString() {
         return askString("", "", false);
+    }
+
+    public Integer askForInt() {
+        return askInteger("", null);
     }
 
 }
