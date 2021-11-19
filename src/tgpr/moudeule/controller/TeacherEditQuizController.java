@@ -23,6 +23,7 @@ public class TeacherEditQuizController extends Controller {
     @Override
     public void run() {
         var view = new TeacherEditQuizView();
+        if (MoudeuleApp.isLogged()) {
             try {
                 String res;
                 do {
@@ -64,16 +65,16 @@ public class TeacherEditQuizController extends Controller {
                             quiz.save();
                         } catch (View.ActionInterruptedException e) {
                         }
-                    } else if(res.equals("0")) {
+                    } else if (res.equals("0")) {
                         quiz.removeQuiz();
                         throw new View.ActionInterruptedException();
                     } else if (res.equals("S") && page < nbPages && nbPages > 1) {
                         ++page;
                     } else if (res.equals("P") && page > 1) {
                         --page;
-                    } else if (isParsable(res) && Integer.parseInt(res) >= 4 && Integer.parseInt(res) < 4 + questions.size()){
+                    } else if (isParsable(res) && Integer.parseInt(res) >= 4 && Integer.parseInt(res) < 4 + questions.size()) {
                         int index = Integer.parseInt(res) - 4;
-                        if(questions.get(index) != null) {
+                        if (questions.get(index) != null) {
                             new TeacherEditQuizQuestionController(questions.get(index).getId()).run();
                         }
                     }
@@ -81,6 +82,7 @@ public class TeacherEditQuizController extends Controller {
                 MoudeuleApp.logout();
             } catch (View.ActionInterruptedException e) {
             }
+        }
         view.close();
     }
 }
