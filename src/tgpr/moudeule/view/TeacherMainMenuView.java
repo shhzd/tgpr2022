@@ -16,6 +16,8 @@ public class TeacherMainMenuView extends View {
                 " ==\n");
     }
 
+    /** This should be refactored int controller
+     */
     public void displayMenu(List<Course> courses, int page, int nbPages, int lgPage) {
 
         if (courses.size() != 0) {
@@ -27,12 +29,12 @@ public class TeacherMainMenuView extends View {
         } else {
             println("Vous n'avez pas encore de cours.");
         }
+        println("\n[ID] Selectionner un cours - [0]  Ajouter un nouveau cours");
     }
 
     public void displayNavigationMenu(int page, int nbPages) {
-        println("\n[ID] Selectionner un cours - [0]  Ajouter un nouveau cours");
         println("[Q] Quitter Moudeule" +
-                ((page != nbPages) ? "- [S] page suivante " : "") +
+                ((page != nbPages && nbPages > 0) ? "- [S] page suivante " : "") +
                 ((page > 1) ? "- [P] page précédente " : "")
         );
     }
