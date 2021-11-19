@@ -127,6 +127,22 @@ public class User extends Model {
         return list;
     }
 
+    public static List<User> getAllStudents() {
+        var list = new ArrayList<User>();
+        try {
+            var stmt = db.prepareStatement("select * from users WHERE role = 2 order by pseudo ");
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var user = new User();
+                mapper(rs, user);
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static User getByPseudo(String pseudo) {
         User user = null;
         try {
