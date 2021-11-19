@@ -29,8 +29,8 @@ public class TeacherAddQuizView extends View{
     }
 
     public LocalDate askFinishDate(LocalDate actual){
-        return askDate("Ajoutez la date de fin : " +
-                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
+        return askDate("Ajoutez la date de fin (" +
+                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + ") : ", actual);
     }
 
     public void displayFinishDateError(Quiz quiz, LocalDate newDate) {

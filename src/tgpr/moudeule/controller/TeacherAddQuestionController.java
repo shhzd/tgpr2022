@@ -44,7 +44,7 @@ public class TeacherAddQuestionController extends Controller{
                 new TeacherAddQuestionController(quiz, view).run();
             }
             if (subres.equals("N")){
-                new TeacherQuizzesListController(quiz.getcourseId()).run();
+                new TeacherEditQuizController(quiz.getId()).run();
             }
 
 

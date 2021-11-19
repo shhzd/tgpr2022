@@ -1,7 +1,9 @@
 package tgpr.moudeule.controller;
 
+import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
+import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
 
 public class TeacherAddOptionController extends Controller{
@@ -26,7 +28,7 @@ public class TeacherAddOptionController extends Controller{
         if(res.matches("1")){
             opt.setCorrect(1);
         }
-        if(res.matches("0")){
+        if(res.matches("2")){
             opt.setCorrect(0);
         }
         opt.save();
@@ -35,6 +37,17 @@ public class TeacherAddOptionController extends Controller{
         res = view.askForString().toUpperCase();
         if (res.equals("O")){
             new TeacherAddOptionController(question, view).run();
+        }
+        if (res.equals("N")){
+            view.askAddNewQuestion();
+            res = view.askForString().toUpperCase();
+            if (res.equals("O")){
+                new TeacherAddQuestionController(Quiz.getById(question.getquizId()), view).run();
+            }
+            if (res.equals("N")){
+                new TeacherEditQuizController(question.getquizId()).run();
+            }
+
         }
 
     }
