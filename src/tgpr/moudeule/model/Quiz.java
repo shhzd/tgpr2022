@@ -219,4 +219,5 @@ public class Quiz extends Model {
         }
         return quiz;
     }
+
 }

@@ -163,5 +163,19 @@ public class Option extends Model {
         return count == 1;
     }
 
-
+    public static List<String> getAllOptionTitlesOfQuestions(int idQuestion) {
+        var list = new ArrayList<String>();
+        try {
+            var stmt = db.prepareStatement("SELECT title FROM options WHERE question IN (SELECT id FROM questions WHERE id = ?)");
+            stmt.setInt(1, idQuestion);
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var title = rs.getString("title");
+                list.add(title);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }
