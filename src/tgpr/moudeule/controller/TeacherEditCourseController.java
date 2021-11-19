@@ -77,7 +77,7 @@ import tgpr.moudeule.view.View;
                             resInt = view.askForInt();
                         }
 
-                        int newID = resInt;
+                        int newID = resInt.intValue();
                         view.displayEditIDConfirmation();
                         res = view.askForString().toUpperCase();
                         switch (res) {
@@ -131,7 +131,7 @@ import tgpr.moudeule.view.View;
                             view.askCapacity();
                             resCap = view.askForInt();
                         }
-                        int newCapacity = resCap;
+                        int newCapacity = resCap.intValue();
                         view.displayEditCapacityConfirmation();
                         res = view.askForString().toUpperCase();
                         switch (res) {
