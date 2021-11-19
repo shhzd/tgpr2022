@@ -220,4 +220,15 @@ public class Quiz extends Model {
         return quiz;
     }
 
+    public boolean removeQuiz() {
+        int count = 0;
+        try {
+            var stmt = db.prepareStatement("DELETE FROM quizzes WHERE id = ?");
+            stmt.setInt(1, this.getId());
+            count = stmt.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return count == 1;
+    }
 }

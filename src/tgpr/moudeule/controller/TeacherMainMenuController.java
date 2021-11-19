@@ -48,7 +48,7 @@ public class TeacherMainMenuController extends Controller {
                 }
                 /** Uncomment to test TeacherEditQuiz **/
                 if (res.equals("4")) {
-                    new TeacherEditQuizController(4).run();
+                    new TeacherEditQuizController(2).run();
                 }
 
                 /** ONLY uncomment to test TeacherManageStudentRegistration **/
