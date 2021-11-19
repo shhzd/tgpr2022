@@ -44,7 +44,7 @@ public class TeacherAddQuizController extends Controller{
                     finishDate = view.askFinishDate(quiz.getFinish());
                 }
                 quiz.setFinish(finishDate);
-
+                quiz.setcourseId(course.getId());
                 quiz.save();
 
 
