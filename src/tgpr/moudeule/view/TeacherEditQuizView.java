@@ -20,8 +20,8 @@ public class TeacherEditQuizView extends View {
     }
 
     public void displayOption(Quiz quiz, int page, int nbPages, int lgPage) {
-        println("\n[ESC] Pour abandonner la modification");
-        println("\n[1] Modifier le titre : " + quiz.getTitle());
+        println("\n[0] Supprimer le quiz");
+        println("[1] Modifier le titre : " + quiz.getTitle());
         println("[2] Modifier la date de début : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(quiz.getStart()));
         println("[3] Modifier la date de fin : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(quiz.getFinish()) + "\n");
         List<Question> questions = Question.getQuestionsByQuiz(quiz.getId());
@@ -36,7 +36,7 @@ public class TeacherEditQuizView extends View {
                 }
             }
         }
-        println("\n[R] Retour - [Q] Quitter" + ((page != nbPages) ? " - [S] Page suivante " : "") +
+        println("\n[ESC] Retour - [Q] Quitter" + ((page != nbPages) ? " - [S] Page suivante " : "") +
                 ((page > 1) ? " - [P] Page précédente " : ""));
     }
 

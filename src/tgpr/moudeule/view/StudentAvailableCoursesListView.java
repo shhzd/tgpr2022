@@ -49,7 +49,7 @@ public class StudentAvailableCoursesListView extends View {
 
     public void displayOption(List<Course> courses, int page, int nbPages, int lgPage) {
         println("\n[ID] Selectionner un cours" +
-                "\n[R] Retour - [Q] Quitter" + (((page) != nbPages) ? " - [S] Page suivante " : "") +
+                "\n[ESC] Retour - [Q] Quitter" + (((page) != nbPages) ? " - [S] Page suivante " : "") +
                 ((page > 1) ? " - [P] Page précédente " : "")); //-
     }
 

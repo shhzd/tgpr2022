@@ -7,6 +7,8 @@ import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherEditQuizQuestionView;
 import tgpr.moudeule.view.View;
 
+import java.util.List;
+
 public class TeacherEditQuizQuestionController extends Controller {
 
     private int questionId;
@@ -42,6 +44,7 @@ public class TeacherEditQuizQuestionController extends Controller {
                     String title = view.askForTitle(question.getTitle());
                     question.setTitle(title);
                     question.save();
+
                 } else if (res.equals("2")) {
                     if (question.getType().equalsIgnoreCase("QRM") && Question.getNumberTrueAnswers(question) < 2 || question.getType().equalsIgnoreCase("QCM")) {
                         String type = view.askForType(question.getType());
@@ -58,17 +61,22 @@ public class TeacherEditQuizQuestionController extends Controller {
                 } else if (res.equals("0")) {
                     try {
                         String optionTitle = view.askForOptionTitle();
-                        int optionCorrect = view.askForOptionCorrect();
-                        if (optionCorrect == 1 && question.getType().equalsIgnoreCase("QCM")) {
-                            for (Option option : options) {
-                                option.setCorrect(0);
-                                option.save();
+                        List<String> existingOptions = Option.getAllOptionTitlesOfQuestions(questionId);
+                        if(!existingOptions.contains(optionTitle)) {
+                            int optionCorrect = view.askForOptionCorrect();
+                            if (optionCorrect == 1 && question.getType().equalsIgnoreCase("QCM")) {
+                                for (Option option : options) {
+                                    option.setCorrect(0);
+                                    option.save();
+                                }
                             }
-                        }
-                        Option newOption = new Option(optionTitle, optionCorrect, questionId);
-                        if (!(optionTitle == null || optionTitle.equals(""))) {
-                            newOption.setTitle(optionTitle);
-                            newOption.save();
+                            Option newOption = new Option(optionTitle, optionCorrect, questionId);
+                            if (!(optionTitle == null || optionTitle.equals(""))) {
+                                newOption.setTitle(optionTitle);
+                                newOption.save();
+                            }
+                        } else {
+                            view.showTypeErrorExistingOption();
                         }
                     } catch (View.ActionInterruptedException e) {
                     }

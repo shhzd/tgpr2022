@@ -22,67 +22,67 @@ public class TeacherEditQuizController extends Controller {
 
     @Override
     public void run() {
-        var questions = Question.getQuestionsByQuiz(this.quizId);
         var view = new TeacherEditQuizView();
-        var quiz = Quiz.getById(quizId);
-        try {
-            String res;
-            do {
-                int nbPages = (int) Math.ceil(questions.size() / ((double) NUMBER_DISPLAY_LINE));
-                view.displayHeaderWithPseudoAndPageNumber(quiz, page, nbPages);
-                view.displayTitle(quiz);
-                view.displayOption(quiz, page, nbPages, NUMBER_DISPLAY_LINE);
+        if (MoudeuleApp.isLogged()) {
+            try {
+                String res;
+                do {
+                    var questions = Question.getQuestionsByQuiz(this.quizId);
+                    var quiz = Quiz.getById(quizId);
+                    int nbPages = (int) Math.ceil(questions.size() / ((double) NUMBER_DISPLAY_LINE));
+                    view.displayHeaderWithPseudoAndPageNumber(quiz, page, nbPages);
+                    view.displayTitle(quiz);
+                    view.displayOption(quiz, page, nbPages, NUMBER_DISPLAY_LINE);
 
-                res = view.askForString().toUpperCase();
+                    res = view.askForString().toUpperCase();
 
-                if (res.equals("1")) {
-                    try {
-                        String title = view.askForTitle(quiz.getTitle());
-                        quiz.setTitle(title);
-                        quiz.save();
-                    } catch (View.ActionInterruptedException e) {
-                    }
-                } else if (res.equals("2")) {
-                    try {
-                        LocalDate startDate = view.askForStartDate(quiz.getStart());
-                        while (!quiz.isValidNewStartDate(startDate)) {
-                            view.displayStartDateError(quiz, startDate);
-                            startDate = view.askForStartDate(quiz.getStart());
+                    if (res.equals("1")) {
+                        try {
+                            String title = view.askForTitle(quiz.getTitle());
+                            quiz.setTitle(title);
+                            quiz.save();
+                        } catch (View.ActionInterruptedException e) {
                         }
-                        quiz.setStart(startDate);
-                        quiz.save();
-                    } catch (View.ActionInterruptedException e) {
-                    }
-                } else if (res.equals("3")) {
-                    try {
-                        LocalDate endDate = view.askForFinishDate(quiz.getFinish());
-                        while (!quiz.isValidNewFinishedDate(endDate)) {
-                            view.displayFinisedDateError(quiz, endDate);
-                            endDate = view.askForFinishDate(quiz.getFinish());
+                    } else if (res.equals("2")) {
+                        try {
+                            LocalDate startDate = view.askForStartDate(quiz.getStart());
+                            while (!quiz.isValidNewStartDate(startDate)) {
+                                view.displayStartDateError(quiz, startDate);
+                                startDate = view.askForStartDate(quiz.getStart());
+                            }
+                            quiz.setStart(startDate);
+                            quiz.save();
+                        } catch (View.ActionInterruptedException e) {
                         }
-                        quiz.setFinish(endDate);
-                        quiz.save();
-                    } catch (View.ActionInterruptedException e) {
+                    } else if (res.equals("3")) {
+                        try {
+                            LocalDate endDate = view.askForFinishDate(quiz.getFinish());
+                            while (!quiz.isValidNewFinishedDate(endDate)) {
+                                view.displayFinisedDateError(quiz, endDate);
+                                endDate = view.askForFinishDate(quiz.getFinish());
+                            }
+                            quiz.setFinish(endDate);
+                            quiz.save();
+                        } catch (View.ActionInterruptedException e) {
+                        }
+                    } else if (res.equals("0")) {
+                        quiz.removeQuiz();
+                        throw new View.ActionInterruptedException();
+                    } else if (res.equals("S") && page < nbPages && nbPages > 1) {
+                        ++page;
+                    } else if (res.equals("P") && page > 1) {
+                        --page;
+                    } else if (isParsable(res) && Integer.parseInt(res) >= 4 && Integer.parseInt(res) < 4 + questions.size()) {
+                        int index = Integer.parseInt(res) - 4;
+                        if (questions.get(index) != null) {
+                            new TeacherEditQuizQuestionController(questions.get(index).getId()).run();
+                        }
                     }
-                } else if (res.equals("S") && page < nbPages && nbPages > 1) {
-                    ++page;
-                } else if (res.equals("P") && page > 1) {
-                    --page;
-                } else if (res.equals("R")) {
-                    new TeacherMainMenuController().run();
-                    /**to uncomment when is done
-                     new TeacherQuizzesList().run();
-                     **/
-                } else if (isParsable(res) && Integer.parseInt(res) >= 4 && Integer.parseInt(res) < 4 + questions.size()){
-                    int index = Integer.parseInt(res) - 4;
-                    if(questions.get(index) != null) {
-                        new TeacherEditQuizQuestionController(questions.get(index).getId()).run();
-                    }
-                }
-            } while (!res.equals("Q"));
-        } catch (View.ActionInterruptedException e) {
+                } while (!res.equals("Q"));
+                MoudeuleApp.logout();
+            } catch (View.ActionInterruptedException e) {
+            }
         }
-        MoudeuleApp.logout();
-        new StartMenuController().run();
+        view.close();
     }
 }
