@@ -60,7 +60,7 @@ EPFC
     - Le code d'un cours est toujours en majuscule. 
     - Plusieurs cours peuvent avoir le même code.
     - Un professeur peut choisir une capacité inférieure au nombre d'inscrit, mais il est prévenu du surnombre.
-    - Un quiz doit comporte au moins une question comprenant au moins une proposition.
+    - Un quiz doit comporte au moins une question comprenant au moins deux propositions.
     - Un professeur ne peut changer la date de début d'un quiz si celle-ci est dans le passé.
     - Un professeur est autorisé à changer une question ou une proposition jusqu'à la fin d'un quiz.
     - Les cours ont une capacité fixée entre 4 et 32
@@ -128,7 +128,24 @@ EPFC
     - Les menus utilisent des chiffres de préférence à des initiale, à l'exception des options de navigation
     - Les instruction d'utilisation du GIT se trouvent dans un document séparé : /doc/Git_Instructions.txt
 	
-8. Bugs connus
+   1. Bugs connus
 
-    Les bugs sont documentés dans les fiches Trello de leur UC respectives.
-    Voir dans paragraphe 5. pour l'URL.
+      - GENERAL : Nom de l'application
+      - GENERAL : Passage d'un controleur à l'autre 
+      - bug global sur certaines UC au niveau sur le retour, les controlleur ne se ferment pas comme il le faudrait.
+        certaines UC ont été corrigées, mais la solution n'a pas encore été implementée sur tout le site
+      - UC Login : impossible de quitter la boucle
+      - UC_TeachereditCourse : modifier ID cours provoque une dupplication
+      - UC_TeachereditCourse : ajouter try catch dans édition
+      - UC_TeachereditCourse : ajouter capacité valide
+      - UC_TeacherManageStudent : faute orthographe
+      - UC_TeacherManageStudent : suppression des tests lors de suppression etudiant
+      - UC_TeacherAddQuizz : validation métier et filtrage des champs vide
+      - UC_TeacherQuizList : problème rafraichissement liste après création
+      - UC_TeacherQuizList : appel d'un cours n'existant pas dans la liste
+      - UC_AddCourse : ne pas utiliser error mais pause
+      - UC_ViewCourse : Suppression des test et quiz des cours supprimé
+      - UC_TeacherEditQuiz : ???? suppression en cascade ????
+      - UC_TeacherAddStudent : selection impossible n>9
+
+
