@@ -42,11 +42,14 @@ public class TeacherMainMenuController extends Controller {
                 int lgPage = 14;
                 int nbPages = (int)Math.ceil(courses.size() / (lgPage + 0.0));
 
+                view.displaySubHeader(page, nbPages);
                 view.displayMenu(courses, page, nbPages, lgPage);
+                view.displayNavigationMenu(page, nbPages);
+
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
                 if (res.length() > 1) {
                     Course course = Course.getCourseByID(res);
-                    if (course != null) {
+                    if (course != null && courses.contains(course)) {
                         keepLooping = false;
                         leave("E", course);
                     }
@@ -61,10 +64,7 @@ public class TeacherMainMenuController extends Controller {
                     keepLooping = false;
                     leave(res);
                 }
-                /** Uncomment to test TeacherEditQuiz **/
-//                if (res.equals("4")) {
-//                    new TeacherEditQuizController(4).run();
-//                }
+
 
             } while (!res.equals("Q") && keepLooping);
         } catch (View.ActionInterruptedException e) {
