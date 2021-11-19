@@ -1,17 +1,14 @@
 package tgpr.moudeule.view;
 
-import tgpr.moudeule.model.Course;
-import tgpr.moudeule.model.User;
-
-import java.util.List;
-
 public class TeacherManageStudentRegistrationView extends View {
     public void displayHeaderWithCourse(String courseID) {
         displayHeader("Gestion des inscription - cours " + courseID);
     }
 
     public void displaySubHeaderWithPage(int page, int nbPages){
-        println("== Liste des étudiants - page " + page + " de " + nbPages + " ==\n");
+        println("== Liste des étudiants - page " + page +
+            ((nbPages > 1) ? " de " + nbPages : "") +
+            " ==\n");
     }
 
     public void displayCourseCapacity(int activeStudent, int courseCapacity) {
@@ -22,41 +19,45 @@ public class TeacherManageStudentRegistrationView extends View {
         println("");
     }
 
-    public void displayMenu(List<User> students, Course course, int page, int nbPages, int lgPage) {
+    public void displayEmptyListMenu() {
+        println("Aucun étudiant inscrit \n\n[I] Inscrire d'office un étudiant ");
+    }
 
-        for (int i = 0 ; (i + ((page - 1) * lgPage)) < students.size() && i < (lgPage + 1) ; i++) {
-            User student = students.get(i + ((page - 1) * lgPage));
-            println(prettyString(student, i, course));
-        }
+    public void displayMenu() {
         println("\n[n] Selectionner un étudiant - [I] Inscrire d'office un étudiant ");
-        println("[R] Retour - [Q] Quitter " +
-            ((page > 1) ? "- [P] page précédente " : "") +
-            ((page != nbPages) ? "- [S] page suivante " : ""));
     }
 
-    public String askForString() {
-        return askString("", "", false);
+    public void displayStudent(String fullname, int i, String status ) {
+        println( "[" + ((i < 9) ? " " : "") +
+                (i+1) +  "] " + fullname +
+                " - (" + status + ")"
+        );
     }
 
-    private String prettyString(User student, int i, Course course) {
-        return "[" + ((i < 9) ? " " : "") +
-            (i+1) +  "] " + student.getFullname() +
-            " - (" + student.getStatus(course) + ")";
+    public void displayNavigationMenu(int page, int nbPages) {
+        println("[ESC] Retour - [Q] Quitter " +
+                ((page != nbPages && nbPages > 0) ? "- [S] page suivante " : "") +
+                ((page > 1) ? "- [P] page précédente " : "")
+        );
     }
 
-    public void displaySubMenu(User Student, String status) {
+    public void displaySubMenu(String fullname, String status) {
         switch (status) {
             case "en attente":
-                print("Voulez vous : [1] Activer " + Student.getFullname());
+                print("Voulez vous : [1] Activer " + fullname);
                 break;
             case "actif":
-                print("Voulez vous : [1] Supprimer " + Student.getFullname());
+                print("Voulez vous : [1] Supprimer " + fullname);
                 break;
         }
     }
 
     public void showWarning() {
         this.warning("Attention, cette opération est irréversible !");
+    }
+
+    public String askForString() {
+        return askString("", "", false);
     }
 
     public View.Action askForAction() {

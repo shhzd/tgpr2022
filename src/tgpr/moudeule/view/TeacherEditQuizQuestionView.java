@@ -38,7 +38,7 @@ public class TeacherEditQuizQuestionView extends View {
     }
 
     public void displaySubOptions() {
-        println("\n[0] Pour quitter le menu de modifiction");
+        println("\n[0] Pour quitter le menu de modification");
         println("[1] Modifier le texte de la proposition");
         println("[2] Modifier la réponse à la proposition");
         println("[3] Supprimer la proposition");
@@ -92,5 +92,9 @@ public class TeacherEditQuizQuestionView extends View {
 
     public void showTypeErrorNoCorrectAnswer() {
         showError("Impossible de changer la réponse, un QRM doit contenir au moins une bonne réponse.");
+    }
+
+    public void showTypeErrorExistingOption() {
+        showError("Cette option existe déjà.");
     }
 }

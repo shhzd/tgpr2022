@@ -16,40 +16,32 @@ public class TeacherAddStudentView extends View {
         println("== Liste des étudiants - page " + page + " de " + nbPages + " ==\n");
     }
 
-    public void displayCourseCapacity(int activeStudent, int courseCapacity) {
-        println("Capacité annoncée du cours : " + courseCapacity + ", actuellement : " + activeStudent + " inscriptions confirmées");
-        if (activeStudent > courseCapacity)
-            this.warning("Capacité dépassée de : " + (activeStudent - courseCapacity) + " étudiant" +
-                    ((((activeStudent - courseCapacity) > 1)) ? "s." : "."));
-        println("");
-    }
+    public void displayNewStudents(List<User> sUsers) {
+        int i = 1;
+        for(User s:sUsers){
+            println("[" + i  + "]" + s.getFullname());
+            i++;
 
-    public void displayMenu(List<User> students, Course course, int page, int nbPages, int lgPage) {
-
-        for (int i = 0 ; (i + ((page - 1) * lgPage)) < students.size() && i < (lgPage + 1) ; i++) {
-            User student = students.get(i + ((page - 1) * lgPage));
-            println(prettyString(student, i, course));
         }
         println("\n[n] Selectionner un étudiant");
-        println("[R] Retour - [Q] Quitter " +
-                ((page > 1) ? "- [P] page précédente " : "") +
-                ((page != nbPages) ? "- [S] page suivante " : ""));
+        println("[R] Retour - [Q] Quitter ");
     }
-
     public String askForString() {
         return askString("", "", false);
     }
 
     private String prettyString(User student, int i, Course course) {
         return "[" + ((i < 9) ? " " : "") +
-                (i+1) +  "] " + student.getFullname() +
-                " - (" + student.getStatus(course) + ")";
+                (i+1) +  "] " + student.getFullname();
     }
 
     public void displaySubMenu(User Student, String status) {
         switch (status) {
-            case "1":
-                print("Voulez vous : [1] [I] Inscrire un étudiant " + Student.getFullname());
+            case "en attent":
+                print("Voulez vous : [1] Inscrire " + Student.getFullname());
+                break;
+            case "actif":
+                print("Voulez vous : [1] Inscrire " + Student.getFullname());
                 break;
         }
     }
