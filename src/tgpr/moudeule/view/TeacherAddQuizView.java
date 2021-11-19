@@ -18,8 +18,8 @@ public class TeacherAddQuizView extends View{
     }
 
     public LocalDate askStartDate(LocalDate actual){
-        return askDate("Ajoutez la date de début : "+
-                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
+        return askDate("Ajoutez la date de début ("+
+                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + ") : ", actual);
     }
 
     public void displayStartDateError(Quiz quiz, LocalDate newDate) {
@@ -39,12 +39,12 @@ public class TeacherAddQuizView extends View{
         }
     }
 
-    public String askQuestion(String actual){
+    public String askQuestionText(String actual){
         return askString("Ajoutez l'énoncé de la question : ", actual);
     }
 
-    public String askType(String actual){
-        return askString("Est-ce une [1] QCM ou une [2] QRM ?", actual);
+    public void askQuestionType(){
+        print("Est-ce une [1] QCM ou une [2] QRM ?");
     }
 
     public void askAddOption(){
@@ -55,8 +55,8 @@ public class TeacherAddQuizView extends View{
         return askString("Entrez la proposition : ", actual);
     }
 
-    public String enterOptionValue(String actual){
-        return askString("Cette proposition est-elle [1] vraie ou [2] fausse ? ", actual);
+    public void enterOptionValue(){
+        print("Cette proposition est-elle [1] vraie ou [2] fausse ? ");
     }
 
     public void addNewQuestion(){
