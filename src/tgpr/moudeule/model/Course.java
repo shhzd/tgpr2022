@@ -315,7 +315,7 @@ public class Course extends Model {
         return studentsList;
     }
 
-    public boolean isActive(Course course, User student) {
+    public boolean isActive(User student) {
         try {
             var stmt = db.prepareStatement("SELECT * FROM registrations WHERE student =? AND course =? AND active = 1");
             stmt.setString(1, student.getPseudo());
