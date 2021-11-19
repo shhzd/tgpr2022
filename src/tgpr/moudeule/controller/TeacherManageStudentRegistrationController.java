@@ -46,11 +46,11 @@ public class TeacherManageStudentRegistrationController extends Controller {
                     res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
                     if (res.equals("I")) {
-                        view.pausedWarning("Cette opération n'est pas encore possible");
-//                        new TeacherAddStudentController(course).run();
+//                        view.pausedWarning("Cette opération n'est pas encore possible");
+                        new TeacherAddStudentController(course).run();
                     }
 
-                    if (res.matches("[1-9]|[0][1-9]|[1][0-2]")) {
+                    if (res.matches("[1-9]|[0][1-9]|[1][0-5]")) {
                         User student = students.get((int) Integer.parseInt(res) - 1);
                         if (student == null)
                             throw new View.ActionInterruptedException();
