@@ -63,7 +63,7 @@ public class SignupController extends Controller {
 
             res = view.askForConfirmation();
             switch (res.getAction()) {
-                case 'V' :
+                case '0' :
                     user.setPseudo(pseudo);
                     user.setPassword(password);
                     user.setFullname(fullname);
@@ -74,8 +74,8 @@ public class SignupController extends Controller {
                     MoudeuleApp.setLoggedUser(user);
                     new StudentMainMenuController().run();
                     break;
-                case 'A' :
-                    new StartMenuController().run();
+                case 'N' :
+                    new SignupController().run();
                     break;
             }
         } catch (View.ActionInterruptedException e) {

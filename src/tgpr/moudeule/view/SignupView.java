@@ -44,14 +44,14 @@ public class SignupView extends View{
     }
 
     public void showEnteredData(String pseudo, String fullname, LocalDate birthdate) {
-        println("Vous avez entré");
+        println("\nVous avez entré");
         println("pseudo: " + pseudo);
         println("fullname: " + fullname);
         println("date de naissance: " + birthdate);
     }
 
     public View.Action askForConfirmation() {
-        return doAskForAction(-1, "\n[V] Valider, [A] Annuler", "[vVaA]");
+        return doAskForAction(-1, "\n[O/N] Confirmer les données saisies]", "[oOnN]");
     }
 
 }
