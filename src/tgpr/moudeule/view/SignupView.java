@@ -43,15 +43,8 @@ public class SignupView extends View{
         return askDate("Date de naissance (JJ/MM/AAAA): ", actual);
     }
 
-    public void showEnteredData(String pseudo, String fullname, LocalDate birthdate) {
-        println("\nVous avez entré");
-        println("pseudo: " + pseudo);
-        println("fullname: " + fullname);
-        println("date de naissance: " + birthdate);
-    }
-
     public View.Action askForConfirmation() {
-        return doAskForAction(-1, "\n[O/N] Confirmer les données saisies]", "[oOnN]");
+        return doAskForAction(-1, "\n[O/N] Confirmer les données saisies", "[oOnN]");
     }
 
 }
