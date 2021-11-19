@@ -46,7 +46,7 @@ public class TeacherManageStudentRegistrationView extends View {
 
     public void displaySubMenu(User Student, String status) {
         switch (status) {
-            case "en attente":
+            case "en attent":
                 print("Voulez vous : [1] Activer " + Student.getFullname());
                 break;
             case "actif":

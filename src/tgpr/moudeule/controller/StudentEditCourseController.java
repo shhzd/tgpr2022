@@ -47,6 +47,7 @@ public class StudentEditCourseController extends Controller {
                             res = view.askForString().toUpperCase();
                             if (res.equals("O")) {
                                 student.deactivateCourse(course);
+                                courses = student.getRegistratedCourses();
                             }
                         }
                     } else {
