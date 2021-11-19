@@ -235,6 +235,7 @@ public class User extends Model {
         }
         return count == 1;
     }
+
     public List<Course> getAvailableCourses() {
         if(this.role.equals(Role.STUDENT)) {
             var list = new ArrayList<Course>();

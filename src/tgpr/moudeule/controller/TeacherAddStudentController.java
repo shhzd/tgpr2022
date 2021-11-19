@@ -55,8 +55,8 @@ public class TeacherAddStudentController extends Controller {
                 int nbPages = (int)Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
                 view.displaySubHeaderWithPage(page, nbPages);
-                var newStudentr = newStudent(course);
-                view.displayNewStudents(newStudentr);
+                var newStudent = newStudent(course);
+                view.displayNewStudents(newStudent);
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
                 if (res.equals("R")) {
