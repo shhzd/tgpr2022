@@ -1,6 +1,5 @@
 package tgpr.moudeule.controller;
 
-import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
 import tgpr.moudeule.model.Quiz;

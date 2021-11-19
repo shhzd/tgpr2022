@@ -19,9 +19,9 @@ public class TeacherAddQuestionController extends Controller{
         Question quest = new Question();
         quest.setquizId(quiz.getId());
         String qtit = view.askQuestionText(quest.getTitle());
-        String res;
         quest.setTitle(qtit);
         view.askQuestionType();
+        String res;
         res = view.askForString();
         if (res.matches("1")){
             quest.setType("QCM");
