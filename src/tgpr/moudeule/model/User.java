@@ -225,19 +225,14 @@ public class User extends Model {
             var list = new ArrayList<Course>();
             try {
                 var stmt = db.prepareStatement(
-                        "SELECT c.* FROM courses c JOIN registrations r ON c.id = r.course\n" +
-                                "WHERE c.id NOT IN (SELECT course FROM registrations r WHERE student = ? AND active = 1)\n" +
+                        "(SELECT * FROM courses WHERE id NOT IN (SELECT course FROM registrations)\n" +
+                                "UNION\n" +
+                                "SELECT * FROM courses WHERE id IN (SELECT course FROM registrations WHERE active = 0 and Student = ?)\n" +
+                                "UNION\n" +
+                                "SELECT c.* FROM courses c JOIN registrations r ON c.id = r.course \n" +
+                                "WHERE c.id NOT IN (SELECT course FROM registrations WHERE student = ? AND active = 1)\n" +
                                 "GROUP BY c.id\n" +
-                                "HAVING Count(*) < c.capacity\n" +
-                                "\n" +
-                                "UNION \n" +
-                                "\n" +
-                                "SELECT c.* FROM courses c \n" +
-                                "WHERE c.id NOT IN (SELECT course FROM registrations)\n" +
-                                "\n" +
-                                "UNION \n" +
-                                "\n" +
-                                "SELECT c.* FROM courses c WHERE c.id IN (SELECT course FROM registrations r WHERE student = ? AND active = 0)");
+                                "HAVING Count(*) < c.capacity) ORDER BY id;");
                 stmt.setString(1, this.pseudo);
                 stmt.setString(2, this.pseudo);
                 var rs = stmt.executeQuery();
