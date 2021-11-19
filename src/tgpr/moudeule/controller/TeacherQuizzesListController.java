@@ -11,28 +11,11 @@ import java.util.List;
 public class TeacherQuizzesListController extends Controller {
 
     private final Course course;
-    //private final TeacherQuizzesListView view;
 
     public TeacherQuizzesListController(int courseID) {
         this.course = Course.getCourseByID(courseID);
-        //this.view = new TeacherQuizzesListView();
     }
 
-    /*public int quizzesAmount(List<Quiz> quizzes){
-        int i = 0;
-        for(Quiz q : quizzes){
-            ++i;
-        }
-        return i;
-    }*/
-
-    /*public int quizId(List<Quiz> quizzes){
-        int max = 0;
-        for(Quiz q : quizzes){
-            max = q.getId();
-        }
-        return max;
-    }*/
 
     @Override
     public void run() {
@@ -40,7 +23,6 @@ public class TeacherQuizzesListController extends Controller {
         List<Quiz> quizzes;
         quizzes = Quiz.getQuizzesBycourseId(course.getId());
         var view = new TeacherQuizzesListView();
-        //int maxNumber = quizId(quizzes);
 
         try {
             String res;
@@ -54,24 +36,12 @@ public class TeacherQuizzesListController extends Controller {
                     new TeacherEditQuizController(q.getId()).run();
                 }
                 if (res.matches("0")){
-                    view.pausedWarning("Développement en cours");
-                    //new TeacherAddQuizController(course).run();
+                    new TeacherAddQuizController(course).run();
                 }
                 if (res.equals("R")){
                     new TeacherEditCourseController(course.getId()).run();
                 }
-                /*res = view.askForAction(maxNumber);
-                switch (res.getAction()) {
-                    case '0':
-                        //new TeacherAddQuizController(course).run(); //add view and controller;
-                        view.pausedWarning("Cette opération n'est pas encore disponible");
-                        break;
-                    case 'S':
-                        int q;
-                        q = res.getNumber();
-                        new TeacherEditQuizController(q).run();
-                        break;
-                }*/
+
             } while (!res.equals("Q"));
             MoudeuleApp.logout();
             new StartMenuController().run();
