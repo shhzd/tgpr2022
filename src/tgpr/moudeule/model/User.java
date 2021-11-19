@@ -285,7 +285,7 @@ public class User extends Model {
 
     public static String isValidBirthdate(LocalDate birthdate) {
         if (birthdate == null)
-            return null;
+            return "entrez une date";
         if (birthdate.compareTo(VariableForTesting.getCurrentDate()) > 0)
             return "impossible d'être né dans le futur";
         if (Period.between(birthdate, VariableForTesting.getCurrentDate()).getYears() < 18)
