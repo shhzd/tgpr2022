@@ -33,11 +33,12 @@ public class TeacherMainMenuView extends View {
     }
 
     public void displayNavigationMenu(int page, int nbPages) {
-        println("[Q] Quitter Moudeule" +
+        println("[ESC] Retour - [Q] Quitter " +
                 ((page != nbPages && nbPages > 0) ? "- [S] page suivante " : "") +
                 ((page > 1) ? "- [P] page précédente " : "")
         );
     }
+
     public String askForString() {
         return askString("", "", false);
     }
