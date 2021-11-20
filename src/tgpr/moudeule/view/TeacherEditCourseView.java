@@ -4,6 +4,7 @@ import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.User;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 public class TeacherEditCourseView extends View {
 
@@ -13,10 +14,13 @@ public class TeacherEditCourseView extends View {
 
     public void displayregistratedStudents(List<User> students) {
         if (students.size() > 0) {
-            for (var student : students) {
-                print(student.fullname + ", ");
+
+            StringJoiner joiner = new StringJoiner(", ", "", ".");
+            for(var student : students) {
+                joiner.add(student.fullname);
             }
-            println("");
+            println(joiner.toString());
+
         } else {
             println("Aucun inscrit");
         }
@@ -24,10 +28,11 @@ public class TeacherEditCourseView extends View {
 
     public void displayWaitingList(List<User> students) {
         if (students.size() > 0) {
-            for (var student : students) {
-                print(student.fullname + ", ");
+            StringJoiner joiner = new StringJoiner(", ", "", ".");
+            for(var student : students) {
+                joiner.add(student.fullname);
             }
-            System.out.println("");
+            println(joiner.toString());
         } else {
             println("Personne dans la liste d'attente");
         }
