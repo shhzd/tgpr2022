@@ -3,6 +3,7 @@ package tgpr.moudeule.controller;
 import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Question;
 import tgpr.moudeule.model.Quiz;
+import tgpr.moudeule.model.VariableForTesting;
 import tgpr.moudeule.view.TeacherEditQuizView;
 import tgpr.moudeule.view.View;
 
@@ -44,20 +45,25 @@ public class TeacherEditQuizController extends Controller {
                         }
                     } else if (res.equals("2")) {
                         try {
-                            LocalDate startDate = view.askForStartDate(quiz.getStart());
-                            while (!quiz.isValidNewStartDate(startDate)) {
-                                view.displayStartDateError(quiz, startDate);
-                                startDate = view.askForStartDate(quiz.getStart());
+                            if(VariableForTesting.getCurrentDate().compareTo(quiz.getStart()) >= 0) {
+                                view.displayErrorQuizStarted();
+                            } else {
+                                LocalDate startDate = view.askForStartDate(quiz.getStart());
+                                while (!quiz.isValidNewStartDate(startDate)) {
+                                    view.displayStartDateError(quiz, startDate);
+                                    startDate = view.askForStartDate(quiz.getStart());
+                                }
+                                quiz.setStart(startDate);
+                                quiz.save();
                             }
-                            quiz.setStart(startDate);
-                            quiz.save();
+
                         } catch (View.ActionInterruptedException e) {
                         }
                     } else if (res.equals("3")) {
                         try {
                             LocalDate endDate = view.askForFinishDate(quiz.getFinish());
                             while (!quiz.isValidNewFinishedDate(endDate)) {
-                                view.displayFinisedDateError(quiz, endDate);
+                                view.displayFinishedDateError(quiz, endDate);
                                 endDate = view.askForFinishDate(quiz.getFinish());
                             }
                             quiz.setFinish(endDate);

@@ -147,5 +147,6 @@ EPFC
       [:x:] UC_ViewCourse : Suppression des tests et quiz des cours supprimés
         [:heavy_check_mark:] UC_TeacherEditQuiz : suppression en cascade (Re-merci d'avoir ajouté **ON DELETE CASCADE** dans le script SQL)
       [:x:] UC_TeacherAddStudent : sélection impossible n>9
+   UC_TeacherEditQuiz : Lorsqu'un quiz a déjà débuté, on ne peut changer la date de début.
 
 
