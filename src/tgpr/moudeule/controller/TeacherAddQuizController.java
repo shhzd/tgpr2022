@@ -1,5 +1,6 @@
 package tgpr.moudeule.controller;
 
+import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
@@ -22,39 +23,40 @@ public class TeacherAddQuizController extends Controller{
         var view = new TeacherAddQuizView();
         Quiz quiz;
         quiz = new Quiz();
-        try{
-            String res = "0";
+        if(MoudeuleApp.isLogged()) {
+            try{
+                String res = "0";
 
-            do{
-                view.displayHeader(course);
+                do{
+                    view.displayHeader(course);
 
-                String title = view.askTitle(quiz.getTitle());
-                quiz.setTitle(title);
+                    String title = view.askTitle(quiz.getTitle());
+                    quiz.setTitle(title);
 
-                LocalDate startDate = view.askStartDate(quiz.getStart());
-                while(!quiz.newStartDateIsAfterCurrentDate(startDate)){
-                    view.displayStartDateError(quiz,startDate);
-                    startDate = view.askStartDate(quiz.getStart());
-                }
-                quiz.setStart(startDate);
+                    LocalDate startDate = view.askStartDate(quiz.getStart());
+                    while(!quiz.newStartDateIsAfterCurrentDate(startDate)){
+                        view.displayStartDateError(quiz,startDate);
+                        startDate = view.askStartDate(quiz.getStart());
+                    }
+                    quiz.setStart(startDate);
 
-                LocalDate finishDate = view.askFinishDate(quiz.getFinish());
-                while(!quiz.newFinishedDateisAfterCurrentStartDate(finishDate)){
-                    view.displayFinishDateError(quiz,finishDate);
-                    finishDate = view.askFinishDate(quiz.getFinish());
-                }
-                quiz.setFinish(finishDate);
-                quiz.setcourseId(course.getId());
-                quiz.save();
+                    LocalDate finishDate = view.askFinishDate(quiz.getFinish());
+                    while(!quiz.newFinishedDateisAfterCurrentStartDate(finishDate)){
+                        view.displayFinishDateError(quiz,finishDate);
+                        finishDate = view.askFinishDate(quiz.getFinish());
+                    }
+                    quiz.setFinish(finishDate);
+                    quiz.setcourseId(course.getId());
+                    quiz.save();
 
-                new TeacherAddQuestionController(quiz, view).run();
+                    new TeacherAddQuestionController(quiz, view).run();
 
-            } while (!res.equals("Q"));
-
-        } catch (View.ActionInterruptedException e){
-            view.pausedWarning("logged out");
+                } while (!res.equals("Q"));
+                MoudeuleApp.logout();
+            } catch (View.ActionInterruptedException e){
+                view.pausedWarning("logged out");
+            }
         }
-
-
+        view.close();
     }
 }

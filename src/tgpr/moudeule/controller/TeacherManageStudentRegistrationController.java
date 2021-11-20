@@ -89,7 +89,6 @@ public class TeacherManageStudentRegistrationController extends Controller {
                         this.page--;
                     }
                 } while (!res.equals("Q") && keepLooping);
-                view.pausedWarning("logged out");
                 MoudeuleApp.logout();
             } catch (View.ActionInterruptedException e) {
             }

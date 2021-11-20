@@ -17,7 +17,6 @@ public class TeacherEditQuizController extends Controller {
     }
 
     private int page = 1;
-
     private final static int NUMBER_DISPLAY_LINE = 5;
 
     @Override

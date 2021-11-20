@@ -3,7 +3,6 @@ package tgpr.moudeule.view;
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherEditCourseView extends View {
@@ -106,7 +105,7 @@ public class TeacherEditCourseView extends View {
         print("Entrez la nouvelle capacité : ");
     }
     public void badCapacity() {
-    this.showError("Entrez une capacité valide");
+    this.showError("Entrez une capacité valide (entre 4 et 32 compris)");
     }
 
     public void displayEditCapacityConfirmation() {
@@ -122,7 +121,7 @@ public class TeacherEditCourseView extends View {
     }
 
     public void displayFooter() {
-        print("\n[R] Retour - [Q] Quitter\n");
+        print("\n[ESC] Retour - [Q] Quitter\n");
     }
 
     public String askForString() {

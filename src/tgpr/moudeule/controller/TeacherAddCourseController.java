@@ -5,10 +5,10 @@ import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.TeacherAddCourseView;
 import tgpr.moudeule.view.View;
-//import java.security.IdentityScope;
 
 import java.util.List;
-import java.util.Locale;
+
+//import java.security.IdentityScope;
 
 public class TeacherAddCourseController extends Controller {
 

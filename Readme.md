@@ -3,6 +3,8 @@ Enseignant : Benoît Penelle
 Année universitaire 2020-2021.
 EPFC
 
+**Note : veuillez lire le Readme sur Bitbucket pour la mise en forme de certains caractères tels que le [:heavy_check_mark:]**
+
 1. Information générales
 
     Application console, de gestion d'inscription et de test d'une école.
@@ -130,22 +132,20 @@ EPFC
 	
    1. Bugs connus
 
-      - GENERAL : Nom de l'application
-      - GENERAL : Passage d'un controleur à l'autre 
-      - bug global sur certaines UC au niveau sur le retour, les controlleur ne se ferment pas comme il le faudrait.
-        certaines UC ont été corrigées, mais la solution n'a pas encore été implementée sur tout le site
-      - UC Login : impossible de quitter la boucle
-      - UC_TeachereditCourse : modifier ID cours provoque une dupplication
-      - UC_TeachereditCourse : ajouter try catch dans édition
-      - UC_TeachereditCourse : ajouter capacité valide
-      - UC_TeacherManageStudent : faute orthographe
-      - UC_TeacherManageStudent : suppression des tests lors de suppression etudiant
-      - UC_TeacherAddQuizz : validation métier et filtrage des champs vide
-      - UC_TeacherQuizList : problème rafraichissement liste après création
-      - UC_TeacherQuizList : appel d'un cours n'existant pas dans la liste
-      - UC_AddCourse : ne pas utiliser error mais pause
-      - UC_ViewCourse : Suppression des test et quiz des cours supprimé
-      - UC_TeacherEditQuiz : ???? suppression en cascade ????
-      - UC_TeacherAddStudent : selection impossible n>9
+      [:heavy_check_mark:] GENERAL : Nom de l'application
+      [:x:] GENERAL : Passage d'un controleur à l'autre - bug global sur certaines UC au niveau du retour, les Controllers ne se ferment pas comme il le faudrait (superposition des controllers ?) certains UC ont été corrigés, mais la solution n'a pas encore été implementée sur toute l'application
+        [:heavy_check_mark:] UC Login : impossible de quitter la boucle
+      [:x:] UC_TeacherEditCourse : modifier l'ID d'un cours provoque une duplication dans la base de données
+        [:heavy_check_mark:] UC_TeacherEditCourse : ajouter try catch dans chaque édition (afin de permettre d'interrompre une édition en cours)
+      [:heavy_check_mark:] UC_TeachereditCourse : ajouter la capacité valide dans le message d'erreur
+      [:heavy_check_mark:] UC_TeacherManageStudent : fautes d'orthographe
+      [:heavy_check_mark:] UC_TeacherManageStudent : suppression en cascade des tests lors de la suppression d'un étudiant **(Merci d'avoir ajouté **ON DELETE CASCADE** dans le script SQL)**
+      [:x:] UC_TeacherAddQuizz : validation métier et filtrage des champs vides
+      [:x:] UC_TeacherQuizList : problème de rafraichissement de la liste des quiz après la création d'un nouveau quizz (liste non mise à jour)
+      [:x:] UC_TeacherQuizList : appel d'un cours n'existant pas dans la liste
+      [:x:] UC_AddCourse : ne pas utiliser error mais pause
+      [:x:] UC_ViewCourse : Suppression des tests et quiz des cours supprimés
+        [:heavy_check_mark:] UC_TeacherEditQuiz : suppression en cascade (Re-merci d'avoir ajouté **ON DELETE CASCADE** dans le script SQL)
+      [:x:] UC_TeacherAddStudent : sélection impossible n>9
 
 
