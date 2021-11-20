@@ -9,7 +9,7 @@ EPFC
 
     Application console, de gestion d'inscription et de test d'une école.
 
-    Nom de l'application : Moudeule
+    Nom de l'application : MOUDEULE
     Framework : MVC EPFC
     Serveur dB : 10.4.21-MariaDB - mariadb.org binary distribution
     Language : Java SDK 11.0.8 (syntax level 11)
@@ -41,35 +41,36 @@ EPFC
     - Un étudiant peut se désinscrire d'un cours.
     - Le professeur peut inscrire lui-même des étudiants à son cours.
     - Le professeur peut activer et désactiver les inscriptions à ses cours.
-    - Le professeur peut supprimer une inscription, libérant ainsi une place, et effacer tous les test éventuels.
+    - Le professeur peut supprimer une inscription, libérant ainsi une place, et effacer tous les tests éventuels.
 
     - Le professeur est responsable des quiz de son cours.
     - Un quiz est composé de QRM et que QCM.
-    - Les seules réponses possibles ont Vrai ou Faux.
+    - Les seules réponses possibles sont Vrai ou Faux.
     - Un quiz doit avoir une période de validité.
     - Un étudiant ne peut participer à un quiz (remplir un test) que durant la période de validité.
     - La date à laquelle un étudiant répond à un test doit être enregistrée sans pouvoir être modifiée.
     - Un étudiant peut répondre à un test, ou éditer ses réponses pendant toute la période de validité d'un quiz.
-    - Un étudiant peut voir les réponse d'un test auquel il a participé après la date de clôture
+    - Un étudiant peut voir les réponses d'un test auquel il a participé après la date de clôture
     - Les questions sont proposées dans un ordre aléatoire.
     - Les propositions sont proposées dans un ordre aléatoire au sein de leurs questions.
-    - Un professeur peut voir tout les tests passés et en cours des cours dont il a la charge.
+    - Un professeur peut voir tous les tests passés et en cours des cours dont il a la charge.
 
-4. Règles métiers décidé par l'équipe
+4. Règles métiers décidées par l'équipe
 
     - Seul le professeur titulaire peut confirmer un candidat à son cours.
     - Les ID de cours sont compris entre 1000 et 9999.
     - Le code d'un cours est toujours en majuscule. 
     - Plusieurs cours peuvent avoir le même code.
-    - Un professeur peut choisir une capacité inférieure au nombre d'inscrit, mais il est prévenu du surnombre.
-    - Un quiz doit comporte au moins une question comprenant au moins deux propositions.
+    - Un professeur peut choisir une capacité inférieure au nombre d'inscrits, mais il est prévenu du surnombre.
+    - Un quiz doit comporter au moins une question comprenant au moins deux propositions.
     - Un professeur ne peut changer la date de début d'un quiz si celle-ci est dans le passé.
+    - Lorsqu'un quiz a débuté, il ne peut changer la date de début.
     - Un professeur est autorisé à changer une question ou une proposition jusqu'à la fin d'un quiz.
     - Les cours ont une capacité fixée entre 4 et 32
 
 5. UC de l'application
 
-    Certaine user story ont été develloppées, consulter le tableau Trello : https://trello.com/b/pBZETczi/tgpr-2122-g03.
+    Certaines user story ont été developpées, consulter le tableau Trello : https://trello.com/b/pBZETczi/tgpr-2122-g03.
 	
     Developpé pour release 1
 	
@@ -78,29 +79,29 @@ EPFC
         UC_Login								Agim		
         UC_StudentMainMenu						Agim		
         UC_StudentAvailableCoursesList			Linh	
-        UC_StudentCourseDescription				Linh		
+        UC_StudentCourseDescriptionInscription	Linh		
         UC_TeacherEditCourse					Younnes		
-        UC_StudentTestsList						Gultekin
-        UC_StudentActiveTest					Gultekin		
+        UC_StudentTestsList						Silvère
         UC_TeacherMainMenu						Silvère		
         UC_StudentEditCourse					Younnes		
-        UC_TeacherManageStudentRegistration		Silvère	
-        UC_TeacherAddStudent					Agim		
+        UC_TeacherManageStudentRegistration		Silvère
         UC_TeacherAddCourse						Silvère		
         UC_TeacherQuizzesList					Shahzad	
-        UC_TeacherAddQuiz						Shahzad		
-		
-    Restant à developper
+        UC_TeacherAddQuiz						Shahzad
+        UC_TeacherEditQuizQuestion				Linh
+        UC_TeacherEditQuiz	                    Linh
+        UC_VariableForTesting                   Linh
 
-        UC_TeacherEditQuizQuestion				
-        UC_TeacherEditQuiz				
+        Restant à developper
+        			
         UC_TeacherQuizTestsList				
         UC_StudentClosedTest				
-        UC_TeacherQuizTestDetail				
+        UC_TeacherQuizTestDetail
+        UC_AddStudent
 
     Developement annulé ou à considerer
 
-        UC_Debug								Si on a le temps		
+        UC_Debug								Si on a le temps
         UC_TeacherDeleteStudent					Deprecated		
         UC_TeacherCoursesList					Deprecated		
 
@@ -127,8 +128,8 @@ EPFC
 7. Documents explcatifs et choix relatifs à l'application
 
     - Le wireframe de l'application se trouve dans /doc/Moudeule_User_Interface.pdf
-    - Les menus utilisent des chiffres de préférence à des initiale, à l'exception des options de navigation
-    - Les instruction d'utilisation du GIT se trouvent dans un document séparé : /doc/Git_Instructions.txt
+    - Les menus utilisent des chiffres de préférence à des initiales, à l'exception des options de navigation
+    - Les instructions d'utilisation du GIT se trouvent dans un document séparé : /doc/Git_Instructions.txt
 	
    1. Bugs connus
 
@@ -147,6 +148,6 @@ EPFC
       [:x:] UC_ViewCourse : Suppression des tests et quiz des cours supprimés
         [:heavy_check_mark:] UC_TeacherEditQuiz : suppression en cascade (Re-merci d'avoir ajouté **ON DELETE CASCADE** dans le script SQL)
       [:x:] UC_TeacherAddStudent : sélection impossible n>9
-   UC_TeacherEditQuiz : Lorsqu'un quiz a déjà débuté, on ne peut changer la date de début.
+      [:heavy_check_mark:] UC_TeacherEditQuiz : Lorsqu'un quiz a déjà débuté, on ne peut changer la date de début.
 
 
