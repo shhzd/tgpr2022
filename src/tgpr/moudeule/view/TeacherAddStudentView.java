@@ -9,7 +9,7 @@ import java.util.List;
 public class TeacherAddStudentView extends View {
 
     public void displayHeaderWithCourse(String courseID) {
-        displayHeader("Gestion des inscription - cours " + courseID);
+        displayHeader("Gestion des inscriptions - cours " + courseID);
     }
 
     public void displaySubHeaderWithPage(int page, int nbPages){

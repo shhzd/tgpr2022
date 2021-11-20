@@ -16,25 +16,25 @@ public class StudentCourseDescriptionInscriptionController extends Controller {
     public void run() {
         var student = MoudeuleApp.getLoggedUser();
         var view = new StudentCourseDescriptionInscriptionView();
-        try {
-            View.Action res;
-            do {
-                view.displayHeader();
-                view.displayCourse(this.course, student);
-                res = view.askForAction(this.course, student);
-                if(res.getAction() == '1') {
-                    if(this.course.isInWaitingList(student)) {
-                        student.cancelWaitingList(this.course);
-                    } else {
-                        student.addToWaitingList(this.course);
+        if(MoudeuleApp.isLogged()) {
+            try {
+                View.Action res;
+                do {
+                    view.displayHeader();
+                    view.displayCourse(this.course, student);
+                    res = view.askForAction(this.course, student);
+                    if(res.getAction() == '1') {
+                        if(this.course.isInWaitingList(student)) {
+                            student.cancelWaitingList(this.course);
+                        } else {
+                            student.addToWaitingList(this.course);
+                        }
                     }
-                } else if(res.getAction() == 'R') {
-                    new StudentAvailableCoursesListController().run();
-                }
-            } while (res.getAction() != 'Q');
-        } catch (View.ActionInterruptedException e) {
+                } while (res.getAction() != 'Q');
+                MoudeuleApp.logout();
+            } catch (View.ActionInterruptedException e) {
+            }
         }
-        MoudeuleApp.logout();
-        new StartMenuController().run();
+        view.close();
     }
 }

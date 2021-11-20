@@ -23,31 +23,27 @@ public class TeacherQuizzesListController extends Controller {
         List<Quiz> quizzes;
         quizzes = Quiz.getQuizzesBycourseId(course.getId());
         var view = new TeacherQuizzesListView();
+        if(MoudeuleApp.isLogged()) {
+            try {
+                String res;
+                do {
+                    view.displayHeader(course);
+                    view.displayQuizzesList(quizzes);
+                    res = view.askForString().toUpperCase();
+                    if (res.matches("[1-9]|[0][1-9]|[1][0-2]")){
+                        int p = Integer.parseInt(res);
+                        Quiz q = quizzes.get(p-1);
+                        new TeacherEditQuizController(q.getId()).run();
+                    }
+                    if (res.matches("0")){
+                        new TeacherAddQuizController(course).run();
+                    }
+                } while (!res.equals("Q"));
+                MoudeuleApp.logout();
 
-        try {
-            String res;
-            do {
-                view.displayHeader(course);
-                view.displayQuizzesList(quizzes);
-                res = view.askForString().toUpperCase();
-                if (res.matches("[1-9]|[0][1-9]|[1][0-2]")){
-                    int p = Integer.parseInt(res);
-                    Quiz q = quizzes.get(p-1);
-                    new TeacherEditQuizController(q.getId()).run();
-                }
-                if (res.matches("0")){
-                    new TeacherAddQuizController(course).run();
-                }
-                if (res.equals("R")){
-                    new TeacherEditCourseController(course.getId()).run();
-                }
-
-            } while (!res.equals("Q"));
-            MoudeuleApp.logout();
-            new StartMenuController().run();
-
-        } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("logged out");
+            } catch (View.ActionInterruptedException e) {
+            }
         }
+        view.close();
     }
 }

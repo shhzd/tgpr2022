@@ -38,7 +38,7 @@ public class StudentCourseDescriptionInscriptionView extends View {
 
     public View.Action askForAction(Course course, User student) {
         return doAskForAction(0, "\n[1] " + (course.isInWaitingList(student) ? "Annuler l'inscription" : "S'inscrire au cours") +
-                        "\n[R] Retour - [Q] Quitter",
+                        "\n[ESC] Retour - [Q] Quitter",
                 "[1-1]+|[rR]+|[qQ]");
     }
 
