@@ -46,7 +46,7 @@ public class StudentEditCourseView extends View {
 
     public void displayFooter() {
         println("");
-        println("[R] Retour - [Q] Quitter");
+        println("[ESC] Retour - [Q] Quitter");
     }
 
     public String askForString() {

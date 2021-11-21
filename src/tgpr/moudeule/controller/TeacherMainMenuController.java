@@ -63,9 +63,9 @@ public class TeacherMainMenuController extends Controller {
                 if (res.equals("0")) {
                     keepLooping = false;
                     leave(res);
+                    new TeacherAddCourseController().run();
+
                 }
-
-
             } while (!res.equals("Q") && keepLooping);
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("logged out");

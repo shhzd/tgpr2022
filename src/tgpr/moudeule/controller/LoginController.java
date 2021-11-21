@@ -47,5 +47,6 @@ public class LoginController extends Controller {
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("aborted login");
         }
+        view.close();
     }
 }

@@ -3,8 +3,8 @@ package tgpr.moudeule.view;
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class TeacherEditCourseView extends View {
 
@@ -14,10 +14,13 @@ public class TeacherEditCourseView extends View {
 
     public void displayregistratedStudents(List<User> students) {
         if (students.size() > 0) {
-            for (var student : students) {
-                print(student.fullname + ", ");
+
+            StringJoiner joiner = new StringJoiner(", ", "", ".");
+            for(var student : students) {
+                joiner.add(student.fullname);
             }
-            println("");
+            println(joiner.toString());
+
         } else {
             println("Aucun inscrit");
         }
@@ -25,10 +28,11 @@ public class TeacherEditCourseView extends View {
 
     public void displayWaitingList(List<User> students) {
         if (students.size() > 0) {
-            for (var student : students) {
-                print(student.fullname + ", ");
+            StringJoiner joiner = new StringJoiner(", ", "", ".");
+            for(var student : students) {
+                joiner.add(student.fullname);
             }
-            System.out.println("");
+            println(joiner.toString());
         } else {
             println("Personne dans la liste d'attente");
         }
@@ -106,7 +110,7 @@ public class TeacherEditCourseView extends View {
         print("Entrez la nouvelle capacité : ");
     }
     public void badCapacity() {
-    this.showError("Entrez une capacité valide");
+    this.showError("Entrez une capacité valide (entre 4 et 32 compris)");
     }
 
     public void displayEditCapacityConfirmation() {
@@ -122,7 +126,7 @@ public class TeacherEditCourseView extends View {
     }
 
     public void displayFooter() {
-        print("\n[R] Retour - [Q] Quitter\n");
+        print("\n[ESC] Retour - [Q] Quitter\n");
     }
 
     public String askForString() {

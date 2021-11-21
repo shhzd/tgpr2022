@@ -179,4 +179,20 @@ public class Question extends Model {
         return result;
     }
 
+    public static List<Question> getAllQuestionsOfQuiz(int idQuiz) {
+        var list = new ArrayList<Question>();
+        try {
+            var stmt = db.prepareStatement("SELECT * FROM questions WHERE quiz IN (SELECT id FROM quizzes WHERE id = ?)");
+            stmt.setInt(1, idQuiz);
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var question = new Question();
+                mapper(rs, question);
+                list.add(question);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

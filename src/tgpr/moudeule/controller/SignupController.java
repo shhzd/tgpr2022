@@ -63,7 +63,7 @@ public class SignupController extends Controller {
 
             res = view.askForConfirmation();
             switch (res.getAction()) {
-                case '0' :
+                case 'O' :
                     user.setPseudo(pseudo);
                     user.setPassword(password);
                     user.setFullname(fullname);
