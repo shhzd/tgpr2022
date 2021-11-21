@@ -9,23 +9,23 @@ import tgpr.moudeule.view.View;
 public class TeacherMainMenuController extends Controller {
 
     private int page = 1;
-    private boolean keepLooping = true;
-
-    private void leave(String res, Course course) {
-        switch (res) {
-            case "E":
-                new TeacherEditCourseController(course.getId()).run();
-                break;
-        }
-    }
-
-    private void leave(String res) {
-        switch (res) {
-            case "0":
-                new TeacherAddCourseController().run();
-                break;
-        }
-    }
+//    private boolean keepLooping = true;
+//
+//    private void leave(String res, Course course) {
+//        switch (res) {
+//            case "E":
+//                new TeacherEditCourseController(course.getId()).run();
+//                break;
+//        }
+//    }
+//
+//    private void leave(String res) {
+//        switch (res) {
+//            case "0":
+//                new TeacherAddCourseController().run();
+//                break;
+//        }
+//    }
 
     public void run() {
         var view = new TeacherMainMenuView();
@@ -34,9 +34,6 @@ public class TeacherMainMenuController extends Controller {
             do {
                 view.displayHeader();
                 User user = MoudeuleApp.getLoggedUser();
-
-                /** ONLY for testing purposes **/
-//                User user = User.getByPseudo("p");
 
                 var courses = Course.getCoursesFromTeacher(user);
                 int lgPage = 14;
@@ -50,8 +47,7 @@ public class TeacherMainMenuController extends Controller {
                 if (res.length() > 1) {
                     Course course = Course.getCourseByID(res);
                     if (course != null && courses.contains(course)) {
-                        keepLooping = false;
-                        leave("E", course);
+                        new TeacherEditCourseController(course.getId()).run();
                     }
                 }
                 if (res.equals("S") && (page) != nbPages && nbPages > 1) {
@@ -61,17 +57,12 @@ public class TeacherMainMenuController extends Controller {
                     this.page--;
                 }
                 if (res.equals("0")) {
-                    keepLooping = false;
-                    leave(res);
                     new TeacherAddCourseController().run();
 
                 }
-            } while (!res.equals("Q") && keepLooping);
-        } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("logged out");
-        }
-        if (keepLooping) {
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
             MoudeuleApp.logout();
+        } catch (View.ActionInterruptedException e) {
         }
         view.close();
     }

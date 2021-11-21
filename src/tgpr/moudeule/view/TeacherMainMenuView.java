@@ -29,11 +29,11 @@ public class TeacherMainMenuView extends View {
         } else {
             println("Vous n'avez pas encore de cours.");
         }
-        println("\n[ID] Selectionner un cours - [0]  Ajouter un nouveau cours");
+        println("\n[ID] Selectionner un cours - [0] Ajouter un nouveau cours");
     }
 
     public void displayNavigationMenu(int page, int nbPages) {
-        println("[ESC] Retour - [Q] Quitter " +
+        println("[Q] Quitter " +
                 ((page != nbPages && nbPages > 0) ? "- [S] page suivante " : "") +
                 ((page > 1) ? "- [P] page précédente " : "")
         );

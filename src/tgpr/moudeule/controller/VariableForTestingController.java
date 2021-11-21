@@ -25,22 +25,22 @@ public class VariableForTestingController extends Controller {
                         break;
                     case '2':
                         new StartMenuController().run();
-                        throw new View.ActionInterruptedException();
+                        break;
                     case '3':
                         User bob = User.getByPseudo("bob");
                         MoudeuleApp.setLoggedUser(bob);
                         new StudentMainMenuController().run();
-                        throw new View.ActionInterruptedException();
+                        break;
                     case '4':
                         User p = User.getByPseudo("p");
                         MoudeuleApp.setLoggedUser(p);
-                        new StudentMainMenuController().run();
-                        throw new View.ActionInterruptedException();
+                        new TeacherMainMenuController().run();
+                        break;
                     case '5':
                         User ben = User.getByPseudo("ben");
                         MoudeuleApp.setLoggedUser(ben);
-                        new StudentMainMenuController().run();
-                        throw new View.ActionInterruptedException();
+                        new TeacherMainMenuController().run();
+                        break;
                 }
             } while (res.getAction() != 'Q');
         } catch (View.ActionInterruptedException e) {

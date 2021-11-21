@@ -10,7 +10,7 @@ public class TeacherManageStudentRegistrationController extends Controller {
 
     private int page = 1;
     private Course course = new Course();
-    private boolean keepLooping = true;
+//    private boolean keepLooping = true;
     /** should be included in Controller() as global constant **/
     static final int NUMBER_DISPLAY_LINE = 14;
 
@@ -20,38 +20,37 @@ public class TeacherManageStudentRegistrationController extends Controller {
 
     public void run() {
         var view = new TeacherManageStudentRegistrationView();
-        if (MoudeuleApp.isLogged())  {
-            try {
+        try {
 //                User user = MoudeuleApp.getLoggedUser();
-                String res;
-                do {
-                    view.displayHeaderWithCourse(course.getCode());
+            String res;
+            do {
+                view.displayHeaderWithCourse(course.getCode());
 
-                    var students = User.getByCourse(course);
-                    int nbPages = (int) Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
+                var students = User.getByCourse(course);
+                int nbPages = (int) Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
-                    view.displaySubHeaderWithPage(page, nbPages);
-                    view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
-                    if (students.size() > 0) {
-                        for (int i = 0; (i + ((page - 1) * NUMBER_DISPLAY_LINE)) < students.size() && i < (NUMBER_DISPLAY_LINE + 1); i++) {
-                            User student = students.get(i + ((page - 1) * NUMBER_DISPLAY_LINE));
-                            view.displayStudent(student.getFullname(), i, student.getStatus(course));
-                        }
-                        view.displayMenu();
-                    } else {
-                        view.displayEmptyListMenu();
+                view.displaySubHeaderWithPage(page, nbPages);
+                view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
+                if (students.size() > 0) {
+                    for (int i = 0; (i + ((page - 1) * NUMBER_DISPLAY_LINE)) < students.size() && i < (NUMBER_DISPLAY_LINE + 1); i++) {
+                        User student = students.get(i + ((page - 1) * NUMBER_DISPLAY_LINE));
+                        view.displayStudent(student.getFullname(), i, student.getStatus(course));
                     }
-                    view.displayNavigationMenu(page, nbPages);
+                    view.displayMenu();
+                } else {
+                    view.displayEmptyListMenu();
+                }
+                view.displayNavigationMenu(page, nbPages);
 
-                    res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
+                res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
-                    if (res.equals("I")) {
-//                        view.pausedWarning("Cette opération n'est pas encore possible");
-                        new TeacherAddStudentController(course).run();
-                    }
+                if (res.equals("I")) {
+                    new TeacherAddStudentController(course).run();
+                }
 
+                try {
                     if (res.matches("[1-9]|[0][1-9]|[1][0-5]")) {
-                        User student = students.get((int) Integer.parseInt(res) - 1);
+                        User student = students.get(Integer.parseInt(res) - 1);
                         if (student == null)
                             throw new View.ActionInterruptedException();
                         else {
@@ -63,6 +62,7 @@ public class TeacherManageStudentRegistrationController extends Controller {
                              */
                             view.displaySubMenu(student.getFullname(), status);
                             subRes = view.askForAction();
+
                             if (subRes.getAction() == '1') {
                                 switch (status) {
                                     case "en attente":
@@ -82,18 +82,18 @@ public class TeacherManageStudentRegistrationController extends Controller {
                             }
                         }
                     }
-                    if (res.equals("S") && (page) != nbPages && nbPages > 1) {
-                        this.page++;
-                    }
-                    if (res.equals("P") && page > 1) {
-                        this.page--;
-                    }
-                } while (!res.equals("Q") && keepLooping);
-                MoudeuleApp.logout();
-            } catch (View.ActionInterruptedException e) {
-            }
+                } catch (View.ActionInterruptedException e) {
+                }
+                if (res.equals("S") && (page) != nbPages && nbPages > 1) {
+                    this.page++;
+                }
+                if (res.equals("P") && page > 1) {
+                    this.page--;
+                }
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
+        } catch (View.ActionInterruptedException e) {
         }
         view.close();
     }
 }
-

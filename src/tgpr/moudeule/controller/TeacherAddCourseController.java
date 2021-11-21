@@ -6,18 +6,19 @@ import tgpr.moudeule.model.User;
 import tgpr.moudeule.view.TeacherAddCourseView;
 import tgpr.moudeule.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
-
-//import java.security.IdentityScope;
 
 public class TeacherAddCourseController extends Controller {
 
     public void run() {
 
         var view = new TeacherAddCourseView();
+        int id = 0, capacity = 0;
+        String code = null, description = null;
 
         try {
-            List<String> errors;
+            List<String> errors = new ArrayList<>();
             View.Action res;
             Course course = new Course();
             User user = MoudeuleApp.getLoggedUser();
@@ -25,36 +26,32 @@ public class TeacherAddCourseController extends Controller {
                 view.displayHeader();
                 view.displayMenu();
 
-                int id = 0;
                 do {
                     id = view.askID(id);
                     String error = course.isValidID(id);
                     if (error != null)
-                        view.showError(error);
+                        view.warning(error);
                 } while (course.isValidID(id) != null);
 
-                String code = null;
                 do {
                     code = view.askCode(code).toUpperCase();
                     String error = course.isValidCode(code);
                     if (error != null)
-                        view.showError(error);
+                        view.warning(error);
                 } while (course.isValidCode(code) != null);
 
-                String description = null;
                 do {
                     description = view.askDescription(description);
                     String error = course.isValidDescription(description);
                     if (error != null)
-                        view.showError(error);
+                        view.warning(error);
                 } while (course.isValidDescription(description) != null);
 
-                int capacity = 0;
                 do {
                     capacity = view.askCapacity(capacity);
                     String error = course.isValidCapacity(capacity);
                     if (error != null)
-                        view.showError(error);
+                        view.warning(error);
                 } while (course.isValidCapacity(capacity) != null);
 
                 course.setId(id);
@@ -66,18 +63,21 @@ public class TeacherAddCourseController extends Controller {
 
                 if (errors.size() > 0)
                     view.showErrors(errors);
-            } while (errors.size() > 0);
+                res = view.askForAction();
+                switch (res.getAction()) {
+                    case 'O':
+                        course.save();
+                        System.out.println(errors);
+                        break;
+                    case 'N':
+                        errors.add("No");
+                }
+                System.out.println("deux " + errors);
 
-            res = view.askForAction();
-            switch (res.getAction()) {
-                case 'O':
-                    course.save();
-                    break;
-            }
-            view.close();
-            new TeacherMainMenuController().run();
+            } while (errors.size() > 0);
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("création abandonnée");
         }
+        view.close();
     }
 }

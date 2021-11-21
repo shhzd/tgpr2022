@@ -17,6 +17,8 @@ public class TeacherAddOptionController extends Controller{
 
     @Override
     public void run() {
+
+        /** Needs a try catch for breaking **/
         String res;
         Option opt = new Option();
         opt.setQuestionId(question.getId());
@@ -44,10 +46,8 @@ public class TeacherAddOptionController extends Controller{
                 new TeacherAddQuestionController(Quiz.getById(question.getquizId()), view).run();
             }
             if (res.equals("N")){
-                new TeacherEditQuizController(question.getquizId()).run();
+                new TeacherEditQuizController(question.getquizId()).run(); // Not good
             }
-
         }
-
     }
 }

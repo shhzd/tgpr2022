@@ -16,6 +16,8 @@ public class TeacherAddQuestionController extends Controller{
 
     @Override
     public void run() {
+
+        /** Needs a try catch for breaking **/
         Question quest = new Question();
         quest.setquizId(quiz.getId());
         String qtit = view.askQuestionText(quest.getTitle());
@@ -44,7 +46,7 @@ public class TeacherAddQuestionController extends Controller{
                 new TeacherAddQuestionController(quiz, view).run();
             }
             if (subres.equals("N")){
-                new TeacherEditQuizController(quiz.getId()).run();
+                new TeacherEditQuizController(quiz.getId()).run(); // Not good
             }
 
 
