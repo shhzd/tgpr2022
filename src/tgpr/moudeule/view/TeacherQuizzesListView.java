@@ -22,13 +22,14 @@ public class TeacherQuizzesListView extends View{
         if (quizzes.size() > 1) {
             int i = 1;
             for (Quiz q : quizzes) {
-                println(i +"     " +q.getTitle()+"      "+ DateTimeFormatter.ofPattern("dd/MM/yyyy").format(q.getStart())
+                println("[" + ((i < 10) ? " " : "") +
+                        i +"] " +q.getTitle()+"      "+ DateTimeFormatter.ofPattern("dd/MM/yyyy").format(q.getStart())
                         +"    "+ DateTimeFormatter.ofPattern("dd/MM/yyyy").format(q.getFinish()));
                 i++;
             }
         }
-        println("\n[0] Créer un nouveau quiz \n[n] Sélectionner un quiz " +
-                "\n[R] Retour - [Q] Quitter");
+        println("\n[n] Sélectionner un quiz - [0] Créer un nouveau quiz");
+        println("[ESC] Retour - [Q] Quitter");
     }
 
     /*public View.Action askForAction(int size){

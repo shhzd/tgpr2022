@@ -6,6 +6,7 @@ import tgpr.moudeule.view.StudentCourseDescriptionInscriptionView;
 import tgpr.moudeule.view.View;
 
 public class StudentCourseDescriptionInscriptionController extends Controller {
+
     private Course course;
 
     public StudentCourseDescriptionInscriptionController(Course course) {
@@ -16,24 +17,22 @@ public class StudentCourseDescriptionInscriptionController extends Controller {
     public void run() {
         var student = MoudeuleApp.getLoggedUser();
         var view = new StudentCourseDescriptionInscriptionView();
-        if(MoudeuleApp.isLogged()) {
-            try {
-                View.Action res;
-                do {
-                    view.displayHeader();
-                    view.displayCourse(this.course, student);
-                    res = view.askForAction(this.course, student);
-                    if(res.getAction() == '1') {
-                        if(this.course.isInWaitingList(student)) {
-                            student.cancelWaitingList(this.course);
-                        } else {
-                            student.addToWaitingList(this.course);
-                        }
+        try {
+            View.Action res;
+            do {
+                view.displayHeader();
+                view.displayCourse(this.course, student);
+                res = view.askForAction(this.course, student);
+                if(res.getAction() == '1') {
+                    if(this.course.isInWaitingList(student)) {
+                        student.cancelWaitingList(this.course);
+                    } else {
+                        student.addToWaitingList(this.course);
                     }
-                } while (res.getAction() != 'Q');
-                MoudeuleApp.logout();
-            } catch (View.ActionInterruptedException e) {
-            }
+                }
+            } while (res.getAction() != 'Q' && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
+        } catch (View.ActionInterruptedException e) {
         }
         view.close();
     }

@@ -19,12 +19,12 @@ public class TeacherAddStudentView extends View {
     public void displayNewStudents(List<User> sUsers) {
         int i = 1;
         for(User s:sUsers){
-            println("[" + i  + "]" + s.getFullname());
+            println("[" + ((i < 10) ? " ": "") +  i  + "] " + s.getFullname());
             i++;
 
         }
         println("\n[n] Selectionner un étudiant");
-        println("[R] Retour - [Q] Quitter ");
+        println("[ESC] Retour - [Q] Quitter ");
     }
     public String askForString() {
         return askString("", "", false);
