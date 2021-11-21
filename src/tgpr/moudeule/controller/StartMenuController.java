@@ -22,7 +22,6 @@ public class StartMenuController extends Controller {
                 }
             } while (res.getAction() != 'Q');
         } catch (View.ActionInterruptedException e) {
-            // just leave
         }
         view.pausedWarning("A bientôt.");
         view.close();

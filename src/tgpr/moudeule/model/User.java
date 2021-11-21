@@ -35,6 +35,10 @@ public class User extends Model {
 
     }
 
+    public static User makeNewStudent() {
+        return new User("", "", "", null, Role.STUDENT);
+    }
+
     public String getPseudo() {
         return pseudo;
     }
@@ -293,6 +297,7 @@ public class User extends Model {
         }
         return count == 1;
     }
+
 
     public static String isValidBirthdate(LocalDate birthdate) {
         if (birthdate == null)
