@@ -67,13 +67,10 @@ public class TeacherAddCourseController extends Controller {
                 switch (res.getAction()) {
                     case 'O':
                         course.save();
-                        System.out.println(errors);
                         break;
                     case 'N':
                         errors.add("No");
                 }
-                System.out.println("deux " + errors);
-
             } while (errors.size() > 0);
         } catch (View.ActionInterruptedException e) {
             view.pausedWarning("création abandonnée");
