@@ -134,7 +134,7 @@ EPFC
 8. Bugs connus
 
    - [:heavy_check_mark:] GENERAL : Nom de l'application
-   - [:x:] GENERAL : Passage d'un controleur à l'autre - bug global sur certaines UC au niveau du retour, les Controllers ne se ferment pas comme il le faudrait (superposition des controllers ?) certains UC ont été corrigés, mais la solution n'a pas encore été implementée sur toute l'application
+   - [:heavy_check_mark:] GENERAL : Passage d'un controleur à l'autre - bug global sur certaines UC au niveau du retour, les Controllers ne se ferment pas comme il le faudrait (superposition des controllers ?) certains UC ont été corrigés, mais la solution n'a pas encore été implementée sur toute l'application
    - [:heavy_check_mark:] UC Login : impossible de quitter la boucle
    - [:x:] UC_TeacherEditCourse : modifier l'ID d'un cours provoque une duplication dans la base de données
    - [:heavy_check_mark:] UC_TeacherEditCourse : ajouter try catch dans chaque édition (afin de permettre d'interrompre une édition en cours)
@@ -144,10 +144,11 @@ EPFC
    - [:x:] UC_TeacherAddQuizz : validation métier et filtrage des champs vides
    - [:x:] UC_TeacherQuizList : problème de rafraichissement de la liste des quiz après la création d'un nouveau quizz (liste non mise à jour)
    - [:x:] UC_TeacherQuizList : appel d'un cours n'existant pas dans la liste
-   - [:x:] UC_AddCourse : ne pas utiliser error mais pause
+   - [:heavy_check_mark:] UC_AddCourse : ne pas utiliser error mais pause
    - [:x:] UC_ViewCourse : Suppression des tests et quiz des cours supprimés
    - [:heavy_check_mark:] UC_TeacherEditQuiz : suppression en cascade (Re-merci d'avoir ajouté **ON DELETE CASCADE** dans le script SQL)
-   - [:x:] UC_TeacherAddStudent : sélection impossible n>9
+   - [:heavy_check_mark:] UC_TeacherAddStudent : sélection impossible n>9
    - [:heavy_check_mark:] UC_TeacherEditQuiz : Lorsqu'un quiz a déjà débuté, on ne peut changer la date de début.
+   - [:x:] Global : Les numéro de page et nombre de page ne sont affiché que si il existe plus d'une page
 
 
