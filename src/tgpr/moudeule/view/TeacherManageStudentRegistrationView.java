@@ -5,10 +5,8 @@ public class TeacherManageStudentRegistrationView extends View {
         displayHeader("Gestion des inscriptions - cours " + courseID);
     }
 
-    public void displaySubHeaderWithPage(int page, int nbPages){
-        println("== Liste des étudiants - page " + page +
-            ((nbPages > 1) ? " de " + nbPages : "") +
-            " ==\n");
+    public void displaySubHeaderWithPage(int p, int n){
+        println("== Liste des étudiants" + pageNbr(p, n) + " ==\n");
     }
 
     public void displayCourseCapacity(int activeStudent, int courseCapacity) {
@@ -20,10 +18,7 @@ public class TeacherManageStudentRegistrationView extends View {
     }
 
     public void displayStudent(String fullname, int i, String status ) {
-        println( "[" + ((i < 9) ? " " : "") +
-                (i+1) +  "] " + fullname +
-                " - (" + status + ")"
-        );
+        println( "[" + ((i < 9) ? " " : "") + (i+1) +  "] " + fullname + " - (" + status + ")");
     }
 
     public void displayEmptyListMenu() {
@@ -32,13 +27,6 @@ public class TeacherManageStudentRegistrationView extends View {
 
     public void displayMenu() {
         println("\n[n] Selectionner un étudiant - [I] Inscrire d'office un étudiant ");
-    }
-
-    public void displayNavigationMenu(int page, int nbPages) {
-        println("[ESC] Retour - [Q] Quitter " +
-                ((page != nbPages && nbPages > 0) ? "- [S] page suivante " : "") +
-                ((page > 1) ? "- [P] page précédente " : "")
-        );
     }
 
     public void displaySubMenu(String fullname, String status) {
@@ -61,12 +49,10 @@ public class TeacherManageStudentRegistrationView extends View {
     }
 
     public View.Action askForAction() {
-        return doAskForAction(-1,
-                "", "[1-2]");
+        return doAskForAction(-1, "", "[1-2]");
     }
 
     public View.Action askForConfirmation() {
-        return doAskForAction(-1,
-        "[O/N] Confirmer la suppression", "[oOnN]");
+        return doAskForAction(-1, "[O/N] Confirmer la suppression", "[oOnN]");
     }
 }

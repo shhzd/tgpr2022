@@ -10,10 +10,8 @@ public class TeacherMainMenuView extends View {
         displayHeaderWithPseudo("Main Menu");
     }
 
-    public void displaySubHeader(int page, int nbPages) {
-        println("== Liste des cours - page " + page +
-                ((nbPages > 1) ? " de " + nbPages : "") +
-                " ==\n");
+    public void displaySubHeader(int p, int n) {
+        println("== Liste des cours" + pageNbr(p, n) + " ==\n");
     }
 
     public void displayMenu(List<Course> courses, int page, int lgPage) {

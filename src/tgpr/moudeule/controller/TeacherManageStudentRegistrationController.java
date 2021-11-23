@@ -36,7 +36,7 @@ public class TeacherManageStudentRegistrationController extends Controller {
                 } else {
                     view.displayEmptyListMenu();
                 }
-                view.displayNavigationMenu(page, nbPages);
+                view.displayNavigationMenuWithEsc(page, nbPages);
 
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
 
