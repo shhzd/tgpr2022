@@ -1,10 +1,6 @@
 package tgpr.moudeule.view;
 
-
-import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.User;
-
-import java.util.List;
 
 public class TeacherAddStudentView extends View {
 
@@ -12,53 +8,31 @@ public class TeacherAddStudentView extends View {
         displayHeader("Gestion des inscriptions - cours " + courseID);
     }
 
-    public void displaySubHeaderWithPage(int page, int nbPages){
-        println("== Liste des étudiants - page " + page + " de " + nbPages + " ==\n");
+    public void displaySubHeaderWithPage(int p, int n){
+        println("== Liste des étudiants" + pageNbr(p, n) + " ==\n");
     }
 
-    public void displayNewStudents(List<User> sUsers) {
-        int i = 1;
-        for(User s:sUsers){
-            println("[" + ((i < 10) ? " ": "") +  i  + "] " + s.getFullname());
-            i++;
+    public void displayStudent(String fullname, int i) {
+        println( "[" + ((i < 9) ? " " : "") + (i+1) +  "] " + fullname);
+    }
 
-        }
+    public void displayEmptyListMenu() {
+        println("Aucun disponible");
+    }
+
+    public void displayMenu() {
         println("\n[n] Selectionner un étudiant");
-        println("[ESC] Retour - [Q] Quitter ");
     }
+
     public String askForString() {
         return askString("", "", false);
     }
 
-    private String prettyString(User student, int i, Course course) {
-        return "[" + ((i < 9) ? " " : "") +
-                (i+1) +  "] " + student.getFullname();
-    }
-
-    public void displaySubMenu(User Student, String status) {
-        switch (status) {
-            case "en attent":
-                print("Voulez vous : [1] Inscrire " + Student.getFullname());
-                break;
-            case "actif":
-                print("Voulez vous : [1] Inscrire " + Student.getFullname());
-                break;
-        }
-    }
-
-    public void showWarning() {
-        this.warning("Attention, cette opération est irréversible !");
+    public void displaySubMenu(User Student) {
+        print("Voulez vous : [1] Inscrire " + Student.getFullname());
     }
 
     public View.Action askForAction() {
-        return doAskForAction(-1,
-                "", "[1]");
+        return doAskForAction(-1, "", "[1]");
     }
-
-    public View.Action askForConfirmation() {
-        return doAskForAction(-1,
-                "[O/N] Confirmer la suppression", "[oOnN]");
-    }
-
-
 }

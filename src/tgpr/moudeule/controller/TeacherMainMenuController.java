@@ -9,23 +9,6 @@ import tgpr.moudeule.view.View;
 public class TeacherMainMenuController extends Controller {
 
     private int page = 1;
-//    private boolean keepLooping = true;
-//
-//    private void leave(String res, Course course) {
-//        switch (res) {
-//            case "E":
-//                new TeacherEditCourseController(course.getId()).run();
-//                break;
-//        }
-//    }
-//
-//    private void leave(String res) {
-//        switch (res) {
-//            case "0":
-//                new TeacherAddCourseController().run();
-//                break;
-//        }
-//    }
 
     public void run() {
         var view = new TeacherMainMenuView();
@@ -36,11 +19,10 @@ public class TeacherMainMenuController extends Controller {
                 User user = MoudeuleApp.getLoggedUser();
 
                 var courses = Course.getCoursesFromTeacher(user);
-                int lgPage = 14;
-                int nbPages = (int)Math.ceil(courses.size() / (lgPage + 0.0));
+                int nbPages = (int)Math.ceil(courses.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
                 view.displaySubHeader(page, nbPages);
-                view.displayMenu(courses, page, nbPages, lgPage);
+                view.displayMenu(courses, page, NUMBER_DISPLAY_LINE);
                 view.displayNavigationMenu(page, nbPages);
 
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
@@ -66,5 +48,4 @@ public class TeacherMainMenuController extends Controller {
         }
         view.close();
     }
-
 }

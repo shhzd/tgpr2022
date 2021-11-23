@@ -280,4 +280,20 @@ public abstract class View {
     protected void displayHeaderWithPseudoAndPageNumber(String header, int page, int nbPage) {
         displayHeader(header + " - " + MoudeuleApp.getLoggedUser().getPseudo() + " - page " + page + (nbPage > 0 ? " de " + nbPage : ""));
     }
+
+
+    public void displayNavigationMenu(int page, int nbPages) {
+        println("[Q] Quitter " + ((page != nbPages && nbPages > 0) ? "- [S] Page suivante " : "") +
+                ((page > 1) ? "- [P] Page précédente " : "")
+        );
+    }
+
+    public String pageNbr(int page, int nbPages) {
+        return ((nbPages > 1) ? " - page " + page +  " de " + nbPages : "");
+    }
+
+    public void displayNavigationMenuWithEsc(int page, int nbPages) {
+        print("[ESC] Quitter - ");
+        this.displayNavigationMenu(page, nbPages);
+    }
 }
