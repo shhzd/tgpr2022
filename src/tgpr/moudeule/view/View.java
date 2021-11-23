@@ -290,5 +290,6 @@ public abstract class View {
 
     public void displayNavigationMenuWithEsc(int page, int nbPages) {
         print("[ESC] Quitter - ");
+        this.displayNavigationMenu(page, nbPages);
     }
 }
