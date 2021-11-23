@@ -19,19 +19,19 @@ public class TeacherManageStudentRegistrationView extends View {
         println("");
     }
 
+    public void displayStudent(String fullname, int i, String status ) {
+        println( "[" + ((i < 9) ? " " : "") +
+                (i+1) +  "] " + fullname +
+                " - (" + status + ")"
+        );
+    }
+
     public void displayEmptyListMenu() {
         println("Aucun étudiant inscrit \n\n[I] Inscrire d'office un étudiant ");
     }
 
     public void displayMenu() {
         println("\n[n] Selectionner un étudiant - [I] Inscrire d'office un étudiant ");
-    }
-
-    public void displayStudent(String fullname, int i, String status ) {
-        println( "[" + ((i < 9) ? " " : "") +
-                (i+1) +  "] " + fullname +
-                " - (" + status + ")"
-        );
     }
 
     public void displayNavigationMenu(int page, int nbPages) {
@@ -44,7 +44,7 @@ public class TeacherManageStudentRegistrationView extends View {
     public void displaySubMenu(String fullname, String status) {
         switch (status) {
             case "en attente":
-                print("Voulez vous : [1] Activer " + fullname);
+                print("Voulez vous : [1] Activer - [2] Refuser : " + fullname);
                 break;
             case "actif":
                 print("Voulez vous : [1] Supprimer " + fullname);
@@ -62,7 +62,7 @@ public class TeacherManageStudentRegistrationView extends View {
 
     public View.Action askForAction() {
         return doAskForAction(-1,
-                "", "[1]");
+                "", "[1-2]");
     }
 
     public View.Action askForConfirmation() {
