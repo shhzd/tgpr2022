@@ -16,9 +16,7 @@ public class TeacherMainMenuView extends View {
                 " ==\n");
     }
 
-    /** This should be refactored int controller
-     */
-    public void displayMenu(List<Course> courses, int page, int nbPages, int lgPage) {
+    public void displayMenu(List<Course> courses, int page, int lgPage) {
 
         if (courses.size() != 0) {
             println(" ID   CODE Cap  Description");
@@ -32,15 +30,7 @@ public class TeacherMainMenuView extends View {
         println("\n[ID] Selectionner un cours - [0] Ajouter un nouveau cours");
     }
 
-    public void displayNavigationMenu(int page, int nbPages) {
-        println("[Q] Quitter " +
-                ((page != nbPages && nbPages > 0) ? "- [S] page suivante " : "") +
-                ((page > 1) ? "- [P] page précédente " : "")
-        );
-    }
-
     public String askForString() {
         return askString("", "", false);
     }
-
 }
