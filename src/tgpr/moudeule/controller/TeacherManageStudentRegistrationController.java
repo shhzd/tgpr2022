@@ -20,11 +20,11 @@ public class TeacherManageStudentRegistrationController extends Controller {
         try {
             String res;
             do {
-                view.displayHeaderWithCourse(course.getCode());
-
+                res = "";
                 var students = User.getByCourse(course);
                 int nbPages = (int) Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
+                view.displayHeaderWithCourse(course.getCode());
                 view.displaySubHeaderWithPage(page, nbPages);
                 view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
                 if (students.size() > 0) {
@@ -39,16 +39,14 @@ public class TeacherManageStudentRegistrationController extends Controller {
                 view.displayNavigationMenuWithEsc(page, nbPages);
 
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
-
                 if (res.equals("I")) {
                     new TeacherAddStudentController(course).run();
                 }
                 try {
                     if (res.matches("[1-9]|[0][1-9]|[1][0-5]")) {
-                        User student = students.get(Integer.parseInt(res) - 1);
-                        if (student == null)
-                            throw new View.ActionInterruptedException();
-                        else {
+                        int index = Integer.parseInt(res) - 1 + ((page - 1) * NUMBER_DISPLAY_LINE);
+                        if (index < students.size() && index >= 0) {
+                            User student = students.get(index);
                             View.Action subRes;
                             String status = student.getStatus(course);
                             /** the String status is not yet used, changes have to be made to the
@@ -57,7 +55,6 @@ public class TeacherManageStudentRegistrationController extends Controller {
                              */
                             view.displaySubMenu(student.getFullname(), status);
                             subRes = view.askForAction();
-
                             if (subRes.getAction() == '1') {
                                 switch (status) {
                                     case "en attente":
