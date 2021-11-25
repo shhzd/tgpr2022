@@ -62,12 +62,16 @@ public class TeacherEditQuizView extends View {
         }
     }
 
-    public void displayFinisedDateError(Quiz quiz, LocalDate newDate) {
+    public void displayFinishedDateError(Quiz quiz, LocalDate newDate) {
         if(!quiz.newFinisedDateIsAfterCurrentDate(newDate)) {
             showError("La date de fin ne peut être dans le passé !");
         } else if(!quiz.newFinishedDateisAfterCurrentStartDate(newDate)) {
             showError("La date de fin ne peut pas être avant la date de début !");
         }
+    }
+
+    public void displayErrorQuizStarted() {
+          showError("On ne peut modifier la date d'un quizz déjà débuté");
     }
 
     public LocalDate askForFinishDate(LocalDate actual) {

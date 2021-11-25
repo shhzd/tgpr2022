@@ -1,5 +1,6 @@
 package tgpr.moudeule.controller;
 
+import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherQuizzesListView;
@@ -10,56 +11,36 @@ import java.util.List;
 public class TeacherQuizzesListController extends Controller {
 
     private final Course course;
-    private final TeacherQuizzesListView view;
 
     public TeacherQuizzesListController(int courseID) {
         this.course = Course.getCourseByID(courseID);
-        this.view = new TeacherQuizzesListView(course);
     }
 
-    /*public int quizzesAmount(List<Quiz> quizzes){
-        int i = 0;
-        for(Quiz q : quizzes){
-            ++i;
-        }
-        return i;
-    }*/
-
-    public int quizId(List<Quiz> quizzes){
-        int max = 0;
-        for(Quiz q : quizzes){
-            max = q.getId();
-        }
-        return max;
-    }
 
     @Override
     public void run() {
-
         List<Quiz> quizzes;
-        quizzes = Quiz.getAllQuizzesBycourseId(course.getId());
-        int maxNumber = quizId(quizzes);
-
+        quizzes = Quiz.getQuizzesBycourseId(course.getId());
+        var view = new TeacherQuizzesListView();
         try {
-            View.Action res;
+            String res;
             do {
-                view.displayHeader();
+                view.displayHeader(course);
                 view.displayQuizzesList(quizzes);
-                res = view.askForAction(maxNumber);
-                switch (res.getAction()) {
-                    case 'A':
-                        new TeacherAddQuizController(course).run(); //add view and controller;
-                        break;
-                    case 'S':
-                        int q;
-                        q = res.getNumber();
-                        new TeacherEditQuizController(q);
-                        break;
+                res = view.askForString().toUpperCase();
+                if (res.matches("[1-9]|[0][1-9]|[1][0-2]")){
+                    int p = Integer.parseInt(res);
+                    Quiz q = quizzes.get(p-1);
+                    new TeacherEditQuizController(q.getId()).run();
                 }
-            }
-            while (res.getAction() != 'R');
+                if (res.matches("0")){
+                    new TeacherAddQuizController(course).run();
+                }
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
+
         } catch (View.ActionInterruptedException e) {
-            //just leave the loop
         }
+        view.close();
     }
 }

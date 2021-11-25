@@ -32,7 +32,10 @@ public class User extends Model {
         this.fullname = fullname;
         this.birthdate = birthdate;
         this.role = role;
+    }
 
+    public static User makeNewStudent() {
+        return new User("", "", "", null, Role.STUDENT);
     }
 
     public String getPseudo() {
@@ -115,6 +118,44 @@ public class User extends Model {
         var list = new ArrayList<User>();
         try {
             var stmt = db.prepareStatement("select * from users order by pseudo");
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var user = new User();
+                mapper(rs, user);
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static List<User> getAllStudents() {
+        var list = new ArrayList<User>();
+        try {
+            var stmt = db.prepareStatement("select * from users WHERE role = 2 order by pseudo ");
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                var user = new User();
+                mapper(rs, user);
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static List<User> getAllNotRegisteredStudents(Course course) {
+        var list = new ArrayList<User>();
+        try {
+            var stmt = db.prepareStatement("" +
+                    "SELECT * FROM users WHERE role = 2 AND users.pseudo NOT IN " +
+                            "(SELECT registrations.student FROM registrations " +
+                            "WHERE registrations.course = ?)\n" +
+                    "ORDER BY pseudo;"
+                    );
+            stmt.setInt(1, course.getId());
             var rs = stmt.executeQuery();
             while (rs.next()) {
                 var user = new User();
@@ -265,7 +306,6 @@ public class User extends Model {
         return false;
     }
 
-
     public boolean delete() {
         int count = 0;
         try {
@@ -280,7 +320,7 @@ public class User extends Model {
 
     public static String isValidBirthdate(LocalDate birthdate) {
         if (birthdate == null)
-            return null;
+            return "entrez une date";
         if (birthdate.compareTo(VariableForTesting.getCurrentDate()) > 0)
             return "impossible d'être né dans le futur";
         if (Period.between(birthdate, VariableForTesting.getCurrentDate()).getYears() < 18)
@@ -326,7 +366,6 @@ public class User extends Model {
         if (err != null) errors.add(err);
         err = isValidBirthdate(birthdate);
         if (err != null) errors.add(err);
-
         return errors;
     }
 
@@ -401,6 +440,23 @@ public class User extends Model {
         return false;
     }
 
+    public boolean registerStudent(Course course) {
+        if(this.role.equals(Role.STUDENT)) {
+            int count = 0;
+            try {
+                PreparedStatement stmt = Model.db.prepareStatement("INSERT INTO registrations VALUES (?,?,?)");
+                stmt.setInt(1, course.getId());
+                stmt.setString(2, this.getPseudo());
+                stmt.setInt(3, 1);
+                count = stmt.executeUpdate();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            return count == 1;
+        }
+        return false;
+    }
+
     public boolean cancelWaitingList(Course course) {
         if(this.role.equals(Role.STUDENT)) {
             int count = 0;
@@ -446,5 +502,4 @@ public class User extends Model {
         }
         return false;
     }
-
 }

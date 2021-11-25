@@ -249,7 +249,7 @@ public class Course extends Model {
 
     public static String isValidCapacity(int capacity) {
         if (capacity < 4) return "La capacité minimal est de 4";
-        if (capacity > 28) return "La capacité maximal est de 28";
+        if (capacity > 28) return "La capacité maximale est de 32";
         return null;
     }
 
@@ -315,7 +315,7 @@ public class Course extends Model {
         return studentsList;
     }
 
-    public boolean isActive(Course course, User student) {
+    public boolean isActive(User student) {
         try {
             var stmt = db.prepareStatement("SELECT * FROM registrations WHERE student =? AND course =? AND active = 1");
             stmt.setString(1, student.getPseudo());
@@ -368,7 +368,6 @@ public class Course extends Model {
         return this.getCapacity() - result;
     }
 
-
     public boolean isInWaitingList(User student) {
         if(student.role.equals(Role.STUDENT)) {
             int result = 0;
@@ -387,5 +386,4 @@ public class Course extends Model {
         }
         return false;
     }
-
 }

@@ -6,6 +6,7 @@ import tgpr.moudeule.view.StudentCourseDescriptionInscriptionView;
 import tgpr.moudeule.view.View;
 
 public class StudentCourseDescriptionInscriptionController extends Controller {
+
     private Course course;
 
     public StudentCourseDescriptionInscriptionController(Course course) {
@@ -28,13 +29,11 @@ public class StudentCourseDescriptionInscriptionController extends Controller {
                     } else {
                         student.addToWaitingList(this.course);
                     }
-                } else if(res.getAction() == 'R') {
-                    new StudentAvailableCoursesListController().run();
                 }
-            } while (res.getAction() != 'Q');
+            } while (res.getAction() != 'Q' && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
         } catch (View.ActionInterruptedException e) {
         }
-        MoudeuleApp.logout();
-        new StartMenuController().run();
+        view.close();
     }
 }

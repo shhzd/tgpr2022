@@ -16,7 +16,12 @@ public class VariableForTestingView extends View {
     }
 
     public Action askForAction() {
-        return doAskForAction(-1, "[1] Entrer une nouvelle date\n[2] Utiliser Moudeule\n[Q] Quitter", "[qQ]|[1]|[2]");
+        return doAskForAction(-1, "[1] Entrer une nouvelle date" +
+                "\n[2] Utiliser Moudeule" +
+                "\n[3] Login as Bob" +
+                "\n[4] Login as p" +
+                "\n[5] Login as Ben" +
+                "\n\n[Q] Quitter", "[qQ]|[1-5]");
     }
 
     public LocalDate askForDate(LocalDate actual) {

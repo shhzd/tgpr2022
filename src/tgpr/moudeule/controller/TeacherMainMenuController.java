@@ -18,23 +18,18 @@ public class TeacherMainMenuController extends Controller {
                 view.displayHeader();
                 User user = MoudeuleApp.getLoggedUser();
 
-                /** ONLY for testing purposes **/
-//                User user = User.getByPseudo("p");
-
                 var courses = Course.getCoursesFromTeacher(user);
-                int lgPage = 14;
-                int nbPages = (int)Math.ceil(courses.size() / (lgPage + 0.0));
+                int nbPages = (int)Math.ceil(courses.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
-                view.displayMenu(courses, page, nbPages, lgPage);
+                view.displaySubHeader(page, nbPages);
+                view.displayMenu(courses, page, NUMBER_DISPLAY_LINE);
+                view.displayNavigationMenu(page, nbPages);
+
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
                 if (res.length() > 1) {
                     Course course = Course.getCourseByID(res);
-                    if (course != null) {
-                        /** to uncomment when UC are ready  **/
+                    if (course != null && courses.contains(course)) {
                         new TeacherEditCourseController(course.getId()).run();
-                    } else {
-                        // for testing purposes
-                        System.out.println("il ne se passe rien");
                     }
                 }
                 if (res.equals("S") && (page) != nbPages && nbPages > 1) {
@@ -45,21 +40,12 @@ public class TeacherMainMenuController extends Controller {
                 }
                 if (res.equals("0")) {
                     new TeacherAddCourseController().run();
-                }
-                /** Uncomment to test TeacherEditQuiz **/
-                if (res.equals("4")) {
-                    new TeacherEditQuizController(2).run();
-                }
 
-                /** ONLY uncomment to test TeacherManageStudentRegistration **/
-//                if (res.equals("D")) {
-//                    new TeacherManageStudentRegistrationController(Course.getCourseByID(2000)).run();
-//                }
-
-            } while (!res.equals("Q"));
+                }
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
         } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("logged out");
         }
-        MoudeuleApp.logout();
+        view.close();
     }
 }

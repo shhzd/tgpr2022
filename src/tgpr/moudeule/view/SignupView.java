@@ -17,7 +17,7 @@ public class SignupView extends View{
     }
 
     public String askPseudo(String actual) {
-        return askString("Pseudo (" + ((actual != null) ? actual : "") + "): ", actual);
+        return askString("Pseudo (3 caractères min): ", actual);
     }
 
     public String askPassword(String actual) {
@@ -35,17 +35,16 @@ public class SignupView extends View{
     }
 
     public String askFullname(String actual) {
-        return askString("Nom complet (" + ((actual != null) ? actual : "") + "): ", actual);
+        return askString("Nom complet: ", actual);
 
     }
 
     public LocalDate askBirthDate(LocalDate actual) {
-        return askDate("Date de naissance (" +
-                (actual == null ? "jj/mm/aaaa" : DateTimeFormatter.ofPattern("dd/MM/yyyy").format(actual)) + "): ", actual);
+        return askDate("Date de naissance (JJ/MM/AAAA): ", actual);
     }
 
-    public View.Action askForAction() {
-        return doAskForAction(-1, "\n[V] Valider, [A] Annuler", "[vVaA]");
+    public View.Action askForConfirmation() {
+        return doAskForAction(-1, "\n[O/N] Confirmer les données saisies", "[oOnN]");
     }
 
 }

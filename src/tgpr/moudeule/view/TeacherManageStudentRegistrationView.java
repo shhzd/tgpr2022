@@ -1,17 +1,12 @@
 package tgpr.moudeule.view;
 
-import tgpr.moudeule.model.Course;
-import tgpr.moudeule.model.User;
-
-import java.util.List;
-
 public class TeacherManageStudentRegistrationView extends View {
     public void displayHeaderWithCourse(String courseID) {
-        displayHeader("Gestion des inscription - cours " + courseID);
+        displayHeader("Gestion des inscriptions - cours " + courseID);
     }
 
-    public void displaySubHeaderWithPage(int page, int nbPages){
-        println("== Liste des étudiants - page " + page + " de " + nbPages + " ==\n");
+    public void displaySubHeaderWithPage(int p, int n){
+        println("== Liste des étudiants" + pageNbr(p, n) + " ==\n");
     }
 
     public void displayCourseCapacity(int activeStudent, int courseCapacity) {
@@ -22,35 +17,25 @@ public class TeacherManageStudentRegistrationView extends View {
         println("");
     }
 
-    public void displayMenu(List<User> students, Course course, int page, int nbPages, int lgPage) {
+    public void displayStudent(String fullname, int i, String status ) {
+        println( "[" + ((i < 9) ? " " : "") + (i+1) +  "] " + fullname + " - (" + status + ")");
+    }
 
-        for (int i = 0 ; (i + ((page - 1) * lgPage)) < students.size() && i < (lgPage + 1) ; i++) {
-            User student = students.get(i + ((page - 1) * lgPage));
-            println(prettyString(student, i, course));
-        }
+    public void displayEmptyListMenu() {
+        println("Aucun étudiant inscrit \n\n[I] Inscrire d'office un étudiant ");
+    }
+
+    public void displayMenu() {
         println("\n[n] Selectionner un étudiant - [I] Inscrire d'office un étudiant ");
-        println("[R] Retour - [Q] Quitter " +
-            ((page > 1) ? "- [P] page précédente " : "") +
-            ((page != nbPages) ? "- [S] page suivante " : ""));
     }
 
-    public String askForString() {
-        return askString("", "", false);
-    }
-
-    private String prettyString(User student, int i, Course course) {
-        return "[" + ((i < 9) ? " " : "") +
-            (i+1) +  "] " + student.getFullname() +
-            " - (" + student.getStatus(course) + ")";
-    }
-
-    public void displaySubMenu(User Student, String status) {
+    public void displaySubMenu(String fullname, String status) {
         switch (status) {
             case "en attente":
-                print("Voulez vous : [1] Activer " + Student.getFullname());
+                print("Voulez vous : [1] Activer - [2] Refuser : " + fullname);
                 break;
             case "actif":
-                print("Voulez vous : [1] Supprimer " + Student.getFullname());
+                print("Voulez vous : [1] Supprimer " + fullname);
                 break;
         }
     }
@@ -59,13 +44,15 @@ public class TeacherManageStudentRegistrationView extends View {
         this.warning("Attention, cette opération est irréversible !");
     }
 
+    public String askForString() {
+        return askString("", "", false);
+    }
+
     public View.Action askForAction() {
-        return doAskForAction(-1,
-                "", "[1]");
+        return doAskForAction(-1, "", "[1-2]");
     }
 
     public View.Action askForConfirmation() {
-        return doAskForAction(-1,
-        "[O/N] Confirmer la suppression", "[oOnN]");
+        return doAskForAction(-1, "[O/N] Confirmer la suppression", "[oOnN]");
     }
 }

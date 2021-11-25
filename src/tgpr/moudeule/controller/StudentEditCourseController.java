@@ -6,18 +6,6 @@ import tgpr.moudeule.view.StudentEditCourseView;
 import tgpr.moudeule.view.View;
 
 public class StudentEditCourseController extends Controller {
-    private String res;
-    private void leavePossibility(String res) {
-        switch (res) {
-            case "R":
-                new StudentMainMenuController().run();
-                break;
-            case "Q":
-                MoudeuleApp.logout();
-                new StartMenuController().run();
-                break;
-        }
-    }
 
     @Override
     public void run() {
@@ -25,47 +13,39 @@ public class StudentEditCourseController extends Controller {
         var courses = student.getRegistratedCourses();
         var view = new StudentEditCourseView();
         try {
+            String res;
             do {
                 view.displayHeader();
                 view.displayCourses(courses, student);
-                System.out.println("");
                 //could eventually redirect to StudentAvailableCoursesList if the student is not registrated anywhere (to be discuted)
 
                 view.displayIDSelection();
+                view.displayFooter();
                 res = view.askForString().toUpperCase();
-                leavePossibility(res);
-                while (res.length() != 4 && !res.equals("R") && !res.equals("Q")) {
-                    view.badID();
-                    res = view.askForString().toUpperCase();
-                    leavePossibility(res);
-                }
-                var course = Course.getCourseByID(res);
-
-                view.displayChoices();
-                res = view.askForString().toUpperCase();
-                if (res.equals("1")) {
-                    view.pausedWarning("new StudentTestsList().run()");
-                    /**
-                     * to uncomment when UC ready
-                     */
-                    //new StudentTestsList().run();
-                }
-                if (res.equals("2")) {
-                    view.displayConfirmation(course);
-                    res = view.askForString().toUpperCase();
-                    if (res.equals("O")) {
-                        student.deactivateCourse(course);
+                if(res.length() == 4) {
+                    Course course = Course.getCourseByID(res);
+                    if (course != null && courses.contains(course)) {
+                        view.displayChoices();
+                        res = view.askForString().toUpperCase();
+                        if (res.equals("1")) {
+                            new StudentTestListController(course).run();
+                        }
+                        if (res.equals("2")) {
+                            view.displayConfirmation(course);
+                            res = view.askForString().toUpperCase();
+                            if (res.equals("O")) {
+                                student.deactivateCourse(course);
+                                courses = student.getRegistratedCourses();
+                        }
+                        }
+                    } else {
+                        view.badID();
                     }
                 }
-
-                if (res.equals("R")) {
-                    new StudentMainMenuController().run();
-                }
-            } while (!res.equals("Q"));
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
             MoudeuleApp.logout();
-            new StartMenuController().run();
         } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("logged out");
         }
+        view.close();
     }
 }

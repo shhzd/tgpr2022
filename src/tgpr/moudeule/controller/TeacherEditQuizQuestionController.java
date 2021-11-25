@@ -3,7 +3,6 @@ package tgpr.moudeule.controller;
 import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
-import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherEditQuizQuestionView;
 import tgpr.moudeule.view.View;
 
@@ -26,7 +25,6 @@ public class TeacherEditQuizQuestionController extends Controller {
         var question = Question.getById(questionId);
 
         var view = new TeacherEditQuizQuestionView();
-
         try {
             String res;
             do {
@@ -117,13 +115,12 @@ public class TeacherEditQuizQuestionController extends Controller {
                     ++page;
                 } else if (res.equals("P") && page > 1) {
                     --page;
-                } else if (res.equals("R")) {
-                    new TeacherEditQuizController(Quiz.getByQuestionId(questionId).getId()).run();
                 }
-            } while (!res.equals("Q"));
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
         } catch (View.ActionInterruptedException e) {
         }
-        MoudeuleApp.logout();
+        view.close();
     }
 
 

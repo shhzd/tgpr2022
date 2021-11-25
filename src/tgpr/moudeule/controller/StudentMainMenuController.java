@@ -1,8 +1,8 @@
 package tgpr.moudeule.controller;
 
+import tgpr.moudeule.MoudeuleApp;
 import tgpr.moudeule.view.StudentMainMenuView;
 import tgpr.moudeule.view.View;
-
 
 public class StudentMainMenuController extends Controller {
     public void run() {
@@ -15,20 +15,16 @@ public class StudentMainMenuController extends Controller {
                 res = view.askForAction();
                 switch (res.getAction()){
                     case '1':
-                        // uncoment when UC is ready
-                        System.out.println("Liste of course disponibles");
-                     new StudentAvailableCoursesListController().run();
+                        new StudentAvailableCoursesListController().run();
                         break;
                     case '2':
-                        // uncoment when UC is ready
-                        System.out.println("Liste de course Inscrit");
-                            new StudentEditCourseController().run();
+                        new StudentEditCourseController().run();
+                        break;
                 }
-            } while (res.getAction() != 'Q');
+            } while (res.getAction() != 'Q' && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
         }catch (View.ActionInterruptedException e) {
-            // just leave
         }
-        view.pausedWarning("A bientôt.");
         view.close();
     }
 }

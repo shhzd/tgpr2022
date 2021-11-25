@@ -20,7 +20,7 @@ public class StudentEditCourseView extends View {
         int i = 1;
         if (courses.size() > 0 ) {
             for (var course : courses) {
-                if (course.isActive(course, student)) {
+                if (course.isActive(student)) {
                     displayCourse(i, course);
                     ++i;
                     println("");
@@ -29,7 +29,6 @@ public class StudentEditCourseView extends View {
         } else {
             println("Vous n'êtes inscrit à aucun cours");
         }
-        displayFooter();
     }
 
     public void displayIDSelection() {
@@ -46,7 +45,7 @@ public class StudentEditCourseView extends View {
 
     public void displayFooter() {
         println("");
-        println("[R] Retour - [Q] Quitter");
+        println("[ESC] Retour - [Q] Quitter");
     }
 
     public String askForString() {
