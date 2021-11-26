@@ -4,6 +4,7 @@ import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
 import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
+import tgpr.moudeule.view.View;
 
 public class TeacherAddOptionController extends Controller{
 
@@ -42,12 +43,14 @@ public class TeacherAddOptionController extends Controller{
         if (res.equals("N")){
             view.askAddNewQuestion();
             res = view.askForString().toUpperCase();
-            if (res.equals("O")){
+            while (res.equals("O")){
                 new TeacherAddQuestionController(Quiz.getById(question.getquizId()), view).run();
             }
-            if (res.equals("N")){
-                new TeacherEditQuizController(question.getquizId()).run(); // Not good
-            }
+//            if (res.equals("N")){
+//                throw new View.ActionInterruptedException();
+//            }
         }
+        throw new View.ActionInterruptedException();
+
     }
 }

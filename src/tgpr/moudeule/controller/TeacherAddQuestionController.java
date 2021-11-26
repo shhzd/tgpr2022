@@ -3,6 +3,7 @@ package tgpr.moudeule.controller;
 import tgpr.moudeule.model.Question;
 import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
+import tgpr.moudeule.view.View;
 
 public class TeacherAddQuestionController extends Controller{
 
@@ -42,14 +43,12 @@ public class TeacherAddQuestionController extends Controller{
             view.askAddNewQuestion();
             String subres;
             subres = view.askForString().toUpperCase();
-            if (subres.equals("O")){
+            while (subres.equals("O")){
                 new TeacherAddQuestionController(quiz, view).run();
             }
-            if (subres.equals("N")){
-                new TeacherEditQuizController(quiz.getId()).run(); // Not good
-            }
-
-
+//            if (subres.equals("N")){
+//            }
         }
+        throw new View.ActionInterruptedException();
     }
 }
