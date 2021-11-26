@@ -36,42 +36,13 @@ public class TeacherEditQuizController extends Controller {
                 res = view.askForString().toUpperCase();
 
                 if (res.equals("1")) {
-                    try {
-                        String title = view.askForTitle(quiz.getTitle());
-                        quiz.setTitle(title);
-                        quiz.save();
-                    } catch (View.ActionInterruptedException e) {
-                    }
+                    editTitle(view, quiz);
                 } else if (res.equals("2")) {
-                    try {
-                        if(VariableForTesting.getCurrentDate().compareTo(quiz.getStart()) >= 0) {
-                            view.displayErrorQuizStarted();
-                        } else {
-                            LocalDate startDate = view.askForStartDate(quiz.getStart());
-                            while (!quiz.isValidNewStartDate(startDate)) {
-                                view.displayStartDateError(quiz, startDate);
-                                startDate = view.askForStartDate(quiz.getStart());
-                            }
-                            quiz.setStart(startDate);
-                            quiz.save();
-                        }
-
-                    } catch (View.ActionInterruptedException e) {
-                    }
+                    editStartDate(view, quiz);
                 } else if (res.equals("3")) {
-                    try {
-                        LocalDate endDate = view.askForFinishDate(quiz.getFinish());
-                        while (!quiz.isValidNewFinishedDate(endDate)) {
-                            view.displayFinishedDateError(quiz, endDate);
-                            endDate = view.askForFinishDate(quiz.getFinish());
-                        }
-                        quiz.setFinish(endDate);
-                        quiz.save();
-                    } catch (View.ActionInterruptedException e) {
-                    }
+                    editFinishedDate(view, quiz);
                 } else if (res.equals("0")) {
-                    quiz.removeQuiz();
-                    throw new View.ActionInterruptedException();
+                    removeQuiz(quiz);
                 } else if (res.equals("S") && page < nbPages && nbPages > 1) {
                     ++page;
                 } else if (res.equals("P") && page > 1) {
@@ -87,5 +58,50 @@ public class TeacherEditQuizController extends Controller {
         } catch (View.ActionInterruptedException e) {
         }
         view.close();
+    }
+
+    public void editTitle(TeacherEditQuizView view, Quiz quiz) {
+        try {
+            String title = view.askForTitle(quiz.getTitle());
+            quiz.setTitle(title);
+            quiz.save();
+        } catch (View.ActionInterruptedException e) {
+        }
+    }
+
+    public void editStartDate(TeacherEditQuizView view, Quiz quiz) {
+        try {
+            if(VariableForTesting.getCurrentDate().compareTo(quiz.getStart()) >= 0) {
+                view.displayErrorQuizStarted();
+            } else {
+                LocalDate startDate = view.askForStartDate(quiz.getStart());
+                while (!quiz.isValidNewStartDate(startDate)) {
+                    view.displayStartDateError(quiz, startDate);
+                    startDate = view.askForStartDate(quiz.getStart());
+                }
+                quiz.setStart(startDate);
+                quiz.save();
+            }
+
+        } catch (View.ActionInterruptedException e) {
+        }
+    }
+
+    public void editFinishedDate(TeacherEditQuizView view, Quiz quiz) {
+        try {
+            LocalDate endDate = view.askForFinishDate(quiz.getFinish());
+            while (!quiz.isValidNewFinishedDate(endDate)) {
+                view.displayFinishedDateError(quiz, endDate);
+                endDate = view.askForFinishDate(quiz.getFinish());
+            }
+            quiz.setFinish(endDate);
+            quiz.save();
+        } catch (View.ActionInterruptedException e) {
+        }
+    }
+
+    public void removeQuiz(Quiz quiz) {
+        quiz.removeQuiz();
+        throw new View.ActionInterruptedException();
     }
 }
