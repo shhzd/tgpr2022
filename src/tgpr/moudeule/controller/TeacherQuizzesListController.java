@@ -27,7 +27,7 @@ public class TeacherQuizzesListController extends Controller {
                 view.displayHeader(course);
                 view.displayQuizzesList(quizzes);
                 res = view.askForString().toUpperCase();
-                if (Controller.isParsable(res) && Integer.parseInt(res) < quizzes.size()){
+                if (Controller.isParsable(res) && Integer.parseInt(res) < quizzes.size() + 1){
                     int p = Integer.parseInt(res);
                     if(p != 0) {
                         Quiz q = quizzes.get(p-1);
