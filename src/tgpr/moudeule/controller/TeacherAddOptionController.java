@@ -2,9 +2,7 @@ package tgpr.moudeule.controller;
 
 import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
-import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
-import tgpr.moudeule.view.View;
 
 public class TeacherAddOptionController extends Controller{
 
@@ -20,37 +18,23 @@ public class TeacherAddOptionController extends Controller{
     public void run() {
 
         /** Needs a try catch for breaking **/
-        String res;
-        Option opt = new Option();
-        opt.setQuestionId(question.getId());
-        String optext = view.enterOptionText(opt.getTitle());
-        opt.setTitle(optext);
-        view.enterOptionValue();
-        res = view.askForString().toUpperCase();
-        if(res.matches("1")){
-            opt.setCorrect(1);
-        }
-        if(res.matches("2")){
-            opt.setCorrect(0);
-        }
-        opt.save();
 
-        view.askAddOption();
-        res = view.askForString().toUpperCase();
-        if (res.equals("O")){
-            new TeacherAddOptionController(question, view).run();
-        }
-        if (res.equals("N")){
-            view.askAddNewQuestion();
+            String res;
+            Option opt = new Option();
+            opt.setQuestionId(question.getId());
+            String optext = view.enterOptionText(opt.getTitle());
+            opt.setTitle(optext);
+            view.enterOptionValue();
             res = view.askForString().toUpperCase();
-            while (res.equals("O")){
-                new TeacherAddQuestionController(Quiz.getById(question.getquizId()), view).run();
+            if(!(res.equals("1") || res.equals("2"))) {
+                view.enterOptionValue();
+                res = view.askForString().toUpperCase();
+            } else if (res.matches("1")) {
+                opt.setCorrect(1);
+            } else if (res.matches("2")) {
+                opt.setCorrect(0);
             }
-//            if (res.equals("N")){
-//                throw new View.ActionInterruptedException();
-//            }
-        }
-        throw new View.ActionInterruptedException();
+            opt.save();
 
     }
 }

@@ -2,6 +2,7 @@ package tgpr.moudeule.view;
 
 import tgpr.moudeule.model.Course;
 import tgpr.moudeule.model.Quiz;
+import tgpr.moudeule.model.VariableForTesting;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +12,10 @@ public class TeacherAddQuizView extends View{
 
     public void displayHeader(Course course){
         super.displayHeader(" Ajouter un quiz - cours " + course.getCode());
+    }
+
+    public void displayCurrentDate() {
+        print("Date du jour : " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(VariableForTesting.getCurrentDate()) + "\n");
     }
 
     public String askTitle(String actual){
@@ -39,8 +44,8 @@ public class TeacherAddQuizView extends View{
         }
     }
 
-    public String askQuestionText(String actual){
-        return askString("Ajoutez l'énoncé de la question : ", actual);
+    public String askQuestionText(){
+        return askString("Ajoutez l'énoncé de la question : ", "");
     }
 
     public void askQuestionType(){
@@ -49,6 +54,10 @@ public class TeacherAddQuizView extends View{
 
     public void askAddOption(){
         println("[O/N] Voulez-vous ajouter une proposition ? ");
+    }
+
+    public void firstAskOption() {
+        print("Ajouter une proposition : ");
     }
 
     public String enterOptionText(String actual){
@@ -65,5 +74,13 @@ public class TeacherAddQuizView extends View{
 
     public String askForString() {
         return askString("", "", false);
+    }
+
+    public void showInvalidTitle() {
+        showError("Le titre est invalide !");
+    }
+
+    public void showInvalidDate() {
+        showError("La date est invalide !");
     }
 }
