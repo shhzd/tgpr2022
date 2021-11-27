@@ -83,4 +83,9 @@ public class TeacherAddQuizView extends View{
     public void showInvalidDate() {
         showError("La date est invalide !");
     }
+
+    public void showInvalidAmountOfRightAnswers() {
+        warning("Il faut au moins une proposition vraie !");
+    }
+
 }

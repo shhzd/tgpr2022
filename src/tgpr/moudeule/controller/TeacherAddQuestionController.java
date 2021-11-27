@@ -3,7 +3,6 @@ package tgpr.moudeule.controller;
 import tgpr.moudeule.model.Question;
 import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
-import tgpr.moudeule.view.View;
 
 public class TeacherAddQuestionController extends Controller {
 
@@ -46,6 +45,13 @@ public class TeacherAddQuestionController extends Controller {
             new TeacherAddOptionController(quest, view).run();
             numberOfOptions = quest.getNumberOfOptions();
         }
+        int trueAnswers = Question.getNumberTrueAnswers(quest);
+        while(trueAnswers < 1) {
+            view.showInvalidAmountOfRightAnswers();
+            new TeacherAddOptionController(quest, view).run();
+            trueAnswers = Question.getNumberTrueAnswers(quest);
+
+        }
         view.askAddOption();
         res = view.askForString().toUpperCase();
         if (res.equals("O")) {
@@ -55,10 +61,9 @@ public class TeacherAddQuestionController extends Controller {
             view.askAddNewQuestion();
             String subres;
             subres = view.askForString().toUpperCase();
-            while (subres.equals("O")) {
+            if (subres.equals("O")) {
                 new TeacherAddQuestionController(quiz, view).run();
             }
         }
-        throw new View.ActionInterruptedException();
     }
 }

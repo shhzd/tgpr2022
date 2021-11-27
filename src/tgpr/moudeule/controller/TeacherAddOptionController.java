@@ -4,6 +4,8 @@ import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
 import tgpr.moudeule.view.TeacherAddQuizView;
 
+import java.util.List;
+
 public class TeacherAddOptionController extends Controller{
 
     private final Question question;
@@ -28,8 +30,14 @@ public class TeacherAddOptionController extends Controller{
             res = view.askForString().toUpperCase();
             if(!(res.equals("1") || res.equals("2"))) {
                 view.enterOptionValue();
-                res = view.askForString().toUpperCase();
             } else if (res.matches("1")) {
+                if(question.getType().equalsIgnoreCase("QCM")) {
+                    List<Option> options = Option.getOptionsByQuestion(question.getId());
+                    for (Option o : options) {
+                        o.setCorrect(0);
+                        o.save();
+                    }
+                }
                 opt.setCorrect(1);
             } else if (res.matches("2")) {
                 opt.setCorrect(0);
