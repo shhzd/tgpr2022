@@ -10,9 +10,6 @@ public class TeacherManageStudentRegistrationController extends Controller {
 
     private int page = 1;
     private Course course = new Course();
-    private boolean keepLooping = true;
-    /** should be included in Controller() as global constant **/
-    static final int NUMBER_DISPLAY_LINE = 14;
 
     public TeacherManageStudentRegistrationController(Course course) {
         this.course = course;
@@ -20,45 +17,40 @@ public class TeacherManageStudentRegistrationController extends Controller {
 
     public void run() {
         var view = new TeacherManageStudentRegistrationView();
-        if (MoudeuleApp.isLogged())  {
-            try {
-//                User user = MoudeuleApp.getLoggedUser();
-                String res;
-                do {
-                    view.displayHeaderWithCourse(course.getCode());
+        try {
+            String res;
+            do {
+                res = "";
+                var students = User.getByCourse(course);
+                int nbPages = (int) Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
 
-                    var students = User.getByCourse(course);
-                    int nbPages = (int) Math.ceil(students.size() / (NUMBER_DISPLAY_LINE + 0.0));
-
-                    view.displaySubHeaderWithPage(page, nbPages);
-                    view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
-                    if (students.size() > 0) {
-                        for (int i = 0; (i + ((page - 1) * NUMBER_DISPLAY_LINE)) < students.size() && i < (NUMBER_DISPLAY_LINE + 1); i++) {
-                            User student = students.get(i + ((page - 1) * NUMBER_DISPLAY_LINE));
-                            view.displayStudent(student.getFullname(), i, student.getStatus(course));
-                        }
-                        view.displayMenu();
-                    } else {
-                        view.displayEmptyListMenu();
+                view.displayHeaderWithCourse(course.getCode());
+                view.displaySubHeaderWithPage(page, nbPages);
+                view.displayCourseCapacity(course.currentActiveStudents(), course.getCapacity());
+                if (students.size() > 0) {
+                    for (int i = 0; (i + ((page - 1) * NUMBER_DISPLAY_LINE)) < students.size() && i < (NUMBER_DISPLAY_LINE + 1); i++) {
+                        User student = students.get(i + ((page - 1) * NUMBER_DISPLAY_LINE));
+                        view.displayStudent(student.getFullname(), i, student.getStatus(course));
                     }
-                    view.displayNavigationMenu(page, nbPages);
+                    view.displayMenu();
+                } else {
+                    view.displayEmptyListMenu();
+                }
+                view.displayNavigationMenuWithEsc(page, nbPages);
 
-                    res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
-
-                    if (res.equals("I")) {
-//                        view.pausedWarning("Cette opération n'est pas encore possible");
-                        new TeacherAddStudentController(course).run();
-                    }
-
+                res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
+                if (res.equals("I")) {
+                    new TeacherAddStudentController(course).run();
+                }
+                try {
                     if (res.matches("[1-9]|[0][1-9]|[1][0-5]")) {
-                        User student = students.get((int) Integer.parseInt(res) - 1);
-                        if (student == null)
-                            throw new View.ActionInterruptedException();
-                        else {
+                        int index = Integer.parseInt(res) - 1 + ((page - 1) * NUMBER_DISPLAY_LINE);
+                        if (index < students.size() && index >= 0) {
+                            User student = students.get(index);
                             View.Action subRes;
                             String status = student.getStatus(course);
                             /** the String status is not yet used, changes have to be made to the
-                             * database before beeing able to distinguih student which have been
+                             * database before being able to distinguish student which have been
                              * deactivated and deleted student
                              */
                             view.displaySubMenu(student.getFullname(), status);
@@ -72,28 +64,29 @@ public class TeacherManageStudentRegistrationController extends Controller {
                                         view.showWarning();
                                         if (view.askForConfirmation().getAction() == 'O') {
                                             /** using cancelWaitingList for now, but needs a function
-                                             * that recursivly deleted all the test of student for that course
+                                             * that recursively deleted all the test of student for that course
                                              * when quiz are implemented
                                              */
                                             student.cancelWaitingList(course);
                                         }
                                         break;
                                 }
-                            }
+                            } else if (subRes.getAction() == '2' && status.equals("en attente"))
+                                student.cancelWaitingList(course);
                         }
                     }
-                    if (res.equals("S") && (page) != nbPages && nbPages > 1) {
-                        this.page++;
-                    }
-                    if (res.equals("P") && page > 1) {
-                        this.page--;
-                    }
-                } while (!res.equals("Q") && keepLooping);
-                MoudeuleApp.logout();
-            } catch (View.ActionInterruptedException e) {
-            }
+                } catch (View.ActionInterruptedException e) {
+                }
+                if (res.equals("S") && (page) != nbPages && nbPages > 1) {
+                    this.page++;
+                }
+                if (res.equals("P") && page > 1) {
+                    this.page--;
+                }
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
+        } catch (View.ActionInterruptedException e) {
         }
         view.close();
     }
 }
-

@@ -231,4 +231,35 @@ public class Quiz extends Model {
         }
         return count == 1;
     }
+
+    public int getNumberOfQuestions() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) count FROM quizzes quiz JOIN questions quest ON quiz.id = quest.quiz  WHERE quiz.id = ? GROUP BY quiz.id");
+            stmt.setInt(1, this.getId());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                ++result;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public List<String> getQuestionsTitle() {
+        List<String> list = new ArrayList<>();
+        try {
+            var stmt = db.prepareStatement("SELECT quest.title title FROM quizzes quiz JOIN questions quest ON quiz.id = quest.quiz  WHERE quiz.id = ?");
+            stmt.setInt(1, this.getId());
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                String title = rs.getString("title");
+                list.add(title);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

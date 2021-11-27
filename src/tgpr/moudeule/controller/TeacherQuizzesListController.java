@@ -19,30 +19,28 @@ public class TeacherQuizzesListController extends Controller {
 
     @Override
     public void run() {
-
-        List<Quiz> quizzes;
-        quizzes = Quiz.getQuizzesBycourseId(course.getId());
         var view = new TeacherQuizzesListView();
-        if(MoudeuleApp.isLogged()) {
-            try {
-                String res;
-                do {
-                    view.displayHeader(course);
-                    view.displayQuizzesList(quizzes);
-                    res = view.askForString().toUpperCase();
-                    if (res.matches("[1-9]|[0][1-9]|[1][0-2]")){
-                        int p = Integer.parseInt(res);
+        try {
+            String res;
+            do {
+                List<Quiz> quizzes = Quiz.getQuizzesBycourseId(course.getId());
+                view.displayHeader(course);
+                view.displayQuizzesList(quizzes);
+                res = view.askForString().toUpperCase();
+                if (Controller.isParsable(res) && Integer.parseInt(res) < quizzes.size() + 1){
+                    int p = Integer.parseInt(res);
+                    if(p != 0) {
                         Quiz q = quizzes.get(p-1);
                         new TeacherEditQuizController(q.getId()).run();
-                    }
-                    if (res.matches("0")){
+                    } else{
                         new TeacherAddQuizController(course).run();
                     }
-                } while (!res.equals("Q"));
-                MoudeuleApp.logout();
+                }
 
-            } catch (View.ActionInterruptedException e) {
-            }
+            } while (!res.equals("Q") && MoudeuleApp.isLogged());
+            MoudeuleApp.logout();
+
+        } catch (View.ActionInterruptedException e) {
         }
         view.close();
     }

@@ -29,7 +29,6 @@ public class StudentEditCourseView extends View {
         } else {
             println("Vous n'êtes inscrit à aucun cours");
         }
-        displayFooter();
     }
 
     public void displayIDSelection() {

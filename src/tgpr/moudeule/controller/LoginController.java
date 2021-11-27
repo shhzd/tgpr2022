@@ -9,6 +9,25 @@ public class LoginController extends Controller {
 
     private final LoginView view = new LoginView();
 
+    public void run() {
+        view.displayHeader();
+        try {
+            var user = askPseudo();
+            askPassword(user);
+            MoudeuleApp.setLoggedUser(user);
+
+            if(user.role.getRoleId() == 1) {
+                new TeacherMainMenuController().run();
+            } else {
+                new StudentMainMenuController().run();
+            }
+
+        } catch (View.ActionInterruptedException e) {
+            view.pausedWarning("aborted login");
+        }
+        view.close();
+    }
+
     private User askPseudo() {
         String pseudo;
         User user;
@@ -29,24 +48,5 @@ public class LoginController extends Controller {
                 view.error("bad password");
         } while (!password.equals(user.getPassword()));
         return password;
-    }
-
-    public void run() {
-        view.displayHeader();
-        try {
-            var user = askPseudo();
-            askPassword(user);
-            MoudeuleApp.setLoggedUser(user);
-
-            if(user.role.getRoleId() == 1) {
-                new TeacherMainMenuController().run();
-            } else {
-                new StudentMainMenuController().run();
-            }
-
-        } catch (View.ActionInterruptedException e) {
-            view.pausedWarning("aborted login");
-        }
-        view.close();
     }
 }

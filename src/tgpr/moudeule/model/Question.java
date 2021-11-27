@@ -195,4 +195,19 @@ public class Question extends Model {
         }
         return list;
     }
+
+    public int getNumberOfOptions() {
+        int result = 0;
+        try {
+            var stmt = db.prepareStatement("SELECT COUNT(*) count FROM options o JOIN questions q ON q.id = o.question  WHERE q.id = ? GROUP BY q.id");
+            stmt.setInt(1, this.getId());
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
