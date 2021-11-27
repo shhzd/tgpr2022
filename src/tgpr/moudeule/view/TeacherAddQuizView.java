@@ -49,7 +49,7 @@ public class TeacherAddQuizView extends View{
     }
 
     public void askQuestionType(){
-        print("Est-ce une [1] QCM ou une [2] QRM ?");
+        print("Est-ce une [1] QCM ou une [2] QRM ? ");
     }
 
     public void askAddOption(){
@@ -88,4 +88,19 @@ public class TeacherAddQuizView extends View{
         warning("Il faut au moins une proposition vraie !");
     }
 
+    public void showWarningAtLeastTwoOptions() {
+        warning("Il faut au moins deux propositions !");
+    }
+
+    public void showErrorOptionAlreadyExists() {
+        showError("Cette proposition existe déjà !");
+    }
+
+    public void showErrorStringNull() {
+        showError("Cette proposition est vide !");
+    }
+
+    public void showErrorQuestionAlreadyExists() {
+        showError("Cette question existe déjà !");
+    }
 }

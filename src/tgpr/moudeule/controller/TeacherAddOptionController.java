@@ -25,12 +25,23 @@ public class TeacherAddOptionController extends Controller{
             Option opt = new Option();
             opt.setQuestionId(question.getId());
             String optext = view.enterOptionText(opt.getTitle());
+            while(optext == null || optext.trim().length() < 1) {
+                view.showErrorStringNull();
+                optext = view.enterOptionText(opt.getTitle());
+            }
+            List<String> existingOptions = Option.getAllOptionTitlesOfQuestions(question.getId());
+            while (existingOptions.contains(optext)) {
+                view.showErrorOptionAlreadyExists();
+                optext = view.enterOptionText(opt.getTitle());
+            }
             opt.setTitle(optext);
             view.enterOptionValue();
             res = view.askForString().toUpperCase();
-            if(!(res.equals("1") || res.equals("2"))) {
+            while(!(res.equals("1") || res.equals("2"))) {
                 view.enterOptionValue();
-            } else if (res.matches("1")) {
+                res = view.askForString().toUpperCase();
+            }
+            if (res.matches("1")) {
                 if(question.getType().equalsIgnoreCase("QCM")) {
                     List<Option> options = Option.getOptionsByQuestion(question.getId());
                     for (Option o : options) {
@@ -39,7 +50,7 @@ public class TeacherAddOptionController extends Controller{
                     }
                 }
                 opt.setCorrect(1);
-            } else if (res.matches("2")) {
+            } else {
                 opt.setCorrect(0);
             }
             opt.save();
