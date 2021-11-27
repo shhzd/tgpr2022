@@ -2,8 +2,9 @@ package tgpr.moudeule.controller;
 
 import tgpr.moudeule.model.Option;
 import tgpr.moudeule.model.Question;
-import tgpr.moudeule.model.Quiz;
 import tgpr.moudeule.view.TeacherAddQuizView;
+
+import java.util.List;
 
 public class TeacherAddOptionController extends Controller{
 
@@ -19,35 +20,40 @@ public class TeacherAddOptionController extends Controller{
     public void run() {
 
         /** Needs a try catch for breaking **/
-        String res;
-        Option opt = new Option();
-        opt.setQuestionId(question.getId());
-        String optext = view.enterOptionText(opt.getTitle());
-        opt.setTitle(optext);
-        view.enterOptionValue();
-        res = view.askForString().toUpperCase();
-        if(res.matches("1")){
-            opt.setCorrect(1);
-        }
-        if(res.matches("2")){
-            opt.setCorrect(0);
-        }
-        opt.save();
 
-        view.askAddOption();
-        res = view.askForString().toUpperCase();
-        if (res.equals("O")){
-            new TeacherAddOptionController(question, view).run();
-        }
-        if (res.equals("N")){
-            view.askAddNewQuestion();
+            String res;
+            Option opt = new Option();
+            opt.setQuestionId(question.getId());
+            String optext = view.enterOptionText(opt.getTitle());
+            while(optext == null || optext.trim().length() < 1) {
+                view.showErrorStringNull();
+                optext = view.enterOptionText(opt.getTitle());
+            }
+            List<String> existingOptions = Option.getAllOptionTitlesOfQuestions(question.getId());
+            while (existingOptions.contains(optext)) {
+                view.showErrorOptionAlreadyExists();
+                optext = view.enterOptionText(opt.getTitle());
+            }
+            opt.setTitle(optext);
+            view.enterOptionValue();
             res = view.askForString().toUpperCase();
-            if (res.equals("O")){
-                new TeacherAddQuestionController(Quiz.getById(question.getquizId()), view).run();
+            while(!(res.equals("1") || res.equals("2"))) {
+                view.enterOptionValue();
+                res = view.askForString().toUpperCase();
             }
-            if (res.equals("N")){
-                new TeacherEditQuizController(question.getquizId()).run(); // Not good
+            if (res.matches("1")) {
+                if(question.getType().equalsIgnoreCase("QCM")) {
+                    List<Option> options = Option.getOptionsByQuestion(question.getId());
+                    for (Option o : options) {
+                        o.setCorrect(0);
+                        o.save();
+                    }
+                }
+                opt.setCorrect(1);
+            } else {
+                opt.setCorrect(0);
             }
-        }
+            opt.save();
+
     }
 }

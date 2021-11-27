@@ -38,7 +38,7 @@ public class TeacherAddStudentController extends Controller {
 
                 res = view.askForString().toUpperCase(); // lowercase entries are converted to uppercase
                 try {
-                    if (res.matches("[1-9]|[0][1-9]|[1][0-2]")) {
+                    if (Controller.isParsable(res) && Integer.parseInt(res) < students.size()) {
                         int index = Integer.parseInt(res) - 1 + ((page - 1) * NUMBER_DISPLAY_LINE);
                         if (index < students.size() && index >= 0) {
                         User student = students.get(index);
